@@ -61,7 +61,7 @@ class AuthenticationTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->get('/dashboard');
+        $response = $this->get('/albums');
 
         $response
             ->assertSeeVolt('layout.navigation')

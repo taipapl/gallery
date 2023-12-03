@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,14 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('files/{filename}', [ImageController::class, 'getImage'])->name('get.image');
+
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
+Route::view('albums', 'albums')
     ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+    ->name('albums');
+
+Route::view('photos', 'photos')
+    ->middleware(['auth', 'verified'])
+    ->name('photos');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

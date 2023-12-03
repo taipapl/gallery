@@ -42,4 +42,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    /**
+     * Get all of the photos for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function photos(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Photo::class);
+    }
 }

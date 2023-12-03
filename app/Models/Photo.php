@@ -14,5 +14,6 @@ class Photo extends Model
         'label',
         'path',
         'meta',
+        'user_id'
     ];
 }

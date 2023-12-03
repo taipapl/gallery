@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Photos') }}
         </h2>
     </x-slot>
 
@@ -11,7 +11,9 @@
                 <div class="p-6 text-gray-900">
 
                     <livewire:file-uploads />
-                    {{ __("You're logged in!") }}
+
+                    <livewire:photos />
+
                 </div>
             </div>
         </div>
