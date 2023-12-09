@@ -4,10 +4,10 @@ namespace App\Livewire;
 
 use Livewire\Component;
 
-class CreateAlbum extends Component
+class Album extends Component
 {
     public function render()
     {
-        return view('livewire.create-album');
+        return view('livewire.album');
     }
 }

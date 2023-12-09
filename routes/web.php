@@ -22,9 +22,9 @@ Route::view('albums', 'albums')
     ->middleware(['auth', 'verified'])
     ->name('albums');
 
-Route::view('albums/create', 'livewire/create-album')
+Route::view('album/{id}', 'livewire/album')
     ->middleware(['auth', 'verified'])
-    ->name('albums.create');
+    ->name('album');
 
 Route::view('photos', 'photos')
     ->middleware(['auth', 'verified'])

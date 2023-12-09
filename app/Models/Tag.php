@@ -9,4 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Tag extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $fillable = [
+        'name',
+        'photo_id',
+        'user_id',
+        'is_public',
+        'is_album',
+        'public_url',
+    ];
 }
