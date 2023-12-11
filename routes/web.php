@@ -1,5 +1,6 @@
 <?php
 
+use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
 
@@ -22,7 +23,7 @@ Route::view('albums', 'albums')
     ->middleware(['auth', 'verified'])
     ->name('albums');
 
-Route::view('album/{id}', 'livewire/album')
+Volt::route('album/{tag}', 'album')
     ->middleware(['auth', 'verified'])
     ->name('album');
 
