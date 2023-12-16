@@ -3,11 +3,11 @@
         <div class="flex justify-between">
 
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Albums') }}
+                {{ __('Video') }}
             </h2>
 
             <div class="flex justify-end">
-                <livewire:createalbum />
+                <livewire:addvideo />
             </div>
         </div>
     </x-slot>
@@ -17,7 +17,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-                    <livewire:albums />
+
 
                 </div>
             </div>

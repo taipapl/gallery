@@ -31,6 +31,10 @@ Route::view('photos', 'photos')
     ->middleware(['auth', 'verified'])
     ->name('photos');
 
+Route::view('video', 'video')
+    ->middleware(['auth', 'verified'])
+    ->name('video');
+
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');

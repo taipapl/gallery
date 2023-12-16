@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('label')->nullable();
             $table->string('path');
+            $table->string('video')->nullable();
             $table->text('meta')->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
