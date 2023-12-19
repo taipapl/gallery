@@ -3,14 +3,11 @@
         <div class="flex justify-between">
 
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Video') }}
+                {{ __('Shared') }}
             </h2>
 
             <div class="flex justify-end">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onclick="Livewire.dispatch('openModal', { component: 'addVideo' })">
-                    @lang('Add Video')
-                </button>
+
             </div>
         </div>
     </x-slot>
