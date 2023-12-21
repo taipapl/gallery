@@ -18,4 +18,9 @@ class Tag extends Model
         'is_album',
         'public_url',
     ];
+
+    public function photos()
+    {
+        return $this->belongsToMany(Photo::class, 'photos_tags', 'tag_id', 'photo_id');
+    }
 }
