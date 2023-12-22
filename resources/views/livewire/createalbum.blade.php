@@ -12,7 +12,7 @@ new class extends Component {
             'is_album' => true,
         ]);
 
-        $this->redirectRoute('album', ['tag' => $tag->id]);
+        $this->redirectRoute('albums.album', ['tag' => $tag->id]);
     }
 }; ?>
 

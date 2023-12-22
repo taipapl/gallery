@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('users_tags', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tag_id')->constrained('tags');
-            $table->foreignId('user_id')->constrained('users');
+            $table->string('email');
+            $table->foreignId('user_id')->constrained('users')->nullable();
+            $table->text('data')->nullable();
             $table->timestamps();
         });
     }

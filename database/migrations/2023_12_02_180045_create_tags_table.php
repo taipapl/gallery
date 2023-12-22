@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean('is_public')->default(false);
             $table->boolean('is_album')->default(false);
             $table->string('public_url')->nullable();
+            $table->string('cover')->nullable();
             $table->timestamps();
         });
     }

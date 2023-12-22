@@ -21,11 +21,11 @@ Route::view('/', 'welcome');
 
 Route::view('albums', 'albums')
     ->middleware(['auth', 'verified'])
-    ->name('albums');
+    ->name('albums.list');
 
 Volt::route('album/{tag}', 'album')
     ->middleware(['auth', 'verified'])
-    ->name('album');
+    ->name('albums.album');
 
 Route::view('photos', 'photos')
     ->middleware(['auth', 'verified'])

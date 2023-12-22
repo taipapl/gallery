@@ -3,13 +3,13 @@
 namespace App\Livewire;
 
 use App\Models\Photo;
-use Livewire\Component;
+use LivewireUI\Modal\ModalComponent;
 
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Validate;
 use Intervention\Image\Facades\Image;
 
-class FileUploads extends Component
+class FileUploads extends ModalComponent
 {
 
     use WithFileUploads;

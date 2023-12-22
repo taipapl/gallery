@@ -61,11 +61,19 @@ new #[Layout('layouts.app')] class extends Component {
                 {{ __('Album') }}
             </h2>
 
+            <div class="flex gap-2 justify-end">
 
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onclick="Livewire.dispatch('openModal', { component: 'add-photos' , arguments: { tag_id: '{{ $tag->id }}' } })">
-                @lang('Add Photo')
-            </button>
+                <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onclick="Livewire.dispatch('openModal', { component: 'shared-tag' , arguments: { tag_id: '{{ $tag->id }}' } })">
+                    @lang('Sheard Album')
+                </a>
+
+                <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onclick="Livewire.dispatch('openModal', { component: 'add-photos' , arguments: { tag_id: '{{ $tag->id }}' } })">
+                    @lang('Add Photo')
+                </a>
+
+            </div>
         </div>
 
 

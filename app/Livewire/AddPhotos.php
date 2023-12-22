@@ -20,7 +20,6 @@ class AddPhotos extends ModalComponent
         $this->photoIds = Tag::find($this->tag_id)->photos()->pluck('photo_id')->toArray();
     }
 
-
     public function loadMore()
     {
         $this->perPage += 10;

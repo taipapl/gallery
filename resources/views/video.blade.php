@@ -12,6 +12,7 @@
                     @lang('Add Video')
                 </button>
             </div>
+
         </div>
     </x-slot>
 
@@ -21,6 +22,12 @@
                 <div class="p-6 text-gray-900">
 
 
+                    <div class="text-center">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            onclick="Livewire.dispatch('openModal', { component: 'addVideo' })">
+                            @lang('Add Video')
+                        </button>
+                    </div>
 
                 </div>
             </div>
