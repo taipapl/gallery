@@ -16,7 +16,7 @@
                 style="background-image: url('{{ route('get.image', ['filename' => $photo->path]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
 
                 @if (in_array($photo->id, $photoIds))
-                    +
+                    <x-icon-do-not-disturb-on class=" text-green-600 w-6 h-6 fill-green-600 relative top-0 right-0" />
                 @endif
             </div>
         @endforeach

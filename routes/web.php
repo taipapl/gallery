@@ -27,7 +27,7 @@ Volt::route('album/{tag}', 'album')
     ->middleware(['auth', 'verified'])
     ->name('albums.album');
 
-Route::view('photos', 'photos')
+Volt::route('photos', 'photos')
     ->middleware(['auth', 'verified'])
     ->name('photos');
 
@@ -35,7 +35,7 @@ Route::view('video', 'video')
     ->middleware(['auth', 'verified'])
     ->name('video');
 
-Route::view('shared', 'shared')
+Volt::route('shared', 'shared')
     ->middleware(['auth', 'verified'])
     ->name('shared');
 

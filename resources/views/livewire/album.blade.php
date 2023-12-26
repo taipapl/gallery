@@ -23,7 +23,6 @@ new #[Layout('layouts.app')] class extends Component {
     public function appendPhoto($photo)
     {
         $photoModel = Photo::find($photo['photo_id']);
-
         $this->photos[] = $photoModel;
     }
 

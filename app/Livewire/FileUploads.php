@@ -3,37 +3,59 @@
 namespace App\Livewire;
 
 use App\Models\Photo;
-use LivewireUI\Modal\ModalComponent;
-
+use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
+
 use Livewire\Attributes\Validate;
+use Intervention\Image\ImageManager;
+use LivewireUI\Modal\ModalComponent;
 use Intervention\Image\Facades\Image;
+
 
 class FileUploads extends ModalComponent
 {
 
     use WithFileUploads;
 
-    #[Validate(['photos.*' => 'image|max:1024'])]
+    #[Validate('image|max:10000')] // 10MB Max
     public $photos = [];
 
     public function save()
     {
+        $this->validate([
+            'photos.*' => 'required|image|max:10000'
+        ]);
 
         foreach ($this->photos as $photo) {
-            $photo->store('photos');
 
+            //dd($photo);
 
+            $image = Image::make($photo->path())
+                ->resize(1280, 720, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
 
-            Photo::create([
+            $storagePath = storage_path('app/photos/' . $image->basename);
+
+            $image->save($storagePath);
+
+            $photoModel =  Photo::create([
                 'label' => $photo->getClientOriginalName(),
-                'path' => $photo->hashName(),
+                'path' => $image->basename,
                 'user_id' => auth()->id(),
                 'meta' => serialize(Image::make($photo->getRealPath())->exif())
             ]);
+
+
+            $photo->delete();
+
+            $this->dispatch('appendPhoto2', $photoModel);
         }
 
         $this->photos = [];
+
+        $this->reset();
     }
 
     public function render()

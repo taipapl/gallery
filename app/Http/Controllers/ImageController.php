@@ -12,6 +12,7 @@ class ImageController extends Controller
     {
         $path = 'photos/' . $filename;
 
+
         if (!Storage::exists($path) || !Auth::check()) {
             abort(404);
         }

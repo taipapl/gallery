@@ -29,10 +29,8 @@ class AddPhotos extends ModalComponent
     {
 
         if (in_array($id, $this->photoIds)) {
-
             $photo  = \App\Models\pivot\PhotoTag::where('photo_id', $id)->where('tag_id', $this->tag_id)->first();
             $photo->delete();
-
             unset($this->photoIds[array_search($id, $this->photoIds)]);
         } else {
 
@@ -43,7 +41,17 @@ class AddPhotos extends ModalComponent
             $photo->save();
 
             $this->photoIds[] = $id;
+
+            $tag = Tag::find($this->tag_id);
+
+            if (empty($tag->cover)) {
+                $photo2 = \App\Models\Photo::find($id);
+                $tag->cover = $photo2->path;
+                $tag->save();
+            }
         }
+
+
 
         $this->dispatch('appendPhoto', $photo);
     }
