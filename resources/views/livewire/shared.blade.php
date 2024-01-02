@@ -5,6 +5,7 @@ use Livewire\Attributes\{Layout};
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Illuminate\View\View;
+use App\Models\User;
 
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination;
@@ -20,6 +21,8 @@ new #[Layout('layouts.app')] class extends Component {
     public function rendering(View $view): void
     {
         $view->albums = [];
+
+        dd($view->albums);
     }
 };
 ?>

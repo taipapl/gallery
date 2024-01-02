@@ -55,4 +55,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Photo::class);
     }
+
+
+    /**
+     * Get all of the tags for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tags(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Tag::class);
+    }
+
+    public function sharedTags(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'users_tags', 'user_id', 'tag_id');
+    }
 }

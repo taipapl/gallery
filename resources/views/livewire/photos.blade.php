@@ -13,6 +13,14 @@ new #[Layout('layouts.app')] class extends Component {
     public $perPage = 10;
     public $photos;
 
+    public $activePhoto = 'sadasd';
+
+    public function openPhoto($path)
+    {
+        $this->activePhoto = $path;
+        // dd($path);
+    }
+
     protected $listeners = [
         'appendPhoto2' => 'appendPhoto2',
     ];
@@ -41,45 +49,74 @@ new #[Layout('layouts.app')] class extends Component {
 
 ?>
 <div>
-    <x-slot name="header">
-
-        <div class="flex justify-between ">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Photos') }}
-            </h2>
-
-            <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onclick="Livewire.dispatch('openModal', { component: 'file-uploads' })">
-                @lang('Files Uploads')
-            </a>
-        </div>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+    <div x-data="{ open: false }">
 
 
 
-                    <div class="flex gap-2 flex-wrap">
 
-                        @if (count($photos) == 0)
-                            <div class="text-center text-lg text-black ">@lang('No photos')</div>
-                        @endif
+        <x-slot name="header">
 
-                        @foreach ($photos ?? [] as $key => $photo)
-                            <div class="h-40 w-40" @if ($loop->last) id="last_record" @endif
-                                style="background-image: url('{{ route('get.image', ['filename' => $photo->path]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
-                            </div>
-                        @endforeach
-                        <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
+            <div class="flex justify-between ">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Photos') }}
+                </h2>
+
+                <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onclick="Livewire.dispatch('openModal', { component: 'file-uploads' })">
+                    @lang('Files Uploads')
+                </a>
+            </div>
+        </x-slot>
+
+        <div class="py-12">
+
+
+
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900">
+
+
+
+                        <div class="flex gap-2 flex-wrap">
+
+                            @if (count($photos) == 0)
+                                <div class="text-center text-lg text-black ">@lang('No photos')</div>
+                            @endif
+
+                            @foreach ($photos ?? [] as $key => $photo)
+                                <div @click="open = ! open" wire:click="openPhoto('{{ $photo->path }}')"
+                                    class="h-40 w-40" @if ($loop->last) id="last_record" @endif
+                                    style="background-image: url('{{ route('get.image', ['filename' => $photo->path]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
+                                </div>
+                            @endforeach
+                            <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
+
+                        </div>
+
+
+
                     </div>
-
-
-
                 </div>
             </div>
         </div>
+
+        @teleport('body')
+            <div x-show="open" class="flex absolute justify-center items-center w-full h-full  bg-black/70 left-0 top-0">
+
+
+
+                <div>
+                    <img src="{{ route('get.image', ['filename' => $activePhoto]) }}" alt="">
+                    <div>
+                        <button @click="open = ! open"
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            @lang('Close')
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        @endteleport
     </div>
 </div>

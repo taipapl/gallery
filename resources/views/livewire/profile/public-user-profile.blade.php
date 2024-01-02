@@ -14,7 +14,8 @@ new class extends Component {
     public function mount(): void
     {
         $this->checkbox_public = Auth::user()->public_url ? true : false;
-        $this->uid = Auth::user()->public_url;
+
+        $this->uid = isset(Auth::user()->public_url) ? Auth::user()->public_url : '';
     }
 
     public function publicProfil(): void
