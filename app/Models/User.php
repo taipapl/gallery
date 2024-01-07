@@ -56,6 +56,16 @@ class User extends Authenticatable
         return $this->hasMany(Photo::class);
     }
 
+    /**
+     * Get all videos for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function videos(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Photo::class)->where('is_video', true);
+    }
+
 
     /**
      * Get all of the tags for the User

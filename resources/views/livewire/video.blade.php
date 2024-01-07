@@ -10,7 +10,7 @@ use App\Models\User;
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination;
 
-    public $albums;
+    public $videos;
     public $perPage = 10;
 
     public function loadMore()
@@ -20,7 +20,10 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $view->albums = [];
+        $view->videos = auth()
+            ->user()
+            ->videos()
+            ->paginate($this->perPage);
 
         // dd($view->albums);
     }
@@ -28,16 +31,17 @@ new #[Layout('layouts.app')] class extends Component {
 ?>
 
 <div>
-    <x-slot name="header">
-        <div class="flex justify-between ">
+    <x-slot name="header" class="flex">
+        <div class="flex justify-between">
 
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Shared') }}
+                {{ __('Video') }}
             </h2>
 
-            <div class="flex gap-2 justify-end">
-
-
+            <div class="flex justify-end">
+                <x-primary-button onclick="Livewire.dispatch('openModal', { component: 'addVideo' })">
+                    @lang('Add Video')
+                </x-primary-button>
             </div>
 
         </div>
@@ -48,20 +52,20 @@ new #[Layout('layouts.app')] class extends Component {
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-                    @if (count($albums) == 0)
-                        <div class="text-center text-lg text-black ">@lang('No shared albums')</div>
+
+                    @if (count($videos) == 0)
+                        <div class="text-center text-lg text-black ">@lang('No videos')</div>
                     @endif
 
                     <div class="flex gap-2 flex-wrap mt-5">
-                        @foreach ($albums ?? [] as $key => $album)
+                        @foreach ($videos ?? [] as $key => $video)
                             <div class="h-40 w-40" @if ($loop->last) id="last_record" @endif
-                                style="background-image: url('{{ route('get.image', ['filename' => $photo->path]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
+                                style="background-image: url('{{ $video->videoImage }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
 
                             </div>
                         @endforeach
                         <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
                     </div>
-
 
                 </div>
             </div>

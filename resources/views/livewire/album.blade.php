@@ -38,6 +38,16 @@ new #[Layout('layouts.app')] class extends Component {
         ]);
     }
 
+    public function deleteAlbum($id)
+    {
+        $tag = Tag::find($id);
+
+        $tag->photos()->detach();
+
+        $tag->delete();
+        $this->redirectRoute('albums.list');
+    }
+
     public function mount(Tag $tag)
     {
         $this->tag = $tag;
@@ -53,35 +63,46 @@ new #[Layout('layouts.app')] class extends Component {
 ?>
 
 <div>
-    <x-slot name="header">
-        <div class="flex justify-between ">
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Album') }}
-            </h2>
 
-            <div class="flex gap-2 justify-end">
+            <div class="flex justify-between ">
 
-                <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onclick="Livewire.dispatch('openModal', { component: 'shared-tag' , arguments: { tag_id: '{{ $tag->id }}' } })">
-                    @lang('Sheard Album')
-                </a>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Album') }}
+                </h2>
 
-                <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onclick="Livewire.dispatch('openModal', { component: 'add-photos' , arguments: { tag_id: '{{ $tag->id }}' } })">
-                    @lang('Add Photo')
-                </a>
+                <div class="flex gap-2 justify-end">
 
+                    <x-primary-button wire:click="deleteAlbum('{{ $tag->id }}')">
+                        @lang('Delete Album')
+                    </x-primary-button>
+
+                    <x-primary-button
+                        onclick="Livewire.dispatch('openModal', { component: 'shared-tag' , arguments: { tag_id: '{{ $tag->id }}' } })">
+                        @lang('Sheard Album')
+                    </x-primary-button>
+
+                    <x-primary-button
+                        onclick="Livewire.dispatch('openModal', { component: 'add-photos' , arguments: { tag_id: '{{ $tag->id }}' } })">
+                        @lang('Add Photo')
+                    </x-primary-button>
+
+
+
+                </div>
             </div>
+
         </div>
-
-
-    </x-slot>
+    </header>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+
+
                     <form wire:submit>
                         <input type="text" name="name" id="name" wire:model.live.debounce.800ms="name"
                             class="form-input rounded-md shadow-sm mt-1 block w-full" placeholder="@lang('Album name')" />
@@ -108,8 +129,12 @@ new #[Layout('layouts.app')] class extends Component {
                     </div>
 
 
+
+
                 </div>
             </div>
         </div>
     </div>
+
+
 </div>

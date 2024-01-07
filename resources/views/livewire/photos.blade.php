@@ -61,10 +61,13 @@ new #[Layout('layouts.app')] class extends Component {
                     {{ __('Photos') }}
                 </h2>
 
-                <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onclick="Livewire.dispatch('openModal', { component: 'file-uploads' })">
-                    @lang('Files Uploads')
-                </a>
+                <div class="flex gap-2 justify-end">
+
+                    <x-primary-button onclick="Livewire.dispatch('openModal', { component: 'file-uploads' })">
+                        @lang('Files Uploads')
+                    </x-primary-button>
+
+                </div>
             </div>
         </x-slot>
 

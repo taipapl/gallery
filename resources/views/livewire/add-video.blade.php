@@ -1,16 +1,37 @@
 <div class="p-10">
 
-    <div class="flex justify-between ">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Add Video') }}
-        </h2>
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" wire:click="closeModal()">
-            @lang('Close')
-        </button>
-    </div>
 
-    <input wire:model="video" wire:change="changeURL()" />
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-3">
+        {{ __('Add Video') }}
+    </h2>
 
+    @if ($videoUrl)
+        <div class="mt-4">
+            <iframe class="w-full" height="315" src="{{ $videoUrl }}" title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+    @endif
 
+    <form wire:submit="save">
+        <input class="w-full" wire:model="video" wire:change="changeURL()" />
+
+        @if ($addError)
+            <div class="text-red-500 mt-2 text-sm">
+                {{ $addError }}
+            </div>
+        @endif
+
+        <div class="flex justify-between mt-3">
+            <x-primary-button wire:click="closeModal()">
+                @lang('Close')
+            </x-primary-button>
+
+            <x-primary-button type="submit">
+                @lang('Add')
+            </x-primary-button>
+        </div>
+
+    </form>
 
 </div>

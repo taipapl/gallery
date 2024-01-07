@@ -19,7 +19,7 @@ Route::get('files/{filename}', [ImageController::class, 'getImage'])->name('get.
 
 Route::view('/', 'welcome');
 
-Route::view('albums', 'albums')
+Volt::route('albums', 'albums')
     ->middleware(['auth', 'verified'])
     ->name('albums.list');
 
@@ -31,7 +31,7 @@ Volt::route('photos', 'photos')
     ->middleware(['auth', 'verified'])
     ->name('photos');
 
-Route::view('video', 'video')
+Volt::route('video', 'video')
     ->middleware(['auth', 'verified'])
     ->name('video');
 
