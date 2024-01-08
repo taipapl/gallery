@@ -25,4 +25,10 @@ class UsersTags extends Model
     {
         return $this->belongsTo(Tag::class);
     }
+
+
+    public function email(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Email::class);
+    }
 }

@@ -48,10 +48,12 @@ class AddVideo extends ModalComponent
         }
 
         $photoModel =  Photo::create([
-            'path' => $this->videoUrl,
+            'path' => $this->videoImage,
+            'video_path' => $this->videoUrl,
             'is_video' => true,
             'user_id' => auth()->id(),
-            'meta' => serialize(['video_id' => $this->videoId, 'video_image' => $this->videoImage]),
+            'meta' => [['video_id' => $this->videoId, 'video_image' => $this->videoImage]],
+            'photo_date' => date('Y-m-d'),
         ]);
 
         return redirect()->to('/video');

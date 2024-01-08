@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->boolean('is_public')->default(false);
             $table->boolean('is_album')->default(false);
+            $table->boolean('is_archived')->default(false);
             $table->string('public_url')->nullable();
             $table->string('cover')->nullable();
             $table->timestamps();

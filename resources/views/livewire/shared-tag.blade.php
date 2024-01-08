@@ -14,6 +14,17 @@
             <x-primary-button>{{ __('Add') }}</x-primary-button>
         </div>
     </form>
+
+    @foreach ($shared as $key => $share)
+        <div class="flex justify-between">
+            <div>{{ $share->email->email }}</div>
+            <div>
+                <x-primary-button wire:click="delete({{ $share->id }})">{{ __('Delete') }}</x-primary-button>
+            </div>
+        </div>
+    @endforeach
+
+
     <x-primary-button wire:click="close">{{ __('Close') }}</x-primary-button>
 
 

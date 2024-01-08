@@ -17,6 +17,7 @@ class SharedTag extends ModalComponent
     public $email = '';
 
     public string $tag_id = '';
+    public $shared;
 
     public function add()
     {
@@ -35,12 +36,9 @@ class SharedTag extends ModalComponent
 
         $usersTags->save();
 
-
-
-
-
         $this->email = '';
     }
+
 
     public function close()
     {
@@ -49,6 +47,8 @@ class SharedTag extends ModalComponent
 
     public function render()
     {
+        $this->shared = UsersTags::where('tag_id', $this->tag_id)->get();
+
         return view('livewire.shared-tag');
     }
 }

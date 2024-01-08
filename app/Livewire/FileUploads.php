@@ -40,11 +40,16 @@ class FileUploads extends ModalComponent
 
             $image->save($storagePath);
 
+            $meta = Image::make($photo->getRealPath())->exif();
+
+
+
             $photoModel =  Photo::create([
                 'label' => $photo->getClientOriginalName(),
                 'path' => $image->basename,
                 'user_id' => auth()->id(),
-                'meta' => serialize(Image::make($photo->getRealPath())->exif())
+                'meta' => $meta,
+                'photo_date' => isset($meta['DateTimeOriginal']) ? $meta['DateTimeOriginal'] :  date('Y-m-d'),
             ]);
 
 

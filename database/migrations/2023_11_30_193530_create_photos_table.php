@@ -15,9 +15,12 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('label')->nullable();
             $table->string('path');
+            $table->string('video_path')->nullable();
             $table->boolean('is_video')->default(false);
+            $table->boolean('is_archived')->default(false);
             $table->text('meta')->nullable();
             $table->foreignId('user_id')->constrained('users');
+            $table->date('photo_date');
             $table->timestamps();
         });
     }

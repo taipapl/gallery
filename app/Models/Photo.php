@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Json;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,12 +17,14 @@ class Photo extends Model
         'path',
         'meta',
         'user_id',
-        'is_video'
+        'is_video',
+        'video_path',
+        'photo_date'
     ];
 
 
     protected $casts = [
-        'meta' => 'array',
+        'meta' => Json::class,
     ];
 
 
