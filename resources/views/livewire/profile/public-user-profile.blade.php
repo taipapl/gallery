@@ -6,30 +6,28 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     public $checkbox_public;
-    public string $uid = '';
+    public string $uid;
 
     /**
      * Mount the component.
      */
     public function mount(): void
     {
-        $this->checkbox_public = Auth::user()->public_url ? true : false;
+        $this->checkbox_public = Auth::user()->is_public;
 
-        $this->uid = isset(Auth::user()->public_url) ? Auth::user()->public_url : '';
+        $this->uid = (string) Auth::user()->public_url;
     }
 
     public function publicProfil(): void
     {
-        if ($this->checkbox_public) {
+        if (empty($this->uid)) {
             $this->uid = Str::uuid();
-            Auth::user()->update([
-                'public_url' => $this->uid,
-            ]);
-        } else {
-            Auth::user()->update([
-                'public_url' => null,
-            ]);
         }
+
+        Auth::user()->update([
+            'public_url' => $this->uid,
+            'is_public' => (int) $this->checkbox_public,
+        ]);
     }
 
     public function changeUrl(): void
@@ -62,7 +60,7 @@ new class extends Component {
         <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Public')</span>
     </label>
     <div class="mt-6 flex justify-start">
-        @if (Auth::user()->public_url)
+        @if (Auth::user()->is_public)
             {{ $uid }}
         @else
             {{ __('No public profile url') }}

@@ -30,6 +30,11 @@ class FileUploads extends ModalComponent
 
             //dd($photo);
 
+            //exif_read_data($photo->path());
+            $meta = Image::make($photo->getRealPath())->exif();
+
+            //dd($meta);
+
             $image = Image::make($photo->path())
                 ->resize(1280, 720, function ($constraint) {
                     $constraint->aspectRatio();
@@ -40,16 +45,17 @@ class FileUploads extends ModalComponent
 
             $image->save($storagePath);
 
-            $meta = Image::make($photo->getRealPath())->exif();
 
 
+
+            //dd($meta, date('Y-m-d', $meta['FileDateTime']));
 
             $photoModel =  Photo::create([
                 'label' => $photo->getClientOriginalName(),
                 'path' => $image->basename,
                 'user_id' => auth()->id(),
                 'meta' => $meta,
-                'photo_date' => isset($meta['DateTimeOriginal']) ? $meta['DateTimeOriginal'] :  date('Y-m-d'),
+                'photo_date' => isset($meta['FileDateTime']) ? date('Y-m-d', $meta['FileDateTime']) :  date('Y-m-d'),
             ]);
 
 

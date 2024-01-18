@@ -19,6 +19,10 @@ class Tag extends Model
         'public_url',
     ];
 
+    protected $casts = [
+        'is_public' => 'boolean',
+    ];
+
     public function photos()
     {
         return $this->belongsToMany(Photo::class, 'photos_tags', 'tag_id', 'photo_id');

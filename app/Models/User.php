@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'public_url',
+        'is_public',
     ];
 
     /**
@@ -42,9 +43,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-
+        'is_public' => 'boolean'
     ];
-
 
     /**
      * Get all of the photos for the User
@@ -65,7 +65,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Photo::class)->where('is_video', true);
     }
-
 
     /**
      * Get all of the tags for the User

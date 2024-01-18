@@ -13,13 +13,7 @@ new #[Layout('layouts.app')] class extends Component {
     public $perPage = 10;
     public $photos;
 
-    public $activePhoto = 'sadasd';
-
-    public function openPhoto($path)
-    {
-        $this->activePhoto = $path;
-        // dd($path);
-    }
+    public $month;
 
     protected $listeners = [
         'appendPhoto2' => 'appendPhoto2',
@@ -84,8 +78,12 @@ new #[Layout('layouts.app')] class extends Component {
                         @endif
 
                         <div class="flex gap-2 flex-wrap">
-
+                            @php($dataLabel = null)
                             @foreach ($photos ?? [] as $key => $photo)
+                                @if ($dataLabel != $photo->created_at->format('F Y'))
+                                    @php($dataLabel = $photo->created_at->format('F Y'))
+                                    <div class="w-full text-center text-lg text-black ">{{ $dataLabel }}</div>
+                                @endif
                                 <a href="{{ route('show', $photo->id) }}" class=" cursor-pointer h-40 w-40"
                                     @if ($loop->last) id="last_record" @endif
                                     style="background-image: url('{{ route('get.image', ['filename' => $photo->path]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
@@ -101,22 +99,5 @@ new #[Layout('layouts.app')] class extends Component {
             </div>
         </div>
 
-        @teleport('body')
-            <div x-show="open" class="flex absolute justify-center items-center w-full h-full  bg-black/70 left-0 top-0">
-
-
-
-                <div>
-                    <img src="{{ route('get.image', ['filename' => $activePhoto]) }}" alt="">
-                    <div>
-                        <button @click="open = ! open"
-                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            @lang('Close')
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        @endteleport
     </div>
 </div>

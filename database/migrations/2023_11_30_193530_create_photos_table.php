@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('meta')->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->date('photo_date');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
