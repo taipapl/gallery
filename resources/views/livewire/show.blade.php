@@ -17,6 +17,25 @@ new #[Layout('layouts.app')] class extends Component {
     {
         $this->photo = $photo;
     }
+
+    public function download()
+    {
+        return response()->download(storage_path('app/photos/' . $this->photo->path));
+    }
+
+    public function delete()
+    {
+        $this->photo->delete();
+        return redirect()->route('photos');
+    }
+
+    public function rotate()
+    {
+        $img = Image::make(storage_path('app/photos/' . $this->photo->path));
+
+        $img->rotate(-90);
+        $img->save();
+    }
 };
 
 ?>
@@ -42,16 +61,35 @@ new #[Layout('layouts.app')] class extends Component {
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 text-center">
+                <div class="p-6 text-gray-900 text-center" x-data="{ rotation: 0 }">
 
                     @if ($photo->is_video)
-                        <iframe class="w-full" height="615" src="{{ $photo->video_path }}" title="YouTube video player"
-                            frameborder="0"
+                        <iframe class="w-full" height="615" src="{{ $photo->video_path }}"
+                            title="YouTube video player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             allowfullscreen></iframe>
                     @else
-                        <img class="m-auto" src="{{ route('get.image', ['filename' => $photo->path]) }}" alt="">
+                        <img :style="{ transform: 'rotate(' + rotation + 'deg)' }" class="m-auto"
+                            src="{{ route('get.image', ['filename' => $photo->path]) }}" alt="">
                     @endif
+
+
+                    @if (!$photo->is_video)
+                        <x-secondary-button class="mt-4" wire:click="download">
+                            {{ __('Download') }}
+                        </x-secondary-button>
+
+                        <x-secondary-button @click="rotation += 90" class="mt-4" wire:click="rotate">
+                            {{ __('Rotate') }}
+                        </x-secondary-button>
+                    @endif
+
+                    <x-secondary-button class="mt-4" wire:confirm="{{ __('Are sure?') }}" wire:click="delete">
+                        {{ __('Delete') }}
+                    </x-secondary-button>
+
+
+
 
                     @if (is_array($photo->meta))
 

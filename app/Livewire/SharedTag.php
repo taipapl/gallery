@@ -3,9 +3,11 @@
 namespace App\Livewire;
 
 use App\Rules\Me;
+use App\Mail\AlbumShared;
 use Illuminate\Support\Str;
 use App\Models\Pivot\UsersTags;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use LivewireUI\Modal\ModalComponent;
 
 class SharedTag extends ModalComponent
@@ -15,6 +17,7 @@ class SharedTag extends ModalComponent
     public $email = '';
 
     public string $tag_id = '';
+
     public $shared;
 
     public $tag;
@@ -38,7 +41,10 @@ class SharedTag extends ModalComponent
 
         $usersTags->save();
 
+        $this->shared = UsersTags::where('tag_id', $this->tag_id)->get();
         $this->email = '';
+
+        Mail::to($validated['email'])->send(new AlbumShared($this->tag));
     }
 
 
@@ -47,10 +53,11 @@ class SharedTag extends ModalComponent
         $this->closeModal();
     }
 
-    public function delete($id)
+    public function delete(UsersTags $usersTags)
     {
-        $usersTags = UsersTags::find($id);
         $usersTags->delete();
+
+        $this->shared = UsersTags::where('tag_id', $this->tag_id)->get();
     }
 
     public function publicAlbum()

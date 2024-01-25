@@ -17,23 +17,31 @@ class FileUploads extends ModalComponent
 
     use WithFileUploads;
 
-    #[Validate('image|max:10000')] // 10MB Max
+    #[Validate('image|max:7000')] // 10MB Max
     public $photos = [];
 
-    public function save()
+    public $dates = [];
+
+    public function updatedPhotos()
     {
-        $this->validate([
-            'photos.*' => 'required|image|max:10000'
-        ]);
+        foreach ($this->photos as $key => $photo) {
 
-        foreach ($this->photos as $photo) {
 
-            //dd($photo);
+            //dd($this->photos, $this->dates);
 
-            //exif_read_data($photo->path());
+
+            //  stream_get_meta_data
+            $originalDate =  exif_read_data($photo->path());
+
+            //dd(date('d.m.Y H:i', $originalDate['FileDateTime']));
+
+            $image = Image::make($photo->path())
+                ->resize(1280, 720, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+
             $meta = Image::make($photo->getRealPath())->exif();
-
-            //dd($meta);
 
             $image = Image::make($photo->path())
                 ->resize(1280, 720, function ($constraint) {
@@ -46,8 +54,6 @@ class FileUploads extends ModalComponent
             $image->save($storagePath);
 
 
-
-
             //dd($meta, date('Y-m-d', $meta['FileDateTime']));
 
             $photoModel =  Photo::create([
@@ -55,19 +61,26 @@ class FileUploads extends ModalComponent
                 'path' => $image->basename,
                 'user_id' => auth()->id(),
                 'meta' => $meta,
-                'photo_date' => isset($meta['FileDateTime']) ? date('Y-m-d', $meta['FileDateTime']) :  date('Y-m-d'),
+                'photo_date' => (isset($this->dates[$key])) ? $this->dates[$key] :  date('Y-m-d'),
             ]);
 
 
             $photo->delete();
 
+            $this->photos = [];
+
+            $this->reset();
+
             $this->dispatch('appendPhoto2', $photoModel);
         }
-
-        $this->photos = [];
-
-        $this->reset();
     }
+
+    public function addDates($dates)
+    {
+
+        $this->dates = $dates;
+    }
+
 
     public function render()
     {

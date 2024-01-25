@@ -65,7 +65,7 @@ new #[Layout('layouts.app')] class extends Component {
 
 
                                 <div class="text-sm">
-                                    <div> {{ $album->name }}</div>
+                                    <div> {{ Str::limit($album->name, 18) }}</div>
                                     <div> {{ $album->photos->count() }} @lang('elements')</div>
                                 </div>
 

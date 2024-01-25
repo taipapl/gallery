@@ -13,6 +13,8 @@ new #[Layout('layouts.app')] class extends Component {
     public $albums;
     public $perPage = 10;
 
+    public $photos = [];
+
     public function loadMore()
     {
         $this->perPage += 10;
@@ -21,8 +23,6 @@ new #[Layout('layouts.app')] class extends Component {
     public function rendering(View $view): void
     {
         $view->albums = [];
-
-        // dd($view->albums);
     }
 };
 ?>

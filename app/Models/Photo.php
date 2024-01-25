@@ -26,6 +26,7 @@ class Photo extends Model
 
     protected $casts = [
         'meta' => Json::class,
+        'photo_date' => 'datetime',
     ];
 
 

@@ -6,14 +6,18 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Illuminate\View\View;
 use App\Models\Photo;
+use Livewire\WithFileUploads;
 
 new #[Layout('layouts.app')] class extends Component {
-    use WithPagination;
+    use WithPagination; // 10MB Max
 
-    public $perPage = 10;
+    public $perPage = 20;
     public $photos;
 
-    public $month;
+    public function mount()
+    {
+        $this->photos = collect([]);
+    }
 
     protected $listeners = [
         'appendPhoto2' => 'appendPhoto2',
@@ -21,10 +25,9 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function appendPhoto2($photo)
     {
-        //  dd($photo);
         $photoModel = Photo::find($photo['id']);
 
-        $this->photos[] = $photoModel;
+        $this->photos->prepend($photoModel);
     }
 
     public function loadMore()
@@ -37,6 +40,7 @@ new #[Layout('layouts.app')] class extends Component {
         $view->photos = auth()
             ->user()
             ->photos()
+            ->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
     }
 };
@@ -57,9 +61,20 @@ new #[Layout('layouts.app')] class extends Component {
 
                 <div class="flex gap-2 justify-end">
 
-                    <x-primary-button onclick="Livewire.dispatch('openModal', { component: 'file-uploads' })">
+                    {{-- <x-primary-button onclick="Livewire.dispatch('openModal', { component: 'file-uploads' })">
                         @lang('Files Uploads')
-                    </x-primary-button>
+                    </x-primary-button> --}}
+                    {{-- <form wire:submit="save">
+                        <label x-data="{ uploading: false, progress: 0 }" x-on:livewire-upload-start="uploading = true"
+                            x-on:livewire-upload-finish="uploading = false" x-on:livewire-upload-error="uploading = false"
+                            x-on:livewire-upload-progress="progress = $event.detail.progress"
+                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 cursor-pointer">
+                            <span>@lang('Add photos')</span>
+                            <input type="file" class="hidden" wire:model="uploads" multiple>
+                        </label>
+                    </form> --}}
+
+                    <livewire:file-uploads />
 
                 </div>
             </div>
@@ -80,8 +95,8 @@ new #[Layout('layouts.app')] class extends Component {
                         <div class="flex gap-2 flex-wrap">
                             @php($dataLabel = null)
                             @foreach ($photos ?? [] as $key => $photo)
-                                @if ($dataLabel != $photo->created_at->format('F Y'))
-                                    @php($dataLabel = $photo->created_at->format('F Y'))
+                                @if ($dataLabel != $photo->photo_date->format('F Y'))
+                                    @php($dataLabel = $photo->photo_date->format('F Y'))
                                     <div class="w-full text-center text-lg text-black ">{{ $dataLabel }}</div>
                                 @endif
                                 <a href="{{ route('show', $photo->id) }}" class=" cursor-pointer h-40 w-40"
@@ -97,7 +112,11 @@ new #[Layout('layouts.app')] class extends Component {
                     </div>
                 </div>
             </div>
+
+
         </div>
 
     </div>
+
+
 </div>

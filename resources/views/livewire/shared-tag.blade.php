@@ -1,8 +1,13 @@
 <div class="p-10">
 
-    <h1>@lang('Shared')</h1>
-    <form wire:submit="add">
-        <input type="text" wire:model="email" class="border-2 border-gray-300 p-2 w-full rounded">
+    <div class="flex justify-between mb-4 ">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Shared') }}
+        </h2>
+    </div>
+
+    <form wire:submit="add" class="flex">
+        <input type="text" wire:model="email" class="border-2 border-gray-300 w-full rounded">
         <div>
             @error('email')
                 {{ $message }}
