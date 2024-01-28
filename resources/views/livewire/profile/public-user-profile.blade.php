@@ -62,6 +62,8 @@ new class extends Component {
     <div class="mt-6 flex justify-start">
         @if (Auth::user()->is_public)
             {{ $uid }}
+
+            <a href="{{ route('public_profile', $uid) }}">{{ __('Open') }}</a>
         @else
             {{ __('No public profile url') }}
         @endif

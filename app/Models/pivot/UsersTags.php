@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Models\Pivot;
+namespace App\Models\pivot;
 
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class UsersTags extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'users_tags';
 

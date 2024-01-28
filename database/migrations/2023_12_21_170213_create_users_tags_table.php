@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users_tags', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignId('tag_id')->constrained('tags');
             $table->foreignId('email_id')->constrained('emails')->nullable();
             $table->foreignId('user_id')->constrained('users')->nullable();

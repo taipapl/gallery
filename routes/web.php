@@ -19,6 +19,12 @@ Route::get('files/{filename}', [ImageController::class, 'getImage'])->name('get.
 
 Route::view('/', 'welcome');
 
+Volt::route('public_profile/{public_url}', 'front.profil')
+    ->name('public_profile');
+
+Volt::route('public_album/{public_url}', 'front.album')
+    ->name('public_album');
+
 Volt::route('albums', 'albums')
     ->middleware(['auth', 'verified'])
     ->name('albums.list');
@@ -47,5 +53,8 @@ Volt::route('shared', 'shared')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+
+
 
 require __DIR__ . '/auth.php';
