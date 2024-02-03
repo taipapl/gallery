@@ -29,7 +29,7 @@
     @endforeach
 
 
-    <div>
+    <div class="mt-3">
         <label wire:click="publicAlbum()" class="relative inline-flex items-center cursor-pointer">
             <input wire:model="checkbox_public" type="checkbox" @if ($tag->is_public == 1) checked @endif
                 class="sr-only peer" value="1">
@@ -43,19 +43,22 @@
         @if ($tag->is_public)
             <div>
                 {{ $tag->public_url }}
+
+                <x-primary-link target="_blank"
+                    href="{{ route('public_album', $tag->public_url) }}">{{ __('Open') }}</x-primary-link>
+            </div>
+
+            <div class="flex mt-2">
+                <x-primary-button
+                    wire:confirm="{{ __('If you change the link, you will have to resend it to the people you want to share the album?') }}"
+                    wire:click="changePublicUrl()">{{ __('Change album url') }}</x-primary-button>
             </div>
         @endif
-
-        <div class="flex justify-end mt-2">
-            <x-primary-button wire:click="changePublicUrl()">{{ __('Change album url') }}</x-primary-button>
-        </div>
-
-
     </div>
 
-
-
-    <x-primary-button wire:click="close">{{ __('Close') }}</x-primary-button>
+    <div class="mt-3">
+        <x-primary-button wire:click="close">{{ __('Close') }}</x-primary-button>
+    </div>
 
 
 </div>

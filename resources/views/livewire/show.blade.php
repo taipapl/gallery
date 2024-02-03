@@ -84,7 +84,8 @@ new #[Layout('layouts.app')] class extends Component {
                         </x-secondary-button>
                     @endif
 
-                    <x-secondary-button class="mt-4" wire:confirm="{{ __('Are sure?') }}" wire:click="delete">
+                    <x-secondary-button class="mt-4" wire:confirm="{{ __('Are you sure? Delete photo go to Trash') }}"
+                        wire:click="delete">
                         {{ __('Delete') }}
                     </x-secondary-button>
 

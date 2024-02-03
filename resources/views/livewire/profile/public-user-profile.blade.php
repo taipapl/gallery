@@ -59,17 +59,23 @@ new class extends Component {
         </div>
         <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Public')</span>
     </label>
-    <div class="mt-6 flex justify-start">
+
+    <div class="mt-6 flex justify-start items-center gap-3 ">
         @if (Auth::user()->is_public)
             {{ $uid }}
 
-            <a href="{{ route('public_profile', $uid) }}">{{ __('Open') }}</a>
+            <x-primary-link target="_blank"
+                href="{{ route('public_profile', $uid) }}">{{ __('Open') }}</x-primary-link>
         @else
             {{ __('No public profile url') }}
         @endif
     </div>
-    <div class="mt-6 flex justify-start">
-        <x-primary-button wire:click="changeUrl()">{{ __('Change profil url') }}</x-primary-button>
-    </div>
+    @if (Auth::user()->is_public)
+        <div class="mt-6 flex justify-start">
+            <x-primary-button
+                wire:confirm="{{ __('If you change the link, you will have to resend it to the people you want to share the profile?') }}"
+                wire:click="changeUrl()">{{ __('Change profil url') }}</x-primary-button>
+        </div>
+    @endif
 
 </section>

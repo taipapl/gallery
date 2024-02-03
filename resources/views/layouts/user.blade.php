@@ -19,19 +19,26 @@
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
 
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endif
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <!-- Logo -->
+                    <div class="shrink-0 flex items-center">
+                        <a href="{{ route('albums.list') }}" wire:navigate>
+                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        </a>
+                    </div>
 
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Page Content -->
+            <main>
+                {{ $slot }}
+            </main>
+
+        </div>
     </div>
     @livewire('wire-elements-modal')
 </body>

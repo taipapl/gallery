@@ -71,6 +71,8 @@ class SharedTag extends ModalComponent
         $tag->is_public = $this->checkbox_public;
 
         $tag->save();
+
+        $this->tag = $tag;
     }
 
     public function changePublicUrl()
