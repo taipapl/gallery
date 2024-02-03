@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\Tag;
 use Illuminate\View\View;
+use App\Models\pivot\UsersTags;
 
 new #[Layout('layouts.user')] class extends Component {
     use WithPagination;
@@ -21,11 +22,9 @@ new #[Layout('layouts.user')] class extends Component {
         $this->perPage += 10;
     }
 
-    public function mount($public_url)
+    public function mount(UsersTags $user_url)
     {
-        $this->album = Tag::where('public_url', $public_url)
-            ->where('is_public', 1)
-            ->firstOrFail();
+        $this->album = Tag::find($user_url->tag_id);
     }
 
     public function rendering(View $view): void

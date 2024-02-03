@@ -25,6 +25,9 @@ Volt::route('public_profile/{public_url}', 'front.profil')
 Volt::route('public_album/{public_url}', 'front.album')
     ->name('public_album');
 
+Volt::route('user_album/{user_url}', 'front.guest')
+    ->name('user_album');
+
 Volt::route('albums', 'albums')
     ->middleware(['auth', 'verified'])
     ->name('albums.list');

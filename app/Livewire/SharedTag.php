@@ -44,7 +44,7 @@ class SharedTag extends ModalComponent
         $this->shared = UsersTags::where('tag_id', $this->tag_id)->get();
         $this->email = '';
 
-        Mail::to($validated['email'])->send(new AlbumShared($this->tag));
+        Mail::to($validated['email'])->send(new AlbumShared($this->tag, $usersTags));
     }
 
 

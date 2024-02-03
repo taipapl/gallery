@@ -8,17 +8,23 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Pivot\UsersTags;
+use App\Models\Tag;
 
 class AlbumShared extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $tag;
+    public $usersTags;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(Tag $tag, UsersTags $usersTags)
     {
-        //
+        $this->tag = $tag;
+        $this->usersTags = $usersTags;
     }
 
     /**
@@ -27,7 +33,7 @@ class AlbumShared extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Album Shared',
+            subject: __('Album') . ': ' . $this->tag->name . ' ' . __('shared with you'),
         );
     }
 
@@ -39,7 +45,7 @@ class AlbumShared extends Mailable
         return new Content(
             markdown: 'mail.albumShared',
             with: [
-                'url' => 'https://example.com',
+                'url' => route('user_album', $this->usersTags->id)
             ],
         );
     }

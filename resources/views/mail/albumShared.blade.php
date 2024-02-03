@@ -3,7 +3,7 @@
 
 @lang('You have been invited to view an album.')
 
-<x-mail::button :url="''">
+<x-mail::button :url="$url">
 @lang('See Album')
 </x-mail::button>
 
