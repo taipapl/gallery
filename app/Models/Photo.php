@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Casts\Json;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Photo extends Model
@@ -20,15 +20,13 @@ class Photo extends Model
         'user_id',
         'is_video',
         'video_path',
-        'photo_date'
+        'photo_date',
     ];
-
 
     protected $casts = [
         'meta' => Json::class,
         'photo_date' => 'datetime',
     ];
-
 
     protected function videoImage(): Attribute
     {

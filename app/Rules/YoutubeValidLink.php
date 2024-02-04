@@ -19,7 +19,7 @@ class YoutubeValidLink implements ValidationRule
         $match = null;
         preg_match($regex_pattern, $value, $match);
 
-        if (!empty($match)) {
+        if (! empty($match)) {
             $fail('The :attribute is not a valid URL');
         }
     }

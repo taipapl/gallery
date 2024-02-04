@@ -7,11 +7,14 @@ use LivewireUI\Modal\ModalComponent;
 
 class AddVideo extends ModalComponent
 {
-
     public $video;
+
     public $videoUrl;
+
     public $addError;
+
     public $videoId;
+
     public $videoImage;
 
     protected $rules = [
@@ -34,20 +37,23 @@ class AddVideo extends ModalComponent
                 $this->videoId = $queryParams['v'];
                 $this->videoImage = "https://img.youtube.com/vi/{$queryParams['v']}/hqdefault.jpg";
                 $embedUrl = "https://www.youtube.com/embed/{$queryParams['v']}";
+
                 return $embedUrl;
             }
         }
+
         return null;
     }
 
     public function save()
     {
-        if (!$this->youTubeValid()) {
+        if (! $this->youTubeValid()) {
             $this->addError('video', 'The URL must be a valid YouTube URL.');
+
             return;
         }
 
-        $photoModel =  Photo::create([
+        $photoModel = Photo::create([
             'path' => $this->videoImage,
             'video_path' => $this->videoUrl,
             'is_video' => true,
@@ -59,10 +65,10 @@ class AddVideo extends ModalComponent
         return redirect()->to('/video');
     }
 
-
     public function youTubeValid()
     {
         $pattern = '/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/';
+
         return preg_match($pattern, $this->video);
     }
 

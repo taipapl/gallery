@@ -2,18 +2,16 @@
 
 namespace App\Livewire;
 
-use App\Rules\Me;
 use App\Mail\AlbumShared;
-use Illuminate\Support\Str;
 use App\Models\Pivot\UsersTags;
+use App\Rules\Me;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use LivewireUI\Modal\ModalComponent;
 
 class SharedTag extends ModalComponent
 {
-
-
     public $email = '';
 
     public string $tag_id = '';
@@ -27,7 +25,7 @@ class SharedTag extends ModalComponent
     public function add()
     {
         $validated = $this->validate([
-            'email' => ['required', 'email', new Me]
+            'email' => ['required', 'email', new Me],
         ]);
 
         $email = \App\Models\Email::firstOrCreate(['email' => $validated['email']]);
@@ -46,7 +44,6 @@ class SharedTag extends ModalComponent
 
         Mail::to($validated['email'])->send(new AlbumShared($this->tag, $usersTags));
     }
-
 
     public function close()
     {
@@ -82,7 +79,6 @@ class SharedTag extends ModalComponent
         $tag->save();
     }
 
-
     public function mount()
     {
         $this->shared = UsersTags::where('tag_id', $this->tag_id)->get();
@@ -97,10 +93,8 @@ class SharedTag extends ModalComponent
         return '7xl';
     }
 
-
     public function render()
     {
-
 
         return view('livewire.shared-tag');
     }

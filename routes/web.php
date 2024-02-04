@@ -1,8 +1,8 @@
 <?php
 
-use Livewire\Volt\Volt;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
+use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,12 +58,8 @@ Volt::route('trash', 'trash')
     ->middleware(['auth', 'verified'])
     ->name('trash');
 
-
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-
-
-
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

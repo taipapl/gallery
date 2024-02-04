@@ -10,5 +10,6 @@ class PhotoTag extends Model
     use HasFactory;
 
     protected $table = 'photos_tags';
+
     protected $fillable = ['photo_id', 'tag_id'];
 }

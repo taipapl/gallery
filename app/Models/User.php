@@ -43,13 +43,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'is_public' => 'boolean'
+        'is_public' => 'boolean',
     ];
 
     /**
      * Get all of the photos for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function photos(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
@@ -58,8 +56,6 @@ class User extends Authenticatable
 
     /**
      * Get all videos for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function videos(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
@@ -68,8 +64,6 @@ class User extends Authenticatable
 
     /**
      * Get all of the tags for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function tags(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

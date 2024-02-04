@@ -8,11 +8,12 @@ use LivewireUI\Modal\ModalComponent;
 
 class AddPhotos extends ModalComponent
 {
-
     use WithPagination;
 
     public $perPage = 10;
+
     public string $tag_id = '';
+
     public $photoIds = [];
 
     public function mount()
@@ -29,12 +30,12 @@ class AddPhotos extends ModalComponent
     {
 
         if (in_array($id, $this->photoIds)) {
-            $photo  = \App\Models\pivot\PhotoTag::where('photo_id', $id)->where('tag_id', $this->tag_id)->first();
+            $photo = \App\Models\pivot\PhotoTag::where('photo_id', $id)->where('tag_id', $this->tag_id)->first();
             $photo->delete();
             unset($this->photoIds[array_search($id, $this->photoIds)]);
         } else {
 
-            $photo  = new \App\Models\pivot\PhotoTag();
+            $photo = new \App\Models\pivot\PhotoTag();
             $photo->photo_id = $id;
             $photo->tag_id = $this->tag_id;
             $photo->user_id = auth()->id();
@@ -51,8 +52,6 @@ class AddPhotos extends ModalComponent
             }
         }
 
-
-
         $this->dispatch('appendPhoto', $photo);
     }
 
@@ -61,7 +60,7 @@ class AddPhotos extends ModalComponent
         return view(
             'livewire.add-photos',
             [
-                'photos' => auth()->user()->photos()->paginate($this->perPage)
+                'photos' => auth()->user()->photos()->paginate($this->perPage),
             ]
         );
     }
