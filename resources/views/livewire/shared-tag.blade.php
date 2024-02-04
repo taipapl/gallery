@@ -1,6 +1,6 @@
-<div class="p-10">
+<div class="p-10 flex flex-col gap-3 ">
 
-    <div class="flex justify-between mb-4 ">
+    <div class="flex justify-between ">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Shared') }}
         </h2>
@@ -19,17 +19,26 @@
         </div>
     </form>
 
-    @foreach ($shared as $key => $share)
-        <div class="flex justify-between">
-            <div>{{ $share->email->email }}</div>
-            <div>
-                <div class="cursor-pointer" wire:click="delete({{ $share->id }})">{{ __('Delete') }}</div>
+    <div>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Shared list') }}
+        </h2>
+        @foreach ($shared as $key => $share)
+            <div class="flex justify-between">
+                <div>{{ $share->email->email }}</div>
+                <div>
+                    <div class="cursor-pointer" wire:confirm="{{ __('Are you sure?') }}"
+                        wire:click="delete('{{ $share->id }}')">{{ __('Delete') }}</div>
+                </div>
             </div>
-        </div>
-    @endforeach
+        @endforeach
+    </div>
 
 
-    <div class="mt-3">
+    <div>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Public album') }}
+        </h2>
         <label wire:click="publicAlbum()" class="relative inline-flex items-center cursor-pointer">
             <input wire:model="checkbox_public" type="checkbox" @if ($tag->is_public == 1) checked @endif
                 class="sr-only peer" value="1">

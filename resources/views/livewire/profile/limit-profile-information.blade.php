@@ -18,6 +18,8 @@ new class extends Component {
     {
         $this->photosCount = Auth::user()->photos->count();
         $this->photoLimit = Auth::user()->photo_limit;
+
+        seo()->title(__('Profil') . ' - ' . config('app.name'));
     }
 
     /**

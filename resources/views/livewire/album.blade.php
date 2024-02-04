@@ -52,6 +52,8 @@ new #[Layout('layouts.app')] class extends Component {
     {
         $this->tag = $tag;
         $this->name = $tag->name;
+
+        seo()->title(__('Album') . ' - ' . $this->tag->name . ' - ' . config('app.name'));
     }
 
     public function rendering(View $view): void

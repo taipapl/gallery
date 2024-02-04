@@ -17,6 +17,8 @@ new #[Layout('layouts.app')] class extends Component {
     public function mount()
     {
         $this->photos = collect([]);
+
+        seo()->title(__('Photos') . ' - ' . config('app.name'));
     }
 
     protected $listeners = [

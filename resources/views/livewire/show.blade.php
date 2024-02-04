@@ -16,6 +16,8 @@ new #[Layout('layouts.app')] class extends Component {
     public function mount(Photo $photo)
     {
         $this->photo = $photo;
+
+        seo()->title(__('Show') . ' - ' . $this->photo->name . ' - ' . config('app.name'));
     }
 
     public function download()

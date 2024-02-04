@@ -22,6 +22,11 @@ new #[Layout('layouts.app')] class extends Component {
         $this->perPage += 10;
     }
 
+    public function mount(): void
+    {
+        seo()->title(__('Trash') . ' - ' . config('app.name'));
+    }
+
     public function delete($photo_id)
     {
         $photo = User::find(auth()->id())

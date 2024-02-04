@@ -92,6 +92,11 @@ class SharedTag extends ModalComponent
         $this->checkbox_public = $this->tag->is_public;
     }
 
+    public static function modalMaxWidth(): string
+    {
+        return '7xl';
+    }
+
 
     public function render()
     {

@@ -20,6 +20,11 @@ new #[Layout('layouts.app')] class extends Component {
         $this->perPage += 10;
     }
 
+    public function mount(): void
+    {
+        seo()->title(__('Shared') . ' - ' . config('app.name'));
+    }
+
     public function rendering(View $view): void
     {
         $view->albums = [];

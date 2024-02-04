@@ -15,6 +15,8 @@ new #[Layout('layouts.user')] class extends Component {
     public $album;
     public $photos = [];
 
+    public $userTag;
+
     public $perPage = 10;
 
     public function loadMore()
@@ -24,6 +26,7 @@ new #[Layout('layouts.user')] class extends Component {
 
     public function mount(UsersTags $user_url)
     {
+        $this->userTag = $user_url;
         $this->album = Tag::find($user_url->tag_id);
     }
 
@@ -44,7 +47,7 @@ new #[Layout('layouts.user')] class extends Component {
             <div class="relative">
                 <a x-lightbox="{{ route('get.image', ['filename' => $photo->path]) }}">
                     <div class="h-60 w-full border-2  block overflow-hidden"
-                        style="background-image: url('{{ route('get.image', ['filename' => $photo->path]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
+                        style="background-image: url('{{ route('get.user_image', ['tagsUsers' => $this->userTag->id, 'filename' => $photo->path]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
                     </div>
                 </a>
             </div>

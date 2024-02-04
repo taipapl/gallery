@@ -23,6 +23,8 @@ new #[Layout('layouts.app')] class extends Component {
             ->tags()
             ->where('is_album', 1)
             ->get();
+
+        seo()->title(__('Albums') . ' - ' . config('app.name'));
     }
 };
 ?>

@@ -17,6 +17,8 @@ use App\Http\Controllers\ImageController;
 
 Route::get('files/{filename}', [ImageController::class, 'getImage'])->name('get.image');
 
+Route::get('user_file/{tagsUsers}/{filename}', [ImageController::class, 'getUserImage'])->name('get.user_image');
+
 Route::view('/', 'welcome');
 
 Volt::route('public_profile/{public_url}', 'front.profil')
