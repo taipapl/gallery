@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\Pivot\UsersTags;
+use App\Models\pivot\UsersTags;
 use App\Models\Tag;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -33,7 +33,7 @@ class AlbumShared extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: __('Album').': '.$this->tag->name.' '.__('shared with you'),
+            subject: __('Album') . ': ' . $this->tag->name . ' ' . __('shared with you'),
         );
     }
 

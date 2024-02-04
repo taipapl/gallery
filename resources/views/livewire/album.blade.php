@@ -82,12 +82,12 @@ new #[Layout('layouts.app')] class extends Component {
                     </x-primary-button>
 
                     <x-primary-button
-                        onclick="Livewire.dispatch('openModal', { component: 'shared-tag' , arguments: { tag_id: '{{ $tag->id }}' } })">
+                        onclick="Livewire.dispatch('openModal', { component: 'shared-tag' , arguments: { tagId: '{{ $tag->id }}' } })">
                         @lang('Sheard Album')
                     </x-primary-button>
 
                     <x-primary-button
-                        onclick="Livewire.dispatch('openModal', { component: 'add-photos' , arguments: { tag_id: '{{ $tag->id }}' } })">
+                        onclick="Livewire.dispatch('openModal', { component: 'add-photos' , arguments: { tagId: '{{ $tag->id }}' } })">
                         @lang('Add Photo')
                     </x-primary-button>
 

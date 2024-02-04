@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Mail\AlbumShared;
-use App\Models\Pivot\UsersTags;
+use App\Models\pivot\UsersTags;
 use App\Rules\Me;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -14,7 +14,7 @@ class SharedTag extends ModalComponent
 {
     public $email = '';
 
-    public string $tag_id = '';
+    public $tagId;
 
     public $shared;
 
@@ -35,11 +35,11 @@ class SharedTag extends ModalComponent
         $usersTags = new UsersTags();
         $usersTags->user_id = Auth::id();
         $usersTags->email_id = $email->id;
-        $usersTags->tag_id = $this->tag_id;
+        $usersTags->tag_id = $this->tagId;
 
         $usersTags->save();
 
-        $this->shared = UsersTags::where('tag_id', $this->tag_id)->get();
+        $this->shared = UsersTags::where('tag_id', $this->tagId)->get();
         $this->email = '';
 
         Mail::to($validated['email'])->send(new AlbumShared($this->tag, $usersTags));
@@ -54,12 +54,12 @@ class SharedTag extends ModalComponent
     {
         $usersTags->delete();
 
-        $this->shared = UsersTags::where('tag_id', $this->tag_id)->get();
+        $this->shared = UsersTags::where('tag_id', $this->tagId)->get();
     }
 
     public function publicAlbum()
     {
-        $tag = \App\Models\Tag::find($this->tag_id);
+        $tag = \App\Models\Tag::find($this->tagId);
 
         if (empty($tag->public_url)) {
             $tag->public_url = Str::uuid();
@@ -74,16 +74,16 @@ class SharedTag extends ModalComponent
 
     public function changePublicUrl()
     {
-        $tag = \App\Models\Tag::find($this->tag_id);
+        $tag = \App\Models\Tag::find($this->tagId);
         $tag->public_url = Str::uuid();
         $tag->save();
     }
 
     public function mount()
     {
-        $this->shared = UsersTags::where('tag_id', $this->tag_id)->get();
+        $this->shared = UsersTags::where('tag_id', $this->tagId)->get();
 
-        $this->tag = \App\Models\Tag::find($this->tag_id);
+        $this->tag = \App\Models\Tag::find($this->tagId);
 
         $this->checkbox_public = $this->tag->is_public;
     }

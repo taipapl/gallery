@@ -27,7 +27,7 @@ new #[Layout('layouts.app')] class extends Component {
         seo()->title(__('Trash') . ' - ' . config('app.name'));
     }
 
-    public function delete($photo_id)
+    public function delete($photo_id): void
     {
         $photo = User::find(auth()->id())
             ->photos()
@@ -44,7 +44,7 @@ new #[Layout('layouts.app')] class extends Component {
         $photo->forceDelete();
     }
 
-    public function deleteAll()
+    public function deleteAll(): void
     {
         $photos = User::find(auth()->id())
             ->photos()

@@ -11,9 +11,9 @@ class ImageController extends Controller
 {
     public function getImage($filename)
     {
-        $path = 'photos/'.$filename;
+        $path = 'photos/' . $filename;
 
-        if (! Storage::exists($path) || ! Auth::check()) {
+        if (!Storage::exists($path) || !Auth::check()) {
             abort(404);
         }
 
@@ -28,9 +28,9 @@ class ImageController extends Controller
 
         $userTag = UsersTags::find($userTagId);
 
-        $path = 'photos/'.$filename;
+        $path = 'photos/' . $filename;
 
-        if (! Storage::exists($path) || ! $userTag) {
+        if (!Storage::exists($path) || !$userTag) {
             abort(404);
         }
 

@@ -12,7 +12,7 @@ new #[Layout('layouts.app')] class extends Component {
     public $albums = [];
     public $perPage = 10;
 
-    public function loadMore()
+    public function loadMore(): void
     {
         $this->perPage += 10;
     }

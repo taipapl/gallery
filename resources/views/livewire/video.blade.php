@@ -13,7 +13,7 @@ new #[Layout('layouts.app')] class extends Component {
     public $videos;
     public $perPage = 10;
 
-    public function loadMore()
+    public function loadMore(): void
     {
         $this->perPage += 10;
     }

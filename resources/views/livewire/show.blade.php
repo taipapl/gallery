@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use Illuminate\View\View;
 use App\Models\User;
 use App\Models\Photo;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination;
@@ -20,7 +21,7 @@ new #[Layout('layouts.app')] class extends Component {
         seo()->title(__('Show') . ' - ' . $this->photo->name . ' - ' . config('app.name'));
     }
 
-    public function download()
+    public function download(): BinaryFileResponse
     {
         return response()->download(storage_path('app/photos/' . $this->photo->path));
     }
