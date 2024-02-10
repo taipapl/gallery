@@ -1,5 +1,4 @@
 <?php
-
 use function Livewire\Volt\{state};
 use Livewire\Volt\Component;
 use App\Models\Tag;
@@ -11,7 +10,6 @@ new class extends Component {
             'user_id' => Auth()->user()->id,
             'is_album' => true,
         ]);
-
         $this->redirectRoute('albums.album', ['tag' => $tag->id]);
     }
 }; ?>

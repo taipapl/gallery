@@ -41,18 +41,69 @@ new #[Layout('layouts.user')] class extends Component {
     <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $album->name }}</h1>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        @foreach ($photos as $photo)
-            <div class="relative">
-                <a x-lightbox="{{ route('get.image', ['filename' => $photo->path]) }}">
-                    <div class="h-60 w-full border-2  block overflow-hidden"
-                        style="background-image: url('{{ route('get.image', ['filename' => $photo->path]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
-                    </div>
-                </a>
+
+
+
+        <div x-data="lightbox()">
+            <!-- Miniatury zdjęć -->
+            <div>
+                @foreach ($photos as $key => $photo)
+                    <img class="lightbox" @click="openLightbox({{ $key }})" alt=""
+                        src="{{ route('get.image', ['filename' => $photo->path]) }}" />
+                @endforeach
             </div>
-        @endforeach
+
+            <!-- Lightbox -->
+            <div x-show="isOpen" @keydown.window.escape="closeLightbox" @keydown.window.arrow-left="prevImage"
+                @keydown.window.arrow-right="nextImage"
+                style="background-color: rgba(0, 0, 0, 0.8); position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; align-items: center;">
+                <img :src="currentPhoto" style="max-width: 90%; max-height: 90%;" />
+                <button @click="prevImage" style="position: absolute; top: 50%; left: 20px;">Poprzednie</button>
+                <button @click="nextImage" style="position: absolute; top: 50%; right: 20px;">Następne</button>
+                <button @click="closeLightbox" style="position: absolute; top: 20px; right: 20px;">Zamknij</button>
+            </div>
+
+            <script>
+                function lightbox() {
+                    const images = document.querySelectorAll('.lightbox'); // Znajdź wszystkie obrazy na stronie
+
+                    console.log(images);
+
+                    const photos = Array.from(images).map(img => ({
+                        url: img.src,
+                    })); // Stwórz tablicę obiektów zdjęć
+                    console.log(photos);
+                    return {
+                        photos: photos,
+                        currentIndex: 0,
+                        isOpen: false,
+                        openLightbox(index) {
+                            this.currentIndex = index;
+                            this.isOpen = true;
+                        },
+                        closeLightbox() {
+                            this.isOpen = false;
+                        },
+                        nextImage() {
+                            this.currentIndex = (this.currentIndex + 1) % this.photos.length;
+                        },
+                        prevImage() {
+                            this.currentIndex = (this.currentIndex + this.photos.length - 1) % this.photos.length;
+                        },
+                        get currentPhoto() {
+                            console.log(this.photos[this.currentIndex]);
+                            return this.photos[this.currentIndex].url;
+                        }
+                    }
+                }
+            </script>
+        </div>
+
+
 
 
 
 
 
     </div>
+</div>

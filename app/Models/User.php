@@ -51,7 +51,7 @@ class User extends Authenticatable
      */
     public function photos(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Photo::class)->where('is_video', false);
+        return $this->hasMany(Photo::class);
     }
 
     /**
