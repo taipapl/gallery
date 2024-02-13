@@ -37,4 +37,9 @@ class Tag extends Model
     {
         return $this->belongsToMany(Email::class, 'users_emails', 'tag_id', 'email_id');
     }
+
+    public function shared()
+    {
+        return $this->hasMany(pivot\UsersTags::class, 'tag_id');
+    }
 }

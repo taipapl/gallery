@@ -43,6 +43,7 @@ new #[Layout('layouts.app')] class extends Component {
         $tag = Tag::find($id);
 
         $tag->photos()->detach();
+        $tag->shared()->delete();
 
         $tag->delete();
         $this->redirectRoute('albums.list');
@@ -77,7 +78,8 @@ new #[Layout('layouts.app')] class extends Component {
 
                 <div class="flex gap-2 justify-end">
 
-                    <x-primary-button wire:click="deleteAlbum('{{ $tag->id }}')">
+                    <x-primary-button wire:confirm="{{ __('Are You sure?') }}"
+                        wire:click="deleteAlbum('{{ $tag->id }}')">
                         @lang('Delete Album')
                     </x-primary-button>
 

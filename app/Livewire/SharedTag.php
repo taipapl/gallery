@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Mail\AlbumShared;
 use App\Models\pivot\UsersTags;
 use App\Rules\Me;
+use App\Rules\OneEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -25,7 +26,7 @@ class SharedTag extends ModalComponent
     public function add()
     {
         $validated = $this->validate([
-            'email' => ['required', 'email', new Me],
+            'email' => ['required', 'email', new OneEmail($this->tagId), new Me],
         ]);
 
         $email = \App\Models\Email::firstOrCreate(['email' => $validated['email']]);

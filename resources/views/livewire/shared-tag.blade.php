@@ -6,16 +6,21 @@
         </h2>
     </div>
 
-    <form wire:submit="add" class="flex">
-        <input type="text" wire:model="email" class="border-2 border-gray-300 w-full rounded">
-        <div>
-            @error('email')
-                {{ $message }}
-            @enderror
+    <form wire:submit="add" class="flex flex-col">
+
+        <div class="flex gap-3  w-full">
+            <input type="text" wire:model="email" class="border-2 border-gray-300 w-full rounded">
+
+
+            <div class="flex justify-end mt-2">
+                <x-primary-button>{{ __('Add') }}</x-primary-button>
+            </div>
         </div>
 
-        <div class="flex justify-end mt-2">
-            <x-primary-button>{{ __('Add') }}</x-primary-button>
+        <div>
+            @error('email')
+                <span class="text-red-700 "> {{ $message }} </span>
+            @enderror
         </div>
     </form>
 
