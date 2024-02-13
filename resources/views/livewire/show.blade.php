@@ -32,6 +32,13 @@ new #[Layout('layouts.app')] class extends Component {
         return redirect()->route('photos');
     }
 
+    public function archived()
+    {
+        $this->photo->update([
+            'is_archived' => !$this->photo->is_archived,
+        ]);
+    }
+
     public function rotate()
     {
         $img = Image::make(storage_path('app/photos/' . $this->photo->path));
@@ -86,6 +93,10 @@ new #[Layout('layouts.app')] class extends Component {
                             {{ __('Rotate') }}
                         </x-secondary-button>
                     @endif
+
+                    <x-secondary-button class="mt-4" wire:confirm="{{ __('Are you sure?') }}" wire:click="archived">
+                        {{ $photo->is_archived ? __('Un Archived') : __('Archived') }}
+                    </x-secondary-button>
 
                     <x-secondary-button class="mt-4" wire:confirm="{{ __('Are you sure? Delete photo go to Trash') }}"
                         wire:click="delete">

@@ -17,10 +17,12 @@ class Tag extends Model
         'is_public',
         'is_album',
         'public_url',
+        'is_archived',
     ];
 
     protected $casts = [
         'is_public' => 'boolean',
+        'is_archived' => 'boolean',
     ];
 
     public function photos()

@@ -103,8 +103,10 @@ new #[Layout('layouts.app')] class extends Component {
                                 @endif
                                 <a href="{{ route('show', $photo->id) }}" class=" cursor-pointer h-40 w-40"
                                     @if ($loop->last) id="last_record" @endif
-                                    style="background-image: url('{{ route('get.image', ['filename' => $photo->path]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
-                                </a>
+                                    @if ($photo->is_video) style="background-image: url('{{ $photo->path }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
+                                    @else
+                                    style="background-image: url('{{ route('get.image', ['filename' => $photo->path]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;"> @endif
+                                    </a>
                             @endforeach
 
                             <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>

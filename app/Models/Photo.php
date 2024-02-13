@@ -21,11 +21,13 @@ class Photo extends Model
         'is_video',
         'video_path',
         'photo_date',
+        'is_archived',
     ];
 
     protected $casts = [
         'meta' => Json::class,
         'photo_date' => 'datetime',
+        'is_archived' => 'boolean',
     ];
 
     protected function videoImage(): Attribute

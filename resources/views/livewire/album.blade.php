@@ -57,6 +57,13 @@ new #[Layout('layouts.app')] class extends Component {
         seo()->title(__('Album') . ' - ' . $this->tag->name . ' - ' . config('app.name'));
     }
 
+    public function archived()
+    {
+        $this->tag->update([
+            'is_archived' => !$this->tag->is_archived,
+        ]);
+    }
+
     public function rendering(View $view): void
     {
         $view->photos = $this->tag->photos()->paginate($this->perPage);
@@ -77,6 +84,10 @@ new #[Layout('layouts.app')] class extends Component {
                 </h2>
 
                 <div class="flex gap-2 justify-end">
+
+                    <x-primary-button wire:confirm="{{ __('Are You sure?') }}" wire:click="archived()">
+                        {{ $tag->is_archived ? __('Un Archived') : __('Archived') }}
+                    </x-primary-button>
 
                     <x-primary-button wire:confirm="{{ __('Are You sure?') }}"
                         wire:click="deleteAlbum('{{ $tag->id }}')">
