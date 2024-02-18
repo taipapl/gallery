@@ -23,7 +23,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function download(): BinaryFileResponse
     {
-        return response()->download(storage_path('app/photos/' . $this->photo->path));
+        return response()->download(storage_path('app/photos/' . $this->photo->user_id . '/' . $this->photo->path));
     }
 
     public function delete()
@@ -41,7 +41,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function rotate()
     {
-        $img = Image::make(storage_path('app/photos/' . $this->photo->path));
+        $img = Image::make(storage_path('app/photos/' . $this->photo->user_id . '/' . $this->photo->path));
 
         $img->rotate(-90);
         $img->save();
@@ -80,7 +80,7 @@ new #[Layout('layouts.app')] class extends Component {
                             allowfullscreen></iframe>
                     @else
                         <img :style="{ transform: 'rotate(' + rotation + 'deg)' }" class="m-auto"
-                            src="{{ route('get.image', ['filename' => $photo->path]) }}" alt="">
+                            src="{{ route('get.image', ['photo' => $photo->id]) }}" alt="">
                     @endif
 
 

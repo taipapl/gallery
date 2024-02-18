@@ -19,7 +19,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function mount(): void
     {
-        $this->albums = Auth::user()->tags()->where('is_album', 1)->where('is_archived', 0)->get();
+        $this->albums = Auth::user()->tags()->where('is_album', 1)->where('is_archived', 1)->get();
 
         seo()->title(__('Albums') . ' - ' . config('app.name'));
     }
@@ -31,15 +31,13 @@ new #[Layout('layouts.app')] class extends Component {
         <div class="flex justify-between">
 
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Albums') }}
+                {{ __('Archived Albums') }}
             </h2>
 
             <div class="flex gap-3 justify-end">
-                <x-secondary-link href="{{ route('albums.archived') }}">
-                    @lang('Archived Albums')
+                <x-secondary-link href="{{ route('albums.list') }}">
+                    @lang('Albums')
                     </x-primary-link>
-
-                    <livewire:createalbum />
             </div>
         </div>
     </x-slot>
@@ -77,7 +75,7 @@ new #[Layout('layouts.app')] class extends Component {
                     </div>
 
                     @if (count($albums) == 0)
-                        <div class="text-center text-lg text-black ">No Albums</div>
+                        <div class="text-center text-lg text-black ">@lang('No archived albums')</div>
                     @endif
 
 

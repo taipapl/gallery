@@ -15,9 +15,9 @@ use Livewire\Volt\Volt;
 |
 */
 
-Route::get('files/{filename}', [ImageController::class, 'getImage'])->name('get.image');
+Route::get('files/{photo}', [ImageController::class, 'getImage'])->name('get.image');
 
-Route::get('user_file/{tagsUsers}/{filename}', [ImageController::class, 'getUserImage'])->name('get.user_image');
+Route::get('user_file/{usersTags}/{photo}', [ImageController::class, 'getUserImage'])->name('get.user_image');
 
 Route::view('/', 'welcome');
 
@@ -34,6 +34,10 @@ Volt::route('albums', 'albums')
     ->middleware(['auth', 'verified'])
     ->name('albums.list');
 
+Volt::route('albumsArchived', 'albumsArchived')
+    ->middleware(['auth', 'verified'])
+    ->name('albums.archived');
+
 Volt::route('album/{tag}', 'album')
     ->middleware(['auth', 'verified'])
     ->name('albums.album');
@@ -45,6 +49,10 @@ Volt::route('show/{photo}', 'show')
 Volt::route('photos', 'photos')
     ->middleware(['auth', 'verified'])
     ->name('photos');
+
+Volt::route('photosArchived', 'photosArchived')
+    ->middleware(['auth', 'verified'])
+    ->name('photos.archived');
 
 Volt::route('video', 'video')
     ->middleware(['auth', 'verified'])
@@ -62,4 +70,4 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -14,16 +14,11 @@ new #[Layout('layouts.user')] class extends Component {
 
     public function mount($public_url)
     {
-        $profil = User::where('public_url', $public_url)
-            ->where('is_public', 1)
-            ->firstOrFail();
+        $profil = User::where('public_url', $public_url)->where('is_public', 1)->firstOrFail();
 
         $this->profil = $profil;
 
-        $this->albums = $profil
-            ->tags()
-            ->where('is_public', 1)
-            ->get();
+        $this->albums = $profil->tags()->where('is_public', 1)->get();
     }
 };
 
@@ -43,7 +38,7 @@ new #[Layout('layouts.user')] class extends Component {
                     @if ($album->cover)
                         <div class="h-40 w-40 border-2  block overflow-hidden "
                             @if ($loop->last) id="last_record" @endif
-                            style="background-image: url('{{ route('get.image', ['filename' => $album->cover]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
+                            style="background-image: url('{{ route('get.image', ['photo' => $album->cover]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
 
                         </div>
                     @else

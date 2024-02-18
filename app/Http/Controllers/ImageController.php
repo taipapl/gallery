@@ -6,12 +6,13 @@ use App\Models\pivot\UsersTags;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Photo;
 
 class ImageController extends Controller
 {
-    public function getImage($filename)
+    public function getImage(Photo $photo)
     {
-        $path = 'photos/' . $filename;
+        $path = 'photos/' . $photo->user_id . '/' . $photo->path;
 
         if (!Storage::exists($path) || !Auth::check()) {
             abort(404);
@@ -23,14 +24,12 @@ class ImageController extends Controller
         return Response::make($file, 200, ['Content-Type' => $type]);
     }
 
-    public function getUserImage($userTagId, $filename)
+    public function getUserImage(UsersTags $usersTags, Photo $photo)
     {
 
-        $userTag = UsersTags::find($userTagId);
+        $path = 'photos/' . $photo->user_id . '/' . $photo->path;
 
-        $path = 'photos/' . $filename;
-
-        if (!Storage::exists($path) || !$userTag) {
+        if (!Storage::exists($path) || !$usersTags) {
             abort(404);
         }
 

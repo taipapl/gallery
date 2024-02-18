@@ -8,14 +8,16 @@ use App\Models\User;
 use App\Models\Tag;
 use Illuminate\View\View;
 use App\Models\pivot\UsersTags;
+use App\Models\Photo;
 
 new #[Layout('layouts.user')] class extends Component {
     use WithPagination;
 
     public $album;
-    public $photos = [];
 
     public $userTag;
+
+    public Photo $photos;
 
     public $perPage = 10;
 
@@ -45,9 +47,9 @@ new #[Layout('layouts.user')] class extends Component {
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         @foreach ($photos as $photo)
             <div class="relative">
-                <a x-lightbox="{{ route('get.image', ['filename' => $photo->path]) }}">
+                <a>
                     <div class="h-60 w-full border-2  block overflow-hidden"
-                        style="background-image: url('{{ route('get.user_image', ['tagsUsers' => $this->userTag->id, 'filename' => $photo->path]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
+                        style="background-image: url('{{ route('get.user_image', ['usersTags' => $this->userTag->id, 'photo' => $photo->id]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
                     </div>
                 </a>
             </div>

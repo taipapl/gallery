@@ -42,7 +42,14 @@ class FileUploads extends ModalComponent
                     $constraint->upsize();
                 });
 
-            $storagePath = storage_path('app/photos/'.$image->basename);
+
+            //check is the directory exists
+            if (!file_exists(storage_path('app/photos/' . auth()->id()))) {
+                mkdir(storage_path('app/photos/' . auth()->id()), 0777, true);
+            }
+
+
+            $storagePath = storage_path('app/photos/' . auth()->id() . '/' . $image->basename);
 
             $image->save($storagePath);
 

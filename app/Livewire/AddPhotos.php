@@ -47,7 +47,7 @@ class AddPhotos extends ModalComponent
 
             if (empty($tag->cover)) {
                 $photo2 = \App\Models\Photo::find($id);
-                $tag->cover = $photo2->path;
+                $tag->cover = $photo2->id;
                 $tag->save();
             }
         }

@@ -47,7 +47,7 @@ new #[Layout('layouts.user')] class extends Component {
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach ($photos as $key => $photo)
                 <img class="lightbox cursor-pointer" @click="openLightbox({{ $key }})" alt=""
-                    src="{{ route('get.image', ['filename' => $photo->path]) }}" />
+                    src="{{ route('get.image', ['photo' => $photo->id]) }}" />
             @endforeach
         </div>
 
