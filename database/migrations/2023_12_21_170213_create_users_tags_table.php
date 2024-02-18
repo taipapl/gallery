@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('tag_id')->constrained('tags');
             $table->foreignId('email_id')->constrained('emails')->nullable();
             $table->foreignId('user_id')->constrained('users')->nullable();
+            $table->integer('count')->default(0);
             $table->text('data')->nullable();
             $table->timestamps();
         });

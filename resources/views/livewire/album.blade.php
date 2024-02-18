@@ -123,13 +123,8 @@ new #[Layout('layouts.app')] class extends Component {
                             class="form-input rounded-md shadow-sm mt-1 block w-full" placeholder="@lang('Album name')" />
                     </form>
 
-                    @if ($photos->count() == 0)
-                        <div class="text-center mt-5">
-                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                onclick="Livewire.dispatch('openModal', { component: 'add-photos', arguments: { tag_id: '{{ $tag->id }}' } })">
-                                @lang('Add Photo')
-                            </button>
-                        </div>
+                    @if (count($photos) == 0)
+                        <div class="text-center text-lg text-black ">@lang('No photos in album')</div>
                     @endif
 
 

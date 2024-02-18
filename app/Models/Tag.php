@@ -18,6 +18,7 @@ class Tag extends Model
         'is_album',
         'public_url',
         'is_archived',
+        'count',
     ];
 
     protected $casts = [

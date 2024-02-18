@@ -24,6 +24,12 @@ new #[Layout('layouts.user')] class extends Component {
     public function mount($public_url)
     {
         $this->album = Tag::where('public_url', $public_url)->where('is_public', 1)->firstOrFail();
+
+        if ($this->album) {
+            $count = $this->album->count;
+            $this->album->count = $count + 1;
+            $this->album->save();
+        }
     }
 
     public function rendering(View $view): void
@@ -38,16 +44,13 @@ new #[Layout('layouts.user')] class extends Component {
 
     <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $album->name }}</h1>
 
-
-
-
-
     <div x-data="lightbox()">
         <!-- Miniatury zdjęć -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach ($photos as $key => $photo)
                 <img class="lightbox cursor-pointer" @click="openLightbox({{ $key }})" alt=""
-                    src="{{ route('get.image', ['photo' => $photo->id]) }}" />
+                    @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
+                    src="{{ $photo->is_video ? $photo->path : route('get.image', ['photo' => $photo->id]) }}" />
             @endforeach
         </div>
 
@@ -55,8 +58,13 @@ new #[Layout('layouts.user')] class extends Component {
         <div x-show="isOpen" @keydown.window.escape="closeLightbox" @keydown.window.arrow-left="prevImage"
             @keydown.window.arrow-right="nextImage"
             class="flex justify-center items-center z-[999] fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 cursor-pointer ">
-            <img @click="closeLightbox" :src="currentPhoto"
-                style="object-fit: contain; width: 90%; height: 90%;cursor-pointer" />
+            <template x-if="currentPhoto.type === 'image'">
+                <img :src="currentPhoto.url" style="max-width: 90%; max-height: 90%;" />
+            </template>
+            <template x-if="currentPhoto.type === 'youtube'">
+                <iframe class="youtube-iframe" width="560" height="315" :src="currentPhoto.url" frameborder="0"
+                    allowfullscreen></iframe>
+            </template>
             <button @click="prevImage" style="position: absolute; top: 50%; left: 20px;">
                 <svg fill="#fff" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
                     width="24">
@@ -81,12 +89,21 @@ new #[Layout('layouts.user')] class extends Component {
             function lightbox() {
                 const images = document.querySelectorAll('.lightbox'); // Znajdź wszystkie obrazy na stronie
 
-                console.log(images);
+                const photos = Array.from(images).map(img => {
 
-                const photos = Array.from(images).map(img => ({
-                    url: img.src,
-                })); // Stwórz tablicę obiektów zdjęć
-                console.log(photos);
+                    if (img.src.includes('youtube.com')) {
+                        return {
+                            type: 'youtube',
+                            url: img.dataset.src,
+                        };
+                    } else {
+                        return {
+                            type: 'image',
+                            url: img.src,
+                        };
+                    }
+
+                });
                 return {
                     photos: photos,
                     currentIndex: 0,
@@ -97,6 +114,19 @@ new #[Layout('layouts.user')] class extends Component {
                     },
                     closeLightbox() {
                         this.isOpen = false;
+                        const currentPhoto = this.photos[this.currentIndex];
+                        if (currentPhoto.type === 'youtube') {
+                            // Pobierz iframe dla filmu z YouTube
+                            const iframe = document.querySelector('.youtube-iframe');
+
+                            const temp = iframe.src;
+                            iframe.src = '';
+                            iframe.src = temp;
+
+
+
+
+                        }
                     },
                     nextImage() {
                         this.currentIndex = (this.currentIndex + 1) % this.photos.length;
@@ -105,8 +135,7 @@ new #[Layout('layouts.user')] class extends Component {
                         this.currentIndex = (this.currentIndex + this.photos.length - 1) % this.photos.length;
                     },
                     get currentPhoto() {
-                        console.log(this.photos[this.currentIndex]);
-                        return this.photos[this.currentIndex].url;
+                        return this.photos[this.currentIndex];
                     }
                 }
             }

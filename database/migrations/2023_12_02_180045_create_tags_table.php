@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('is_archived')->default(false);
             $table->string('public_url')->nullable();
             $table->string('cover')->nullable();
+            $table->integer('count')->default(0);
             $table->timestamps();
         });
     }
