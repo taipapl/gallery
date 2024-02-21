@@ -64,19 +64,6 @@ new #[Layout('layouts.app')] class extends Component {
 
                 <div class="flex gap-3 justify-end">
 
-                    {{-- <x-primary-button onclick="Livewire.dispatch('openModal', { component: 'file-uploads' })">
-                        @lang('Files Uploads')
-                    </x-primary-button> --}}
-                    {{-- <form wire:submit="save">
-                        <label x-data="{ uploading: false, progress: 0 }" x-on:livewire-upload-start="uploading = true"
-                            x-on:livewire-upload-finish="uploading = false" x-on:livewire-upload-error="uploading = false"
-                            x-on:livewire-upload-progress="progress = $event.detail.progress"
-                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 cursor-pointer">
-                            <span>@lang('Add photos')</span>
-                            <input type="file" class="hidden" wire:model="uploads" multiple>
-                        </label>
-                    </form> --}}
-
                     <x-secondary-link href="{{ route('photos.archived') }}">
                         @lang('Archived Photos')
                     </x-secondary-link>

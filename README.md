@@ -13,6 +13,8 @@ Michał Myśliński
 - Users can create albums
 - Add images and videos to albums
 - share albums with friends
+- make profile public (special link)
+- make album public (special link)
 - Users can view images and videos in full screen
 - Users can soft delete images and videos and delete in the trash
 
@@ -28,6 +30,8 @@ Michał Myśliński
 - Add change language
 - Add Shared to login users
 - fix send email
+- make logo
+- limit add images and videos
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
