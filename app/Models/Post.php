@@ -14,5 +14,6 @@ class Post extends Model
         'post',
         'likes',
         'active',
+        'created_at',
     ];
 }

@@ -22,6 +22,7 @@ class Photo extends Model
         'video_path',
         'photo_date',
         'is_archived',
+        'label',
     ];
 
     protected $casts = [

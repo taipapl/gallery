@@ -24,6 +24,8 @@ Michał Myśliński
 - fix change album cover
 - Add count views for images and videos
 - Add blog
+- add public blog
+- add photos and videos to blog
 - Add comments to blog
 - Add labels to images and videos
 - Add move and copy images and videos to albums
