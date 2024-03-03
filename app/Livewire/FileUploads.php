@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Photo;
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
@@ -14,19 +15,33 @@ class FileUploads extends ModalComponent
 
     #[Validate('image|max:7000')] // 10MB Max
     public $photos = [];
-
     public $dates = [];
+
+    public $limit = 0;
+    public $count = 0;
+    public $error = '';
+
+
+
+    public function mount()
+    {
+        $this->limit = auth()->user()->photo_limit;
+        $this->count = auth()->user()->photos()->count();
+    }
+
+
 
     public function updatedPhotos()
     {
+
+        if ($this->count >= $this->limit) {
+            $this->error = __('You have reached your photo limit');
+            return;
+        }
+
+
         foreach ($this->photos as $key => $photo) {
 
-            //dd($this->photos, $this->dates);
-
-            //  stream_get_meta_data
-            $originalDate = exif_read_data($photo->path());
-
-            //dd(date('d.m.Y H:i', $originalDate['FileDateTime']));
 
             $image = Image::make($photo->path())
                 ->resize(1280, 720, function ($constraint) {
@@ -35,12 +50,6 @@ class FileUploads extends ModalComponent
                 });
 
             $meta = Image::make($photo->getRealPath())->exif();
-
-            $image = Image::make($photo->path())
-                ->resize(1280, 720, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                });
 
 
             //check is the directory exists
@@ -53,7 +62,6 @@ class FileUploads extends ModalComponent
 
             $image->save($storagePath);
 
-            //dd($meta, date('Y-m-d', $meta['FileDateTime']));
 
             $photoModel = Photo::create([
                 'label' => $photo->getClientOriginalName(),

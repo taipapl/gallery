@@ -22,7 +22,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         $this->label = $photo->label;
 
-        seo()->title(__('Show') . ' - ' . $this->photo->name . ' - ' . config('app.name'));
+        seo()->title(__('Show') . ' - ' . $this->photo->label . ' - ' . config('app.name'));
     }
 
     public function download(): BinaryFileResponse
@@ -85,7 +85,7 @@ new #[Layout('layouts.app')] class extends Component {
                 <div class="p-6 text-gray-900 text-center" x-data="{ rotation: 0 }">
 
 
-                    <form wire:submit>
+                    <form wire:submit class="mb-5">
                         <input type="text" name="label" id="label" wire:model.live.debounce.800ms="label"
                             class="form-input rounded-md shadow-sm mt-1 block w-full" placeholder="@lang('Label')" />
                     </form>

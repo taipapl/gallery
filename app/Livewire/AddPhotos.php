@@ -2,9 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Models\Photo;
 use App\Models\Tag;
 use Livewire\WithPagination;
 use LivewireUI\Modal\ModalComponent;
+use Illuminate\Support\Facades\Storage;
 
 class AddPhotos extends ModalComponent
 {
@@ -45,7 +47,9 @@ class AddPhotos extends ModalComponent
 
             $tag = Tag::find($this->tagId);
 
-            if (empty($tag->cover)) {
+            $cover = Photo::find($tag->cover);
+
+            if (!Storage::disk('local')->exists('photos/' . auth()->id() . '/' . $cover->path)) {
                 $photo2 = \App\Models\Photo::find($id);
                 $tag->cover = $photo2->id;
                 $tag->save();
@@ -54,6 +58,7 @@ class AddPhotos extends ModalComponent
 
         $this->dispatch('appendPhoto', $photo);
     }
+
 
     public function render()
     {

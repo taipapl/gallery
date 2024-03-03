@@ -53,7 +53,8 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $view->photos = User::find(auth()->id())
+        $view->photos = auth()
+            ->user()
             ->photos()
             ->onlyTrashed()
             ->paginate($this->perPage);

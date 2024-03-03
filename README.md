@@ -12,28 +12,29 @@ Michał Myśliński
 - Users can view images and youtube link videos
 - Users can create albums
 - Add images and videos to albums
-- share albums with friends
+- share albums with friends (special link)
 - make profile public (special link)
 - make album public (special link)
 - Users can view images and videos in full screen
 - Users can soft delete images and videos and delete in the trash
+- Add labels to images and videos
+- View count views for images and videos
+- Add blog
+- limit add images but not videos
 
 
 ## TODO
-- Fix delete account
-- fix change album cover
-- Add count views for images and videos
-- Add blog
 - add public blog
 - add photos and videos to blog
 - Add comments to blog
-- Add labels to images and videos
 - Add move and copy images and videos to albums
 - Add change language
 - Add Shared to login users
-- fix send email
 - make logo
-- limit add images and videos
+
+## TOFIX
+- fix send email
+- Fix delete account
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

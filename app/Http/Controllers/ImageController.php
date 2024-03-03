@@ -10,8 +10,12 @@ use App\Models\Photo;
 
 class ImageController extends Controller
 {
-    public function getImage(Photo $photo)
+    public function getImage($photo_id)
     {
+
+        $photo = Photo::withTrashed()->findOrFail($photo_id);
+
+
         $path = 'photos/' . $photo->user_id . '/' . $photo->path;
 
         if (!Storage::exists($path) || !Auth::check()) {

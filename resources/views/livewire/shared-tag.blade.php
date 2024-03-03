@@ -30,7 +30,7 @@
         </h2>
         @foreach ($shared as $key => $share)
             <div class="flex justify-between">
-                <div>{{ $share->email->email }}</div>
+                <div>{{ $share->email->email }} ({{ __('view') . ': ' . $share->count }})</div>
                 <div>
                     <div class="cursor-pointer" wire:confirm="{{ __('Are you sure?') }}"
                         wire:click="delete('{{ $share->id }}')">{{ __('Delete') }}</div>
@@ -57,9 +57,10 @@
         @if ($tag->is_public)
             <div>
                 {{ $tag->public_url }}
-
                 <x-primary-link target="_blank"
                     href="{{ route('public_album', $tag->public_url) }}">{{ __('Open') }}</x-primary-link>
+                ({{ __('view') . ' ' . $tag->count }})
+
             </div>
 
             <div class="flex mt-2">
