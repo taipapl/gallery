@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'public_url',
         'is_public',
+        'is_blog',
     ];
 
     /**
@@ -44,6 +45,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'is_public' => 'boolean',
+        'is_blog' => 'boolean',
     ];
 
     /**

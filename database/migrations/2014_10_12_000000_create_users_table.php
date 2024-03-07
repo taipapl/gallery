@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('password');
             $table->integer('photo_limit')->default(500);
             $table->boolean('is_public')->default(false);
+            $table->boolean('is_blog')->default(false);
             $table->string('public_url')->nullable();
+            $table->string('lang', 2)->default('en');
             $table->rememberToken();
             $table->timestamps();
         });

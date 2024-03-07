@@ -129,6 +129,9 @@ new #[Layout('layouts.app')] class extends Component {
                                             class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Public')</span>
                                     </label>
 
+
+
+
                                 </div>
 
 
@@ -151,6 +154,11 @@ new #[Layout('layouts.app')] class extends Component {
                                     @endif
                                 </div>
                                 <p>{{ $post->post }}</p>
+
+                                <x-primary-button
+                                    onclick="Livewire.dispatch('openModal', { component: 'add-photos' , arguments: { tagId: '{{ $post->id }}' } })">
+                                    @lang('Add Photo')
+                                </x-primary-button>
                             </div>
                         @endforeach
 

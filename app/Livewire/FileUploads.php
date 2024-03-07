@@ -44,7 +44,7 @@ class FileUploads extends ModalComponent
 
 
             $image = Image::make($photo->path())
-                ->resize(1280, 720, function ($constraint) {
+                ->resize(1280, 1280, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });

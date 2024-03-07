@@ -11,7 +11,7 @@ use Livewire\WithFileUploads;
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination; // 10MB Max
 
-    public $perPage = 20;
+    public $perPage = 50;
     public $photos;
 
     public function mount()
