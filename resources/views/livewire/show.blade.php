@@ -10,17 +10,19 @@ use App\Models\Photo;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 new #[Layout('layouts.app')] class extends Component {
-    use WithPagination;
-
     public Photo $photo;
 
     public $label;
+
+    public $tags;
 
     public function mount(Photo $photo)
     {
         $this->photo = $photo;
 
         $this->label = $photo->label;
+
+        $this->tags = $photo->tags;
 
         seo()->title(__('Show') . ' - ' . $this->photo->label . ' - ' . config('app.name'));
     }
@@ -120,6 +122,14 @@ new #[Layout('layouts.app')] class extends Component {
                         {{ __('Delete') }}
                     </x-secondary-button>
 
+
+
+                    @foreach ($tags ?? [] as $tag)
+                        <a href="{{ route('albums.album', ['tag' => $tag->id]) }}"
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+                            {{ $tag->name }}
+                        </a>
+                    @endforeach
 
 
 

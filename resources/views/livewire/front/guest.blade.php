@@ -19,7 +19,7 @@ new #[Layout('layouts.user')] class extends Component {
 
     public Photo $photos;
 
-    public $perPage = 10;
+    public $perPage = 50;
 
     public function loadMore()
     {

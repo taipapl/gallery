@@ -31,6 +31,11 @@ class Photo extends Model
         'is_archived' => 'boolean',
     ];
 
+    public function tags(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'photos_tags', 'photo_id', 'tag_id');
+    }
+
     protected function videoImage(): Attribute
     {
         return Attribute::make(
