@@ -24,6 +24,7 @@ class User extends Authenticatable
         'public_url',
         'is_public',
         'is_blog',
+        'lang'
     ];
 
     /**
@@ -54,6 +55,15 @@ class User extends Authenticatable
     public function photos(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Photo::class);
+    }
+
+    /**
+     * Get all posts for the User
+     */
+
+    public function posts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Post::class);
     }
 
     /**

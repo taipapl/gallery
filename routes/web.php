@@ -24,6 +24,9 @@ Route::view('/', 'welcome');
 Volt::route('public_profile/{public_url}', 'front.profil')
     ->name('public_profile');
 
+Volt::route('public_blog/{public_url}', 'front.blog')
+    ->name('public_blog');
+
 Volt::route('public_album/{public_url}', 'front.album')
     ->name('public_album');
 

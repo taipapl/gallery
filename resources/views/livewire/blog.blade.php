@@ -39,6 +39,7 @@ new #[Layout('layouts.app')] class extends Component {
         $post->post = $this->content;
         $post->created_at = $this->createt_at;
         $post->active = $this->active;
+        $post->user_id = auth()->id();
         $post->save();
 
         $this->title = '';
@@ -59,7 +60,9 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $view->posts = Post::latest()->paginate($this->perPage);
+        $view->posts = Auth::user()
+            ->posts()
+            ->paginate($this->perPage);
     }
 };
 

@@ -29,7 +29,19 @@ new #[Layout('layouts.user')] class extends Component {
 
     <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $profil->name }}</h1>
 
+
+
     <div class="flex gap-2 flex-wrap ">
+
+        @if ($profil->is_blog)
+            <a href="{{ route('public_blog', $profil->public_url) }}">
+                <div class="h-40 w-40 bg-gray-200 flex items-center justify-center">
+                    <div class="text-center text-lg text-gray-500">@lang('Blog')
+                    </div>
+                </div>
+            </a>
+        @endif
+
         @foreach ($albums as $album)
             <a href="{{ route('public_album', $album->public_url) }}">
 

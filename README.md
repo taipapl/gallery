@@ -2,10 +2,8 @@
 
 This is a simple gallery app that allows users to view images, video and their details. Users can also share the images with their friends.
 
-
 ## Author
 Michał Myśliński
-
 
 ## Features
 - Users can Add images and youtube link videos
@@ -20,15 +18,15 @@ Michał Myśliński
 - Add labels to images and videos
 - View count views for images and videos
 - Add blog
-- limit add images but not videos
+- Images limit upload but not videos
+- Change password
+- Change language (pl/en)
 
 
 ## TODO
 - add public blog
 - add photos and videos to blog
 - Add comments to blog
-- Add move and copy images and videos to albums
-- Add change language
 - Add Shared to login users
 - make logo
 

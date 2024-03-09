@@ -15,5 +15,6 @@ class Post extends Model
         'likes',
         'active',
         'created_at',
+        'user_id'
     ];
 }
