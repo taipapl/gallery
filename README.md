@@ -21,10 +21,10 @@ Michał Myśliński
 - Images limit upload but not videos
 - Change password
 - Change language (pl/en)
+- Public blog
 
 
 ## TODO
-- add public blog
 - add photos and videos to blog
 - Add comments to blog
 - Add Shared to login users

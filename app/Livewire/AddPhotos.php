@@ -47,9 +47,16 @@ class AddPhotos extends ModalComponent
 
             $tag = Tag::find($this->tagId);
 
-            $cover = Photo::find($tag->cover);
+            if ($tag->cover) {
 
-            if (!Storage::disk('local')->exists('photos/' . auth()->id() . '/' . $cover->path)) {
+                $cover = Photo::find($tag->cover);
+
+                if (!Storage::disk('local')->exists('photos/' . auth()->id() . '/' . $cover->path)) {
+                    $photo2 = \App\Models\Photo::find($id);
+                    $tag->cover = $photo2->id;
+                    $tag->save();
+                }
+            } else {
                 $photo2 = \App\Models\Photo::find($id);
                 $tag->cover = $photo2->id;
                 $tag->save();
