@@ -22,12 +22,12 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function mount(): void
     {
-        seo()->title(__('Shared') . ' - ' . config('app.name'));
+        seo()->title(__('Emails') . ' - ' . config('app.name'));
     }
 
     public function rendering(View $view): void
     {
-        $view->albums = [];
+        $view->emails = Auth::user()->emails()->get();
     }
 };
 ?>
@@ -37,13 +37,13 @@ new #[Layout('layouts.app')] class extends Component {
         <div class="flex justify-between ">
 
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Shared') }}
+                {{ __('Emails') }}
             </h2>
 
             <div class="flex gap-2 justify-end">
 
-                <x-secondary-link href="{{ route('emails') }}">
-                    @lang('Emails')
+                <x-secondary-link href="{{ route('shared') }}">
+                    @lang('Shared')
                 </x-secondary-link>
             </div>
 
@@ -55,15 +55,14 @@ new #[Layout('layouts.app')] class extends Component {
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-                    @if (count($albums) == 0)
-                        <div class="text-center text-lg text-black ">@lang('No shared albums')</div>
+                    @if (count($emails) == 0)
+                        <div class="text-center text-lg text-black ">@lang('No emails')</div>
                     @endif
 
                     <div class="flex gap-2 flex-wrap">
-                        @foreach ($albums ?? [] as $key => $album)
-                            <div class="h-40 w-40" @if ($loop->last) id="last_record" @endif
-                                style="background-image: url('{{ route('get.image', ['filename' => $photo->path]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
-
+                        @foreach ($emails ?? [] as $key => $email)
+                            <div class="h-40 w-40" @if ($loop->last) id="last_record" @endif>
+                                {{ $email->email }}
                             </div>
                         @endforeach
                         <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>

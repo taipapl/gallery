@@ -65,6 +65,10 @@ Volt::route('shared', 'shared')
     ->middleware(['auth', 'verified'])
     ->name('shared');
 
+Volt::route('emails', 'emails')
+    ->middleware(['auth', 'verified'])
+    ->name('emails');
+
 Volt::route('blog', 'blog')
     ->middleware(['auth', 'verified'])
     ->name('blog');

@@ -15,6 +15,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignId('email_id')->constrained('emails')->nullable();
             $table->foreignId('user_id')->constrained('users')->nullable();
+            $table->boolean('send_public')->default(false);
+            $table->integer('count')->default(0);
             $table->timestamps();
         });
     }

@@ -28,11 +28,13 @@ Michał Myśliński
 - add photos and videos to blog
 - Add comments to blog
 - Add Shared to login users
-- make logo
+- add users list and options to share albums in one link
+- add autocomplete email in share album
 
 ## TOFIX
 - fix send email
 - Fix delete account
+- check security
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

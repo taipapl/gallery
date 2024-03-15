@@ -86,4 +86,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Tag::class, 'users_tags', 'user_id', 'tag_id');
     }
+
+    public function emails(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Email::class, 'users_emails', 'user_id', 'email_id');
+    }
 }

@@ -51,6 +51,10 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function mount(Tag $tag)
     {
+        if ($tag->user_id != auth()->id()) {
+            abort(403);
+        }
+
         $this->tag = $tag;
         $this->name = $tag->name;
 
