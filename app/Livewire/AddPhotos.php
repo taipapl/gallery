@@ -14,13 +14,13 @@ class AddPhotos extends ModalComponent
 
     public $perPage = 10;
 
-    public $tagId;
+    public $modelId;
 
     public $photoIds = [];
 
     public function mount()
     {
-        $this->photoIds = Tag::find($this->tagId)->photos()->pluck('photo_id')->toArray();
+        $this->photoIds = Tag::find($this->modelId)->photos()->pluck('photo_id')->toArray();
     }
 
     public function loadMore()
@@ -32,20 +32,19 @@ class AddPhotos extends ModalComponent
     {
 
         if (in_array($id, $this->photoIds)) {
-            $photo = \App\Models\pivot\PhotoTag::where('photo_id', $id)->where('tag_id', $this->tagId)->first();
+            $photo = \App\Models\pivot\PhotoTag::where('photo_id', $id)->where('tag_id', $this->modelId)->first();
             $photo->delete();
             unset($this->photoIds[array_search($id, $this->photoIds)]);
         } else {
-
             $photo = new \App\Models\pivot\PhotoTag();
             $photo->photo_id = $id;
-            $photo->tag_id = $this->tagId;
+            $photo->tag_id = $this->modelId;
             $photo->user_id = auth()->id();
             $photo->save();
 
             $this->photoIds[] = $id;
 
-            $tag = Tag::find($this->tagId);
+            $tag = Tag::find($this->modelId);
 
             if ($tag->cover) {
 

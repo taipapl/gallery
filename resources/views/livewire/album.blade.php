@@ -104,7 +104,7 @@ new #[Layout('layouts.app')] class extends Component {
                     </x-primary-button>
 
                     <x-primary-button
-                        onclick="Livewire.dispatch('openModal', { component: 'add-photos' , arguments: { tagId: '{{ $tag->id }}' } })">
+                        onclick="Livewire.dispatch('openModal', { component: 'add-photos' , arguments: { modelId: '{{ $tag->id }}' } })">
                         @lang('Add Photo')
                     </x-primary-button>
 
