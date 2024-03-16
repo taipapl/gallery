@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use Illuminate\View\View;
 use App\Models\Post;
 use Livewire\WithFileUploads;
+use App\Models\Photo;
 
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination;
@@ -19,6 +20,19 @@ new #[Layout('layouts.app')] class extends Component {
     public $content;
     public $created_at;
     public $active = true;
+
+    public $photos = [];
+
+    protected $listeners = [
+        'appendPhoto' => 'appendPhoto',
+    ];
+
+    public function appendPhoto($photo)
+    {
+        $photoModel = Photo::find($photo['id']);
+
+        $this->photos[] = $photoModel;
+    }
 
     public function mount(Post $post)
     {
@@ -39,24 +53,22 @@ new #[Layout('layouts.app')] class extends Component {
             'created_at' => 'required|date',
         ]);
 
-        $post = app(Post::class);
-        $post->timestamps = false;
-        $post->title = $this->title;
-        $post->post = $this->content;
-        $post->created_at = $this->created_at;
-        $post->active = $this->active;
-        $post->user_id = auth()->id();
-        $post->save();
-
-        $this->title = '';
-        $this->content = '';
-        $this->created_at = '';
-        $this->active = true;
+        $this->post->title = $this->title;
+        $this->post->post = $this->content;
+        $this->post->created_at = $this->created_at;
+        $this->post->active = $this->active;
+        $this->post->user_id = auth()->id();
+        $this->post->save();
     }
 
     public function clickActive()
     {
         $this->active = !$this->active;
+    }
+
+    public function rendering(View $view): void
+    {
+        $view->photos = $this->post->photos()->get();
     }
 };
 
@@ -134,15 +146,30 @@ new #[Layout('layouts.app')] class extends Component {
 
 
                                 <x-primary-button type="submit"
-                                    class="btn btn-primary">@lang('Add post')</x-primary-button>
+                                    class="btn btn-primary">@lang('Save post')</x-primary-button>
                             </div>
                         </form>
 
 
                         <x-primary-button
-                            onclick="Livewire.dispatch('openModal', { component: 'add-photos' , arguments: { tagId: '{{ $post->id }}' } })">
+                            onclick="Livewire.dispatch('openModal', { component: 'add-blog-photo' , arguments: {   modelId: '{{ $post->id }}' } })">
                             @lang('Add Photo')
                         </x-primary-button>
+
+
+
+
+                        <div class="flex gap-2 flex-wrap mt-5">
+                            @foreach ($photos ?? [] as $key => $photo)
+                                <a href="{{ route('show', $photo->id) }}" class="h-40 w-40"
+                                    @if ($photo->is_video) style="background-image: url('{{ $photo->path }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
+                    @else
+                    style="background-image: url('{{ route('get.image', ['photo' => $photo->id]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;"> @endif
+                                    </a>
+                            @endforeach
+
+                        </div>
+
 
 
 

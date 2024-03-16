@@ -14,6 +14,8 @@ class AddPhotos extends ModalComponent
 
     public $perPage = 10;
 
+    public $model = '';
+
     public $modelId;
 
     public $photoIds = [];
@@ -63,6 +65,11 @@ class AddPhotos extends ModalComponent
         }
 
         $this->dispatch('appendPhoto', $photo);
+    }
+
+    public static function modalMaxWidth(): string
+    {
+        return '5xl';
     }
 
 

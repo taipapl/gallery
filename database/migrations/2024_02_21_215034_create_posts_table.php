@@ -21,10 +21,10 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('post_images', function (Blueprint $table) {
+        Schema::create('posts_photos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('post_id')->constrained('posts')->onDelete('cascade');
-            $table->foreignId('image_id')->constrained('photos')->onDelete('cascade');
+            $table->foreignId('photo_id')->constrained('photos')->onDelete('cascade');
             $table->timestamps();
         });
     }

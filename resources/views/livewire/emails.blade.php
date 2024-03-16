@@ -25,6 +25,15 @@ new #[Layout('layouts.app')] class extends Component {
         seo()->title(__('Emails') . ' - ' . config('app.name'));
     }
 
+    public function sendPublic($id)
+    {
+        dd($id);
+        $email = User::find($id);
+        $email->update([
+            'send_public' => (int) !$email->send_public,
+        ]);
+    }
+
     public function rendering(View $view): void
     {
         $view->emails = Auth::user()->emails()->get();
@@ -62,7 +71,21 @@ new #[Layout('layouts.app')] class extends Component {
                     <div class="flex gap-2 flex-wrap">
                         @foreach ($emails ?? [] as $key => $email)
                             <div class="h-40 w-40" @if ($loop->last) id="last_record" @endif>
-                                {{ $email->email }}
+
+                                <div> {{ $email->email }}</div>
+
+                                <label wire:click="sendPublic({{ $email->id }})"
+                                    class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" @if (Auth::user()->is_blog) checked @endif
+                                        class="sr-only peer" value="1">
+                                    <div
+                                        class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                                    </div>
+                                    <span
+                                        class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Public')
+                                    </span>
+                                </label>
+
                             </div>
                         @endforeach
                         <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Photo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
@@ -17,4 +18,9 @@ class Post extends Model
         'created_at',
         'user_id'
     ];
+
+    public function photos()
+    {
+        return $this->belongsToMany(Photo::class, 'posts_photos', 'post_id', 'photo_id');
+    }
 }
