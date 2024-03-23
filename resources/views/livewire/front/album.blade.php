@@ -116,16 +116,10 @@ new #[Layout('layouts.user')] class extends Component {
                         this.isOpen = false;
                         const currentPhoto = this.photos[this.currentIndex];
                         if (currentPhoto.type === 'youtube') {
-                            // Pobierz iframe dla filmu z YouTube
                             const iframe = document.querySelector('.youtube-iframe');
-
                             const temp = iframe.src;
                             iframe.src = '';
                             iframe.src = temp;
-
-
-
-
                         }
                     },
                     nextImage() {

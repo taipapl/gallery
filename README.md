@@ -17,23 +17,23 @@ Michał Myśliński
 - Users can soft delete images and videos and delete in the trash
 - Add labels to images and videos
 - View count views for images and videos
-- Add blog
+- Create blog
+- Public blog
+- Add photo and videos to blog
 - Images limit upload but not videos
 - Change password
 - Change language (pl/en)
-- Public blog
-
+- Email list and options to share albums in one link
 
 ## TODO
-- add photos and videos to blog
 - Add comments to blog
 - Add Shared to login users
-- add users list and options to share albums in one link
 - add autocomplete email in share album
+- add same link to share album for user
 
 ## TOFIX
 - fix send email
-- Fix delete account
+- Fix delete account, cascade delete
 - check security
 
 ## License

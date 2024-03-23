@@ -89,6 +89,6 @@ class User extends Authenticatable
 
     public function emails(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Email::class, 'users_emails', 'user_id', 'email_id');
+        return $this->belongsToMany(Email::class, 'users_emails', 'user_id', 'email_id')->withPivot('id', 'send_public');
     }
 }

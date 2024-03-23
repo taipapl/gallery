@@ -34,6 +34,8 @@ new #[Layout('layouts.app')] class extends Component {
     {
         $view->posts = Auth::user()
             ->posts()
+            ->with('photos')
+            ->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
     }
 };
@@ -89,7 +91,6 @@ new #[Layout('layouts.app')] class extends Component {
 
                             </div>
                         @endforeach
-
 
 
                     </div>
