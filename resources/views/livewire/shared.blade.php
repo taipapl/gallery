@@ -6,6 +6,7 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Illuminate\View\View;
 use App\Models\User;
+use App\Models\Tag;
 
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination;
@@ -27,7 +28,11 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $view->albums = [];
+        $view->albums = Tag::with(['emails'], function ($query) {
+            $query->where('email', Auth::user()->email);
+        })->paginate($this->perPage);
+
+        //   dd(Auth::user()->email, $view->albums);
     }
 };
 ?>
@@ -62,7 +67,7 @@ new #[Layout('layouts.app')] class extends Component {
                     <div class="flex gap-2 flex-wrap">
                         @foreach ($albums ?? [] as $key => $album)
                             <div class="h-40 w-40" @if ($loop->last) id="last_record" @endif
-                                style="background-image: url('{{ route('get.image', ['filename' => $photo->path]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
+                                style="background-image: url('{{ route('get.image', ['photo' => $album->cover]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
 
                             </div>
                         @endforeach

@@ -38,7 +38,7 @@ class Tag extends Model
 
     public function emails()
     {
-        return $this->belongsToMany(Email::class, 'users_emails', 'tag_id', 'email_id');
+        return $this->belongsToMany(Email::class, 'users_tags', 'tag_id', 'email_id');
     }
 
     public function shared()
