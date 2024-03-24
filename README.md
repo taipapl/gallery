@@ -30,11 +30,13 @@ Michał Myśliński
 - Add Shared to login users
 - add autocomplete email in share album
 - add same link to share album for user
+- add nik to mail
 
 ## TOFIX
 - fix send email
 - Fix delete account, cascade delete
 - check security
+- delete unnecessary code to add old date
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

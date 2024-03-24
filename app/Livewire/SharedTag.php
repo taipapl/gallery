@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Mail\AlbumShared;
 use App\Models\pivot\UsersTags;
+use App\Models\User;
 use App\Rules\Me;
 use App\Rules\OneEmail;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,9 @@ class SharedTag extends ModalComponent
 
         $email = \App\Models\Email::firstOrCreate(['email' => $validated['email']]);
 
+
         $email->users()->attach(Auth::user(), ['id' => Str::uuid(), 'created_at' => now(), 'updated_at' => now()]);
+
 
         $usersTags = new UsersTags();
         $usersTags->user_id = Auth::id();
