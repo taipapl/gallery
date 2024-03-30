@@ -28,11 +28,9 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $view->albums = Tag::with(['emails'], function ($query) {
+        $view->albums = Tag::whereHas('emails', function ($query) {
             $query->where('email', Auth::user()->email);
         })->paginate($this->perPage);
-
-        //   dd(Auth::user()->email, $view->albums);
     }
 };
 ?>
@@ -47,9 +45,7 @@ new #[Layout('layouts.app')] class extends Component {
 
             <div class="flex gap-2 justify-end">
 
-                <x-secondary-link href="{{ route('emails') }}">
-                    @lang('Emails')
-                </x-secondary-link>
+
             </div>
 
         </div>
@@ -66,10 +62,11 @@ new #[Layout('layouts.app')] class extends Component {
 
                     <div class="flex gap-2 flex-wrap">
                         @foreach ($albums ?? [] as $key => $album)
-                            <div class="h-40 w-40" @if ($loop->last) id="last_record" @endif
+                            <a href="{{ route('shared.show', $album->id) }}" class="h-40 w-40"
+                                @if ($loop->last) id="last_record" @endif
                                 style="background-image: url('{{ route('get.image', ['photo' => $album->cover]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
 
-                            </div>
+                            </a>
                         @endforeach
                         <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
                     </div>

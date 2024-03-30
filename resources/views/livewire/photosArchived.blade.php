@@ -64,7 +64,7 @@ new #[Layout('layouts.app')] class extends Component {
 
                 <div class="flex gap-3 justify-end">
 
-                    <x-secondary-link href="{{ route('photos') }}">
+                    <x-secondary-link href="{{ route('photos.list') }}">
                         @lang('Photos')
                     </x-secondary-link>
 

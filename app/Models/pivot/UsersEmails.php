@@ -13,12 +13,12 @@ class UsersEmails extends Model
     protected $table = 'users_emails';
 
     protected $casts = [
-        'send_public' => 'boolean',
+        'share_blog' => 'boolean',
     ];
 
     protected $fillable = [
         'user_id',
         'email',
-        'send_public',
+        'share_blog',
     ];
 }

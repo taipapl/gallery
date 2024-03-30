@@ -35,7 +35,7 @@ new class extends Component {
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('photos')" :active="request()->routeIs('photos')" wire:navigate>
+                    <x-nav-link :href="route('photos.list')" :active="request()->routeIs('photos.*')" wire:navigate>
                         {{ __('Photos') }}
                     </x-nav-link>
                 </div>
@@ -47,13 +47,13 @@ new class extends Component {
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('blog')" :active="request()->routeIs('blog')" wire:navigate>
+                    <x-nav-link :href="route('blog.list')" :active="request()->routeIs('blog.*')" wire:navigate>
                         {{ __('Blog') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('shared')" :active="request()->routeIs('shared')" wire:navigate>
+                    <x-nav-link :href="route('shared.list')" :active="request()->routeIs('shared.*')" wire:navigate>
                         {{ __('Shared') }}
                     </x-nav-link>
                 </div>

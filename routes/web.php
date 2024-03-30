@@ -51,7 +51,7 @@ Volt::route('show/{photo}', 'show')
 
 Volt::route('photos', 'photos')
     ->middleware(['auth', 'verified'])
-    ->name('photos');
+    ->name('photos.list');
 
 Volt::route('photosArchived', 'photosArchived')
     ->middleware(['auth', 'verified'])
@@ -61,17 +61,21 @@ Volt::route('video', 'video')
     ->middleware(['auth', 'verified'])
     ->name('video');
 
-Volt::route('shared', 'shared')
+Volt::route('shared', 'shared.list')
     ->middleware(['auth', 'verified'])
-    ->name('shared');
+    ->name('shared.list');
+
+Volt::route('shared/{tag}', 'shared.show')
+    ->middleware(['auth', 'verified'])
+    ->name('shared.show');
 
 Volt::route('emails', 'emails')
     ->middleware(['auth', 'verified'])
-    ->name('emails');
+    ->name('blog.emails');
 
 Volt::route('blog', 'blog')
     ->middleware(['auth', 'verified'])
-    ->name('blog');
+    ->name('blog.list');
 
 Volt::route('blog/create', 'blog.create')
     ->middleware(['auth', 'verified'])

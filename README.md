@@ -27,7 +27,6 @@ Michał Myśliński
 
 ## TODO
 - Add comments to blog
-- Add Shared to login users
 - add autocomplete email in share album
 - add same link to share album for user
 - add nik to mail

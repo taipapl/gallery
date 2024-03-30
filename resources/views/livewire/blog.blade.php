@@ -54,6 +54,10 @@ new #[Layout('layouts.app')] class extends Component {
                 </h2>
                 <div class="flex gap-3 justify-end">
 
+                    <x-secondary-link href="{{ route('blog.emails') }}">
+                        @lang('Emails')
+                    </x-secondary-link>
+
                     <x-secondary-link href="{{ route('blog.create') }}">
                         @lang('Create post')
                     </x-secondary-link>
@@ -70,6 +74,10 @@ new #[Layout('layouts.app')] class extends Component {
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
+
+                        @if ($posts->count() == 0)
+                            <div class="text-center text-lg text-black ">@lang('No posts')</div>
+                        @endif
 
                         @foreach ($posts as $post)
                             <div class="mb-4">

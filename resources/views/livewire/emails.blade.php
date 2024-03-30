@@ -16,7 +16,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     public $emails;
 
-    public $send_public;
+    public $share_blog;
 
     public function loadMore()
     {
@@ -31,7 +31,7 @@ new #[Layout('layouts.app')] class extends Component {
     public function sendPublic($id)
     {
         $email = UsersEmails::find($id);
-        $email->send_public = $email->send_public == 0 ? 1 : 0;
+        $email->share_blog = $email->share_blog == 0 ? 1 : 0;
         $email->save();
     }
 
@@ -52,9 +52,7 @@ new #[Layout('layouts.app')] class extends Component {
 
             <div class="flex gap-2 justify-end">
 
-                <x-secondary-link href="{{ route('shared') }}">
-                    @lang('Shared')
-                </x-secondary-link>
+
             </div>
 
         </div>
@@ -78,7 +76,7 @@ new #[Layout('layouts.app')] class extends Component {
                                 <label class="relative inline-flex items-center cursor-pointer">
 
                                     <input wire:click="sendPublic('{{ $email->pivot->id }}')" type="checkbox"
-                                        wire:model="is_public" @if ($email->pivot->send_public == 1) checked @endif
+                                        wire:model="is_public" @if ($email->pivot->share_blog == 1) checked @endif
                                         class="sr-only peer" value="1">
                                     <div
                                         class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">

@@ -18,6 +18,10 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function mount(Photo $photo)
     {
+        if ($photo->user_id != auth()->id()) {
+            abort(403);
+        }
+
         $this->photo = $photo;
 
         $this->label = $photo->label;
@@ -35,7 +39,7 @@ new #[Layout('layouts.app')] class extends Component {
     public function delete()
     {
         $this->photo->delete();
-        return redirect()->route('photos');
+        return redirect()->route('photos.list');
     }
 
     public function updated($name, $value)
