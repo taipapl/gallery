@@ -42,9 +42,6 @@ new #[Layout('layouts.app')] class extends Component {
     {
         $tag = Tag::find($id);
 
-        $tag->photos()->detach();
-        $tag->shared()->delete();
-
         $tag->delete();
         $this->redirectRoute('albums.list');
     }

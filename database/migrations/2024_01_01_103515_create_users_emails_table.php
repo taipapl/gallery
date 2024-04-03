@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('users_emails', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('nikname')->nullable();
-            $table->foreignId('email_id')->constrained('emails')->nullable();
-            $table->foreignId('user_id')->constrained('users')->nullable();
+            $table->foreignId('email_id')->constrained('emails')->onDelete('cascade')->nullable();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->nullable();
             $table->boolean('share_blog')->default(false);
             $table->integer('count')->default(0);
             $table->timestamps();

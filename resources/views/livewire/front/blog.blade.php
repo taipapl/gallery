@@ -16,6 +16,8 @@ new #[Layout('layouts.user')] class extends Component {
 
     public $perPage = 50;
 
+    public $index = 0;
+
     public function loadMore()
     {
         $this->perPage += 10;
@@ -67,26 +69,29 @@ new #[Layout('layouts.user')] class extends Component {
                     <div class="p-6 text-gray-900">
 
 
-
-                        @foreach ($posts as $post)
-                            <div class="mb-4">
-                                <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
-                                <div>{{ $post->created_at->format('d.m.Y') }}</div>
-
-                                <p>{{ $post->post }}</p>
-
-                            </div>
-                        @endforeach
-
                         <div x-data="lightbox()">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                @foreach ($post->photos as $key => $photo)
-                                    <img class="lightbox cursor-pointer" @click="openLightbox({{ $key }})"
-                                        alt=""
-                                        @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
-                                        src="{{ $photo->is_video ? $photo->path : route('get.image', ['photo' => $photo->id]) }}" />
-                                @endforeach
-                            </div>
+                            @foreach ($posts as $post)
+                                <div class="mb-4">
+                                    <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
+                                    <div>{{ $post->created_at->format('d.m.Y') }}</div>
+
+                                    <p>{{ $post->post }}</p>
+
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                    @foreach ($post->photos as $photo)
+                                        <img class="lightbox cursor-pointer" @click="openLightbox({{ $index }})"
+                                            alt=""
+                                            @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
+                                            src="{{ $photo->is_video ? $photo->path : route('get.image', ['photo' => $photo->id]) }}" />
+                                        @php $index++ @endphp
+                                    @endforeach
+                                </div>
+                            @endforeach
+
+
+
 
 
 

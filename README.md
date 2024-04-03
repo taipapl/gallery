@@ -29,13 +29,14 @@ Michał Myśliński
 - Add comments to blog
 - add autocomplete email in share album
 - add same link to share album for user
-- add nik to mail
+- add favorite images
+- add date archive images page
+- add search images
+- add favorite images page
 
 ## TOFIX
-- fix send email
-- Fix delete account, cascade delete
+- delete all uploaded files when user delete account
 - check security
-- delete unnecessary code to add old date
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
