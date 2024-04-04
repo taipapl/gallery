@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use Illuminate\View\View;
 use App\Models\Photo;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination; // 10MB Max

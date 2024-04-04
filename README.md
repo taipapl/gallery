@@ -35,7 +35,6 @@ Michał Myśliński
 - add favorite images page
 
 ## TOFIX
-- delete all uploaded files when user delete account
 - check security
 
 ## License

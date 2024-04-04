@@ -22,17 +22,11 @@ class FileUploads extends ModalComponent
     public $error = '';
 
 
-
-    public function mount()
-    {
-        $this->limit = auth()->user()->photo_limit;
-        $this->count = auth()->user()->photos()->count();
-    }
-
-
-
     public function updatedPhotos()
     {
+
+        $this->limit = auth()->user()->photo_limit;
+        $this->count = auth()->user()->photos()->count();
 
         if ($this->count >= $this->limit) {
             $this->error = __('You have reached your photo limit');
@@ -64,7 +58,6 @@ class FileUploads extends ModalComponent
 
 
             $photoModel = Photo::create([
-                'label' => $photo->getClientOriginalName(),
                 'path' => $image->basename,
                 'user_id' => auth()->id(),
                 'meta' => $meta,

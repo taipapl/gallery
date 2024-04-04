@@ -131,7 +131,7 @@ new #[Layout('layouts.app')] class extends Component {
 
                     <div class="flex gap-2 flex-wrap mt-5">
                         @foreach ($photos ?? [] as $key => $photo)
-                            <a href="{{ route('show', $photo->id) }}" class="h-40 w-40"
+                            <a href="{{ route('photos.show', $photo->id) }}" class="h-40 w-40"
                                 @if ($loop->last) id="last_record" @endif
                                 @if ($photo->is_video) style="background-image: url('{{ $photo->path }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
                 @else

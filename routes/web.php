@@ -47,7 +47,7 @@ Volt::route('album/{tag}', 'album')
 
 Volt::route('show/{photo}', 'show')
     ->middleware(['auth', 'verified'])
-    ->name('show');
+    ->name('photos.show');
 
 Volt::route('photos', 'photos')
     ->middleware(['auth', 'verified'])
