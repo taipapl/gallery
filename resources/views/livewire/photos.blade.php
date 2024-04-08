@@ -54,26 +54,24 @@ new #[Layout('layouts.app')] class extends Component {
     <div x-data="{ open: false }">
 
 
+        <div
+            class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-40 w-60 dark:bg-gray-900 dark:border-gray-700">
 
 
-        <x-slot name="header">
 
-            <div class="flex justify-between ">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Photos') }}
-                </h2>
+            <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">{{ __('Photos') }}</h2>
 
-                <div class="flex gap-3 justify-end">
+            <div class="mt-8 space-y-4">
 
-                    <x-secondary-link href="{{ route('photos.archived') }}">
-                        @lang('Archived Photos')
-                    </x-secondary-link>
+                <livewire:file-uploads />
 
-                    <livewire:file-uploads />
+                <x-sub-nav-link href="{{ route('photos.archived') }}">
+                    @lang('Archived Photos')
+                </x-sub-nav-link>
 
-                </div>
             </div>
-        </x-slot>
+        </div>
+
 
         <div class="py-12">
 

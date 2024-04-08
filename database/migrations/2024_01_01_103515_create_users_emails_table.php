@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+	    Schema::disableForeignKeyConstraints();
         Schema::create('users_emails', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('nikname')->nullable();
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->integer('count')->default(0);
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->nullable();
+            $table->uuid('user_id')->constrained('users')->onDelete('cascade')->nullable();
             $table->string('title');
             $table->text('post');
             $table->integer('likes')->default(0);
@@ -24,7 +24,7 @@ return new class extends Migration
         Schema::create('posts_photos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('post_id')->constrained('posts')->onDelete('cascade');
-            $table->foreignId('photo_id')->constrained('photos')->onDelete('cascade');
+            $table->uuid('photo_id')->constrained('photos')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -63,23 +63,22 @@ new #[Layout('layouts.app')] class extends Component {
 ?>
 
 <div>
-    <header class="bg-white shadow">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between ">
 
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Trash') }}
-                </h2>
 
-                <div class="flex gap-2 justify-end">
-                    <x-primary-button wire:confirm="{{ __('Are you sure you want to permanently delete the files?') }}"
-                        wire:click="deleteAll">{{ __('Delete All') }}</x-primary-button>
+    <div
+        class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-40 w-60 dark:bg-gray-900 dark:border-gray-700">
 
-                </div>
+        <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Video')</h2>
 
-            </div>
+        <div class="mt-8 space-y-4">
+
+            <x-sub-nav-link wire:confirm="{{ __('Are you sure you want to permanently delete the files?') }}"
+                wire:click="deleteAll">{{ __('Delete All') }}
+            </x-sub-nav-link>
+
         </div>
-    </header>
+    </div>
+
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

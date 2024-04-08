@@ -43,20 +43,20 @@ new #[Layout('layouts.app')] class extends Component {
 ?>
 
 <div>
-    <x-slot name="header">
-        <div class="flex justify-between ">
-
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Emails') }}
-            </h2>
-
-            <div class="flex gap-2 justify-end">
 
 
-            </div>
+    <div
+        class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-40 w-60 dark:bg-gray-900 dark:border-gray-700">
+
+        <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">{{ __('Emails') }}</h2>
+
+        <div class="mt-8 space-y-4">
+
+
 
         </div>
-    </x-slot>
+    </div>
+
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

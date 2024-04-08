@@ -74,6 +74,41 @@ new #[Layout('layouts.app')] class extends Component {
 ?>
 
 <div>
+
+
+    <div
+        class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-40 w-60 dark:bg-gray-900 dark:border-gray-700">
+
+        <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Albums')</h2>
+
+        <div class="mt-8 space-y-4">
+
+            <x-sub-nav-link
+                onclick="Livewire.dispatch('openModal', { component: 'add-photos' , arguments: {modelId: '{{ $tag->id }}' } })">
+                @lang('Add Photo')
+            </x-sub-nav-link>
+
+            <x-sub-nav-link
+                onclick="Livewire.dispatch('openModal', { component: 'shared-tag' , arguments: {tagId: '{{ $tag->id }}' } })">
+                @lang('Sheard Album')
+            </x-sub-nav-link>
+
+
+
+            <x-sub-nav-link wire:key="archive" wire:confirm="{{ __('Are You sure?') }}" wire:click="archived()">
+                {{ $tag->is_archived ? __('Un Archived') : __('Archived') }}
+            </x-sub-nav-link>
+
+            <x-sub-nav-link wire:key="delete" wire:confirm="{{ __('Are You sure?') }}"
+                x-click="$wire.deleteAlbum('{{ $tag->id }}')">
+                @lang('Delete Album')
+            </x-sub-nav-link>
+
+        </div>
+    </div>
+
+
+
     <header class="bg-white shadow">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 
