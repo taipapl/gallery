@@ -27,20 +27,20 @@ new #[Layout('layouts.app')] class extends Component {
 ?>
 
 <div>
-    <x-slot name="header" class="flex">
-        <div class="flex justify-between">
 
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Archived Albums') }}
-            </h2>
+    <div
+        class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-40 w-60 dark:bg-gray-900 dark:border-gray-700">
 
-            <div class="flex gap-3 justify-end">
-                <x-secondary-link href="{{ route('albums.list') }}">
-                    @lang('Albums')
-                    </x-primary-link>
-            </div>
+        <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">{{ __('Archived Albums') }}</h2>
+
+        <div class="mt-8 space-y-4">
+
+            <x-sub-nav-link href="{{ route('albums.list') }}">
+                @lang('Albums')
+            </x-sub-nav-link>
+
         </div>
-    </x-slot>
+    </div>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

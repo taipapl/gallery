@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users_tags', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('tag_id')->constrained('tags')->onDelete('cascade');
+            $table->uuid('tag_id')->constrained('tags')->onDelete('cascade');
             $table->foreignId('email_id')->constrained('emails')->onDelete('cascade')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->nullable();
             $table->integer('count')->default(0);

@@ -20,10 +20,10 @@
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
 
+
         @auth
             <livewire:layout.navigation />
         @endauth
-
 
         <!-- Page Heading -->
         @if (isset($header))

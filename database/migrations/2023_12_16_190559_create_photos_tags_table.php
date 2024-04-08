@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
+
         Schema::create('photos_tags', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('photo_id')->constrained('photos')->onDelete('cascade');
-            $table->foreignId('tag_id')->constrained('tags')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->uuid('photo_id')->references('photos')->on('id')->onDelete('cascade');
+            $table->uuid('tag_id')->references('tags')->on('id')->onDelete('cascade');
+            $table->foreignId('user_id')->references('users')->on('id')->onDelete('cascade');
             $table->timestamps();
         });
     }

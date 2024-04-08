@@ -46,26 +46,25 @@ new #[Layout('layouts.app')] class extends Component {
 
     <div x-data="{ open: false }">
 
-        <x-slot name="header">
 
-            <div class="flex justify-between ">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Blog') }}
-                </h2>
-                <div class="flex gap-3 justify-end">
 
-                    <x-secondary-link href="{{ route('blog.emails') }}">
-                        @lang('Emails')
-                    </x-secondary-link>
+        <div
+            class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-40 w-60 dark:bg-gray-900 dark:border-gray-700">
 
-                    <x-secondary-link href="{{ route('blog.create') }}">
-                        @lang('Create post')
-                    </x-secondary-link>
+            <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Video')</h2>
 
-                </div>
+            <div class="mt-8 space-y-4">
+
+                <x-sub-nav-link href="{{ route('blog.create') }}">
+                    @lang('Create post')
+                </x-sub-nav-link>
+
+                <x-sub-nav-link href="{{ route('blog.emails') }}">
+                    @lang('Emails')
+                </x-sub-nav-link>
+
             </div>
-
-        </x-slot>
+        </div>
 
         <div class="py-12">
 

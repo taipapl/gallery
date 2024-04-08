@@ -66,7 +66,48 @@ new #[Layout('layouts.app')] class extends Component {
 };
 
 ?>
-<div>
+<div x-data="{ rotation: 0 }">
+
+
+    <div
+        class="fixed z-50 right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-40 w-60 dark:bg-gray-900 dark:border-gray-700">
+
+
+
+        <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">{{ __('Photos') }}</h2>
+
+        <div class="mt-8 space-y-4">
+
+            <livewire:file-uploads />
+
+            <x-sub-nav-link href="{{ route('photos.archived') }}">
+                @lang('Archived Photos')
+            </x-sub-nav-link>
+
+
+            @if (!$photo->is_video)
+                <x-sub-nav-link wire:click="download">
+                    {{ __('Download') }}
+                </x-sub-nav-link>
+
+                <x-sub-nav-link @click="rotation += 90" wire:click="rotate">
+                    {{ __('Rotate') }}
+                </x-sub-nav-link>
+            @endif
+
+            <x-sub-nav-link wire:confirm="{{ __('Are you sure?') }}" wire:click="archived">
+                {{ $photo->is_archived ? __('Un Archived') : __('Archived') }}
+            </x-sub-nav-link>
+
+            <x-sub-nav-link wire:confirm="{{ __('Are you sure? Delete photo go to Trash') }}" wire:click="delete">
+                {{ __('Delete') }}
+            </x-sub-nav-link>
+
+        </div>
+    </div>
+
+
+
     <header class="bg-white shadow">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 
@@ -88,7 +129,7 @@ new #[Layout('layouts.app')] class extends Component {
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 text-center" x-data="{ rotation: 0 }">
+                <div class="p-6 text-gray-900 text-center">
 
 
                     <form wire:submit class="mb-5">
@@ -121,8 +162,8 @@ new #[Layout('layouts.app')] class extends Component {
                         {{ $photo->is_archived ? __('Un Archived') : __('Archived') }}
                     </x-secondary-button>
 
-                    <x-secondary-button class="mt-4" wire:confirm="{{ __('Are you sure? Delete photo go to Trash') }}"
-                        wire:click="delete">
+                    <x-secondary-button class="mt-4"
+                        wire:confirm="{{ __('Are you sure? Delete photo go to Trash') }}" wire:click="delete">
                         {{ __('Delete') }}
                     </x-secondary-button>
 

@@ -19,7 +19,8 @@ Route::get('files/{photo}', [ImageController::class, 'getImage'])->name('get.ima
 
 Route::get('user_file/{usersTags}/{photo}', [ImageController::class, 'getUserImage'])->name('get.user_image');
 
-Route::view('/', 'welcome');
+Route::view('/', 'welcome')
+    ->name('home');
 
 Volt::route('public_profile/{public_url}', 'front.profil')
     ->name('public_profile');

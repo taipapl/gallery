@@ -15,7 +15,7 @@ new class extends Component {
 }; ?>
 
 <div>
-    <x-primary-button wire:click="createAlbum">
+    <x-sub-nav-link wire:click="createAlbum">
         @lang('Create Album')
-    </x-primary-button>
+    </x-sub-nav-link>
 </div>

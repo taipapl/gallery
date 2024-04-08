@@ -27,22 +27,49 @@ new #[Layout('layouts.app')] class extends Component {
 ?>
 
 <div>
-    <x-slot name="header" class="flex">
-        <div class="flex justify-between">
 
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Albums') }}
-            </h2>
+    <div
+        class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-40 w-60 dark:bg-gray-900 dark:border-gray-700">
 
-            <div class="flex gap-3 justify-end">
-                <x-secondary-link href="{{ route('albums.archived') }}">
-                    @lang('Archived Albums')
-                    </x-primary-link>
+        <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Albums')</h2>
 
-                    <livewire:createalbum />
-            </div>
+        <div class="mt-8 space-y-4">
+
+            <livewire:createalbum />
+
+            <x-sub-nav-link href="{{ route('albums.archived') }}">
+                @lang('Archived Albums')
+            </x-sub-nav-link>
+
+
+            {{-- <button
+                class="flex items-center w-full px-5 py-2 transition-colors duration-200 dark:hover:bg-gray-800 gap-x-2 hover:bg-gray-100 focus:outline-none">
+
+
+                <div class="text-left rtl:text-right">
+                    <h1 class="text-sm font-medium text-gray-700 capitalize dark:text-white">Mia John</h1>
+
+
+                </div>
+            </button>
+
+            <button
+                class="flex items-center w-full px-5 py-2 transition-colors duration-200 dark:hover:bg-gray-800 gap-x-2 hover:bg-gray-100 focus:outline-none">
+                <img class="object-cover w-8 h-8 rounded-full"
+                    src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=faceare&facepad=3&w=688&h=688&q=100"
+                    alt="">
+
+                <div class="text-left rtl:text-right">
+                    <h1 class="text-sm font-medium text-gray-700 capitalize dark:text-white">Mia John</h1>
+
+                    <p class="text-xs text-gray-500 dark:text-gray-400">11.2 Followers</p>
+                </div>
+            </button> --}}
+
         </div>
-    </x-slot>
+
+    </div>
+
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
