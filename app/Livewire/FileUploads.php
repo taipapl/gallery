@@ -3,11 +3,12 @@
 namespace App\Livewire;
 
 use App\Models\Photo;
-use Illuminate\Support\Facades\Auth;
-use Intervention\Image\Facades\Image;
-use Livewire\Attributes\Validate;
+use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\Auth;
 use LivewireUI\Modal\ModalComponent;
+use Intervention\Image\Facades\Image;
 
 class FileUploads extends ModalComponent
 {
@@ -58,6 +59,7 @@ class FileUploads extends ModalComponent
 
 
             $photoModel = Photo::create([
+                'uuid' => (string) Str::uuid(),
                 'path' => $image->basename,
                 'user_id' => auth()->id(),
                 'meta' => $meta,

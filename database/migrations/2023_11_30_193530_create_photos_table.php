@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('photos', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id('id');
+            $table->uuid('uuid')->unique()->index();
             $table->string('label')->nullable();
             $table->string('path');
-            $table->boolean('is_favorite')->default(false);
             $table->string('video_path')->nullable();
             $table->boolean('is_video')->default(false);
             $table->boolean('is_archived')->default(false);
+            $table->boolean('is_favorite')->default(false);
             $table->text('meta')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->date('photo_date');

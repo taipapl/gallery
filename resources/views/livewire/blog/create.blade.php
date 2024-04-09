@@ -34,6 +34,7 @@ new #[Layout('layouts.app')] class extends Component {
         ]);
 
         $post = app(Post::class);
+        $post->uuid = (string) Str::uuid();
         $post->timestamps = false;
         $post->title = $this->title;
         $post->post = $this->content;

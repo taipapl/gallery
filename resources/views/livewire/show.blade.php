@@ -16,17 +16,17 @@ new #[Layout('layouts.app')] class extends Component {
 
     public $tags;
 
-    public function mount(Photo $photo)
+    public function mount(string $uuid)
     {
-        if ($photo->user_id != auth()->id()) {
+        $this->photo = Photo::where('uuid', $uuid)->firstOrFail();
+
+        if ($this->photo->user_id != auth()->id()) {
             abort(403);
         }
 
-        $this->photo = $photo;
+        $this->label = $this->photo->label;
 
-        $this->label = $photo->label;
-
-        $this->tags = $photo->tags;
+        $this->tags = $this->photo->tags;
 
         seo()->title(__('Show') . ' - ' . $this->photo->label . ' - ' . config('app.name'));
     }
@@ -144,7 +144,7 @@ new #[Layout('layouts.app')] class extends Component {
                             allowfullscreen></iframe>
                     @else
                         <img :style="{ transform: 'rotate(' + rotation + 'deg)' }" class="m-auto"
-                            src="{{ route('get.image', ['photo' => $photo->id]) }}" alt="">
+                            src="{{ route('get.image', ['photo' => $photo->uuid]) }}" alt="">
                     @endif
 
 
@@ -170,7 +170,7 @@ new #[Layout('layouts.app')] class extends Component {
 
 
                     @foreach ($tags ?? [] as $tag)
-                        <a href="{{ route('albums.album', ['tag' => $tag->id]) }}"
+                        <a href="{{ route('albums.album', ['uuid' => $tag->uuid]) }}"
                             class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
                             {{ $tag->name }}
                         </a>

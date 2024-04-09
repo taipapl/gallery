@@ -58,6 +58,7 @@ new #[Layout('layouts.app')] class extends Component {
         }
 
         $photoModel = Photo::create([
+            'uuid' => (string) Str::uuid(),
             'path' => $this->videoImage,
             'video_path' => $this->videoUrl,
             'is_video' => true,

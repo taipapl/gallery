@@ -10,11 +10,10 @@ use App\Models\Photo;
 
 class ImageController extends Controller
 {
-    public function getImage($photo_id)
+    public function getImage($uuid)
     {
 
-        $photo = Photo::withTrashed()->findOrFail($photo_id);
-
+        $photo = Photo::withTrashed()->where('uuid', $uuid)->firstOrFail();
 
         $path = 'photos/' . $photo->user_id . '/' . $photo->path;
 

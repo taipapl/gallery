@@ -34,14 +34,14 @@ new #[Layout('layouts.app')] class extends Component {
         $this->photos[] = $photoModel;
     }
 
-    public function mount(Post $post)
+    public function mount(string $uuid)
     {
-        $this->post = $post;
-        $this->title = $post->title;
-        $this->content = $post->post;
-        $this->created_at = $post->created_at->format('Y-m-d');
+        $this->post = Post::where('uuid', $uuid)->firstOrFail();
+        $this->title = $this->post->title;
+        $this->content = $this->post->post;
+        $this->created_at = $this->post->created_at->format('Y-m-d');
 
-        $this->active = $post->active;
+        $this->active = $this->post->active;
         seo()->title(__('Create Post') . ' - ' . config('app.name'));
     }
 
@@ -78,24 +78,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <div x-data="{ open: false }">
 
-        <x-slot name="header">
-
-            <div class="flex justify-between ">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Create post') }}
-                </h2>
-                <div class="flex gap-3 justify-end">
-
-
-
-                </div>
-            </div>
-
-        </x-slot>
-
         <div class="py-12">
-
-
 
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">

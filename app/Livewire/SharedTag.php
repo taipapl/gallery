@@ -33,10 +33,11 @@ class SharedTag extends ModalComponent
         $email = \App\Models\Email::firstOrCreate(['email' => $validated['email']]);
 
 
-        $email->users()->attach(Auth::user(), ['id' => Str::uuid(), 'created_at' => now(), 'updated_at' => now()]);
+        $email->users()->attach(Auth::user(), ['uuid' => Str::uuid(), 'created_at' => now(), 'updated_at' => now()]);
 
 
         $usersTags = new UsersTags();
+        $usersTags->uuid = Str::uuid();
         $usersTags->user_id = Auth::id();
         $usersTags->email_id = $email->id;
         $usersTags->tag_id = $this->tagId;

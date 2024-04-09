@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-	    Schema::disableForeignKeyConstraints();
         Schema::create('users_emails', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
+            $table->uuid('uuid')->unique()->index();
             $table->string('nikname')->nullable();
             $table->foreignId('email_id')->constrained('emails')->onDelete('cascade')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->nullable();
@@ -21,7 +21,6 @@ return new class extends Migration
             $table->integer('count')->default(0);
             $table->timestamps();
         });
-        Schema::enableForeignKeyConstraints();
     }
 
     /**

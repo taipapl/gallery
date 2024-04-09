@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tags', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id('id');
+            $table->uuid('uuid')->unique()->index();
             $table->string('name')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->boolean('is_public')->default(false);

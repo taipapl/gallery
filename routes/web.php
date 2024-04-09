@@ -42,11 +42,11 @@ Volt::route('albumsArchived', 'albumsArchived')
     ->middleware(['auth', 'verified'])
     ->name('albums.archived');
 
-Volt::route('album/{tag}', 'album')
+Volt::route('album/{uuid}', 'album')
     ->middleware(['auth', 'verified'])
     ->name('albums.album');
 
-Volt::route('show/{photo}', 'show')
+Volt::route('show/{uuid}', 'show')
     ->middleware(['auth', 'verified'])
     ->name('photos.show');
 
@@ -74,11 +74,15 @@ Volt::route('shared/{tag}', 'shared.show')
     ->middleware(['auth', 'verified'])
     ->name('shared.show');
 
+Volt::route('share/{uuid}', 'shared.share')
+    ->middleware(['auth', 'verified'])
+    ->name('shared.share');
+
 Volt::route('emails', 'emails')
     ->middleware(['auth', 'verified'])
     ->name('blog.emails');
 
-Volt::route('blog', 'blog')
+Volt::route('blog', 'blog.blog')
     ->middleware(['auth', 'verified'])
     ->name('blog.list');
 
@@ -86,7 +90,7 @@ Volt::route('blog/create', 'blog.create')
     ->middleware(['auth', 'verified'])
     ->name('blog.create');
 
-Volt::route('blog/{post}', 'blog.edit')
+Volt::route('blog/{uuid}', 'blog.edit')
     ->middleware(['auth', 'verified'])
     ->name('blog.edit');
 

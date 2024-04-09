@@ -46,8 +46,6 @@ new #[Layout('layouts.app')] class extends Component {
 
     <div x-data="{ open: false }">
 
-
-
         <div
             class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-40 w-60 dark:bg-gray-900 dark:border-gray-700">
 
@@ -84,14 +82,14 @@ new #[Layout('layouts.app')] class extends Component {
                                 <div>{{ $post->created_at->format('d.m.Y') }}</div>
                                 <div>
                                     @if ($post->active)
-                                        <span class="text-green-500">Active</span>
+                                        <span class="text-green-500">@lang('Active')</span>
                                     @else
-                                        <span class="text-red-500">Not active</span>
+                                        <span class="text-red-500">@lang('No Active')</span>
                                     @endif
                                 </div>
                                 <p>{{ $post->post }}</p>
 
-                                <x-secondary-link href="{{ route('blog.edit', ['post' => $post->id]) }}">
+                                <x-secondary-link href="{{ route('blog.edit', $post->uuid) }}">
                                     @lang('Edit post')
                                 </x-secondary-link>
 
