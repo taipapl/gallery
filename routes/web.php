@@ -58,9 +58,13 @@ Volt::route('photosArchived', 'photosArchived')
     ->middleware(['auth', 'verified'])
     ->name('photos.archived');
 
-Volt::route('video', 'video')
+Volt::route('video', 'video.list')
     ->middleware(['auth', 'verified'])
-    ->name('video');
+    ->name('video.list');
+
+Volt::route('video/add', 'video.add')
+    ->middleware(['auth', 'verified'])
+    ->name('video.add');
 
 Volt::route('shared', 'shared.list')
     ->middleware(['auth', 'verified'])

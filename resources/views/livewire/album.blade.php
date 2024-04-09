@@ -93,60 +93,16 @@ new #[Layout('layouts.app')] class extends Component {
                 @lang('Sheard Album')
             </x-sub-nav-link>
 
-
-
             <x-sub-nav-link wire:key="archive" wire:confirm="{{ __('Are You sure?') }}" wire:click="archived()">
                 {{ $tag->is_archived ? __('Un Archived') : __('Archived') }}
             </x-sub-nav-link>
 
-            <x-sub-nav-link wire:key="delete" wire:confirm="{{ __('Are You sure?') }}"
-                x-click="$wire.deleteAlbum('{{ $tag->id }}')">
+            <x-sub-nav-link wire:confirm="{{ __('Are You sure?') }}" wire:click="deleteAlbum('{{ $tag->id }}')">
                 @lang('Delete Album')
             </x-sub-nav-link>
 
         </div>
     </div>
-
-
-
-    <header class="bg-white shadow">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-
-
-            <div class="flex justify-between ">
-
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Album') }}
-                </h2>
-
-                <div class="flex gap-2 justify-end">
-
-                    <x-primary-button wire:confirm="{{ __('Are You sure?') }}" wire:click="archived()">
-                        {{ $tag->is_archived ? __('Un Archived') : __('Archived') }}
-                    </x-primary-button>
-
-                    <x-primary-button wire:confirm="{{ __('Are You sure?') }}"
-                        wire:click="deleteAlbum('{{ $tag->id }}')">
-                        @lang('Delete Album')
-                    </x-primary-button>
-
-                    <x-primary-button
-                        onclick="Livewire.dispatch('openModal', { component: 'shared-tag' , arguments: {tagId: '{{ $tag->id }}' } })">
-                        @lang('Sheard Album')
-                    </x-primary-button>
-
-                    <x-primary-button
-                        onclick="Livewire.dispatch('openModal', { component: 'add-photos' , arguments: {modelId: '{{ $tag->id }}' } })">
-                        @lang('Add Photo')
-                    </x-primary-button>
-
-
-
-                </div>
-            </div>
-
-        </div>
-    </header>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

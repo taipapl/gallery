@@ -6,6 +6,24 @@
 
         <div class="mt-8 space-y-4">
 
+
+
+
+            <div
+                class="flex items-center w-full px-5 py-2 transition-colors duration-200 dark:hover:bg-gray-800 gap-x-2">
+
+
+                <div class="text-left rtl:text-right">
+                    <h1 class="text-sm font-medium text-gray-700 capitalize dark:text-white">
+                        <div x-data="{ name: '{{ auth()->user()->name }}' }" x-text="name"
+                            x-on:profile-updated.window="name = $event.detail.name"></div>
+                    </h1>
+
+
+                </div>
+            </div>
+
+
             <livewire:layout.logout />
 
         </div>

@@ -60,20 +60,6 @@ new #[Layout('layouts.app')] class extends Component {
 
     <div x-data="{ open: false }">
 
-        <x-slot name="header">
-
-            <div class="flex justify-between ">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Create post') }}
-                </h2>
-                <div class="flex gap-3 justify-end">
-
-
-
-                </div>
-            </div>
-
-        </x-slot>
 
         <div class="py-12">
 

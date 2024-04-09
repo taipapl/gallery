@@ -43,7 +43,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         <div class="mt-8 space-y-4">
 
-            <x-sub-nav-link onclick="Livewire.dispatch('openModal', { component: 'addVideo' })">
+            <x-sub-nav-link href="{{ route('video.add') }}">
                 @lang('Add Video')
             </x-sub-nav-link>
 
@@ -63,7 +63,7 @@ new #[Layout('layouts.app')] class extends Component {
 
                     <div class="flex gap-2 flex-wrap ">
                         @foreach ($videos ?? [] as $key => $video)
-                            <a href="{{ route('show', $video->id) }}" class="h-40 w-40"
+                            <a href="{{ route('photos.show', $video->id) }}" class="h-40 w-40"
                                 @if ($loop->last) id="last_record" @endif
                                 style="background-image: url('{{ $video->path }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
 

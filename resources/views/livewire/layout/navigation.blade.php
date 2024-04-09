@@ -33,7 +33,7 @@ new class extends Component {
         </x-nav-link>
 
 
-        <x-nav-link :href="route('video')" :active="request()->routeIs('video')" wire:navigate>
+        <x-nav-link :href="route('video.list')" :active="request()->routeIs('video.*')" wire:navigate>
             <x-icons.video class="w-6 h-6" />
         </x-nav-link>
 
