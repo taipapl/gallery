@@ -24,7 +24,7 @@ new class extends Component {
                 </div>
                 <div class="absolute bottom-0 w-full h-full bg-gradient-to-t from-gray-900 to-transparent"></div>
                 <div class="absolute bottom-0 w-full h-full flex justify-center items-center">
-                    <a href="{{ route('albums.album', ['tag' => $album->public_url]) }}"
+                    <a href="{{ route('album.show', ['tag' => $album->public_url]) }}"
                         class="px-4 py-2 bg-white text-gray-900 rounded hover:bg-gray-200 hover:text-gray-900 transition duration-300 ease-in-out">
                         {{ $album->name }}
                     </a>

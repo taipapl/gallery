@@ -45,12 +45,11 @@ new #[Layout('layouts.user')] class extends Component {
     <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $album->name }}</h1>
 
     <div x-data="lightbox()">
-        <!-- Miniatury zdjęć -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach ($photos as $key => $photo)
                 <img class="lightbox cursor-pointer" @click="openLightbox({{ $key }})" alt=""
                     @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
-                    src="{{ $photo->is_video ? $photo->path : route('get.image', ['photo' => $photo->id]) }}" />
+                    src="{{ $photo->is_video ? $photo->path : route('get.public', ['photo' => $photo->pivot->uuid]) }}" />
             @endforeach
         </div>
 
@@ -87,7 +86,7 @@ new #[Layout('layouts.user')] class extends Component {
 
         <script>
             function lightbox() {
-                const images = document.querySelectorAll('.lightbox'); // Znajdź wszystkie obrazy na stronie
+                const images = document.querySelectorAll('.lightbox');
 
                 const photos = Array.from(images).map(img => {
 

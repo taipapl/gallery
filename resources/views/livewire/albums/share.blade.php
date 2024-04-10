@@ -77,11 +77,6 @@ new #[Layout('layouts.app')] class extends Component {
         $this->shared = UsersTags::where('tag_id', $this->tag->id)->get();
         $this->checkbox_public = $this->tag->is_public;
     }
-
-    public static function modalMaxWidth(): string
-    {
-        return '7xl';
-    }
 };
 ?>
 <div class="py-12">
@@ -150,7 +145,7 @@ new #[Layout('layouts.app')] class extends Component {
                             <div>
                                 {{ $tag->public_url }}
                                 <x-primary-link target="_blank"
-                                    href="{{ route('public_album', $tag->public_url) }}">{{ __('Open') }}</x-primary-link>
+                                    href="{{ route('public.album', $tag->public_url) }}">{{ __('Open') }}</x-primary-link>
                                 ({{ __('view') . ' ' . $tag->count }})
 
                             </div>
@@ -165,7 +160,7 @@ new #[Layout('layouts.app')] class extends Component {
 
                     <div class="mt-3">
                         <x-primary-link
-                            href="{{ route('albums.album', $this->tag_uuid) }}">{{ __('Cancel') }}</x-primary-button>
+                            href="{{ route('album.show', $this->tag_uuid) }}">{{ __('Cancel') }}</x-primary-button>
                     </div>
 
                 </div>

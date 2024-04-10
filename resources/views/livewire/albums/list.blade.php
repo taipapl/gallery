@@ -25,7 +25,6 @@ new #[Layout('layouts.app')] class extends Component {
     }
 };
 ?>
-
 <div>
 
     <div
@@ -35,7 +34,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         <div class="mt-8 space-y-4">
 
-            <livewire:createalbum />
+            <livewire:albums.create />
 
             <x-sub-nav-link href="{{ route('albums.archived') }}">
                 @lang('Archived Albums')
@@ -78,7 +77,8 @@ new #[Layout('layouts.app')] class extends Component {
 
                     <div class="flex gap-2 flex-wrap ">
                         @foreach ($albums as $album)
-                            <a href="{{ route('albums.album', $album->uuid) }}" class=" cursor-pointer" wire:navigate>
+                            <a href="{{ route('album.show', ['uuid' => $album->uuid]) }}" class=" cursor-pointer"
+                                wire:navigate>
 
                                 @if ($album->cover)
                                     <div class="h-40 w-40 border-2  block overflow-hidden "

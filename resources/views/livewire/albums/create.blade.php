@@ -11,7 +11,7 @@ new class extends Component {
             'user_id' => Auth()->user()->id,
             'is_album' => true,
         ]);
-        $this->redirectRoute('albums.album', ['uuid' => $tag->uuid]);
+        $this->redirectRoute('album.show', ['uuid' => $tag->uuid]);
     }
 }; ?>
 

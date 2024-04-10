@@ -108,53 +108,54 @@ new #[Layout('layouts.app')] class extends Component {
                                     @enderror
                                 </div>
 
-                                <div>
+                                <div class="flex justify-between">
 
-                                    <label wire:click="clickActive()"
-                                        class="relative inline-flex items-center cursor-pointer">
-                                        <input wire:model="active" type="checkbox" checked class="sr-only peer"
-                                            value="1">
-                                        <div
-                                            class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                                        </div>
-                                        <span
-                                            class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Public')</span>
-                                    </label>
+                                    <div>
+                                        <label wire:click="clickActive()"
+                                            class="relative inline-flex items-center cursor-pointer">
+                                            <input wire:model="active" type="checkbox" checked class="sr-only peer"
+                                                value="1">
+                                            <div
+                                                class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                                            </div>
+                                            <span
+                                                class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Public')</span>
+                                        </label>
+                                    </div>
 
 
+                                    <x-primary-link href="{{ route('blog.add', ['uuid' => $post->uuid]) }}">
 
+                                        @lang('Add Photo')
+                                    </x-primary-link>
+
+                                </div>
+
+                                <div class="flex justify-between mt-3">
+                                    <x-primary-button type="submit" class="btn btn-primary">
+                                        @lang('Save post')
+                                    </x-primary-button>
+
+                                    <x-primary-link href="{{ route('blog.list') }}">
+                                        @lang('Cancel')
+                                    </x-primary-link>
 
                                 </div>
 
 
-
-                                <x-primary-button type="submit"
-                                    class="btn btn-primary">@lang('Save post')</x-primary-button>
                             </div>
                         </form>
-
-
-                        <x-primary-button
-                            onclick="Livewire.dispatch('openModal', { component: 'add-blog-photo' , arguments: {   modelId: '{{ $post->id }}' } })">
-                            @lang('Add Photo')
-                        </x-primary-button>
-
-
-
 
                         <div class="flex gap-2 flex-wrap mt-5">
                             @foreach ($photos ?? [] as $key => $photo)
                                 <a href="{{ route('photos.show', $photo->id) }}" class="h-40 w-40"
                                     @if ($photo->is_video) style="background-image: url('{{ $photo->path }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
                     @else
-                    style="background-image: url('{{ route('get.image', ['photo' => $photo->id]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;"> @endif
+                    style="background-image: url('{{ route('get.image', ['photo' => $photo->uuid]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;"> @endif
                                     </a>
                             @endforeach
 
                         </div>
-
-
-
 
                     </div>
                 </div>

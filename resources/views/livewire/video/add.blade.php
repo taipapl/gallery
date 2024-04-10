@@ -136,6 +136,10 @@ new #[Layout('layouts.app')] class extends Component {
                                 <x-primary-button type="submit">
                                     @lang('Add')
                                 </x-primary-button>
+
+                                <x-primary-link href="{{ route('video.list') }}">
+                                    @lang('Cancel')
+                                </x-primary-link>
                             </div>
 
                         </form>

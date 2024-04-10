@@ -78,13 +78,6 @@ new #[Layout('layouts.app')] class extends Component {
 
         <div class="mt-8 space-y-4">
 
-            <livewire:file-uploads />
-
-            <x-sub-nav-link href="{{ route('photos.archived') }}">
-                @lang('Archived Photos')
-            </x-sub-nav-link>
-
-
             @if (!$photo->is_video)
                 <x-sub-nav-link wire:click="download">
                     {{ __('Download') }}
@@ -170,7 +163,7 @@ new #[Layout('layouts.app')] class extends Component {
 
 
                     @foreach ($tags ?? [] as $tag)
-                        <a href="{{ route('albums.album', ['uuid' => $tag->uuid]) }}"
+                        <a href="{{ route('album.show', $tag->uuid) }}"
                             class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
                             {{ $tag->name }}
                         </a>

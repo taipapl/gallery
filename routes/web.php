@@ -15,36 +15,45 @@ use Livewire\Volt\Volt;
 |
 */
 
-Route::get('files/{photo}', [ImageController::class, 'getImage'])->name('get.image');
+Route::get('user/{photo}', [ImageController::class, 'getImage'])->name('get.image');
+Route::get('public/{photo}', [ImageController::class, 'getPublicImage'])->name('get.public');
 
 Route::get('user_file/{usersTags}/{photo}', [ImageController::class, 'getUserImage'])->name('get.user_image');
 
 Route::view('/', 'welcome')
     ->name('home');
 
-Volt::route('public_profile/{public_url}', 'front.profil')
+Volt::route('public_profile/{public_url}', 'public.profil')
     ->name('public_profile');
 
-Volt::route('public_blog/{public_url}', 'front.blog')
+Volt::route('public_blog/{public_url}', 'public.blog')
     ->name('public_blog');
 
-Volt::route('public_album/{public_url}', 'front.album')
-    ->name('public_album');
+Volt::route('public/album/{public_url}', 'public.album')
+    ->name('public.album');
 
-Volt::route('user_album/{user_url}', 'front.guest')
+Volt::route('user_album/{user_url}', 'public.guest')
     ->name('user_album');
 
-Volt::route('albums', 'albums')
+Volt::route('albums', 'albums.list')
     ->middleware(['auth', 'verified'])
     ->name('albums.list');
 
-Volt::route('albumsArchived', 'albumsArchived')
+Volt::route('albums/archived', 'albums.archived')
     ->middleware(['auth', 'verified'])
     ->name('albums.archived');
 
-Volt::route('album/{uuid}', 'album')
+Volt::route('album/{uuid}', 'albums.show')
     ->middleware(['auth', 'verified'])
-    ->name('albums.album');
+    ->name('album.show');
+
+Volt::route('album/add/{uuid}', 'albums.add')
+    ->middleware(['auth', 'verified'])
+    ->name('albums.add');
+
+Volt::route('album/share/{uuid}', 'albums.share')
+    ->middleware(['auth', 'verified'])
+    ->name('album.share');
 
 Volt::route('show/{uuid}', 'show')
     ->middleware(['auth', 'verified'])
@@ -74,9 +83,7 @@ Volt::route('shared/{tag}', 'shared.show')
     ->middleware(['auth', 'verified'])
     ->name('shared.show');
 
-Volt::route('share/{uuid}', 'shared.share')
-    ->middleware(['auth', 'verified'])
-    ->name('shared.share');
+
 
 Volt::route('emails', 'emails')
     ->middleware(['auth', 'verified'])
@@ -93,6 +100,10 @@ Volt::route('blog/create', 'blog.create')
 Volt::route('blog/{uuid}', 'blog.edit')
     ->middleware(['auth', 'verified'])
     ->name('blog.edit');
+
+Volt::route('blog/add/{uuid}', 'blog.add')
+    ->middleware(['auth', 'verified'])
+    ->name('blog.add');
 
 Volt::route('trash', 'trash')
     ->middleware(['auth', 'verified'])

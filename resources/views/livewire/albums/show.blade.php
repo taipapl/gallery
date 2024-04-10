@@ -83,12 +83,11 @@ new #[Layout('layouts.app')] class extends Component {
 
         <div class="mt-8 space-y-4">
 
-            <x-sub-nav-link
-                onclick="Livewire.dispatch('openModal', { component: 'add-photos' , arguments: {modelId: '{{ $tag->id }}' } })">
+            <x-sub-nav-link href="{{ route('albums.add', $tag->uuid) }}">
                 @lang('Add Photo')
             </x-sub-nav-link>
 
-            <x-sub-nav-link href="{{ route('shared.share', $tag->uuid) }}">
+            <x-sub-nav-link href="{{ route('album.share', $tag->uuid) }}">
                 @lang('Share Album')
             </x-sub-nav-link>
 
@@ -121,7 +120,7 @@ new #[Layout('layouts.app')] class extends Component {
 
                     <div class="flex gap-2 flex-wrap mt-5">
                         @foreach ($photos ?? [] as $key => $photo)
-                            <a href="{{ route('photos.show', $photo->uuid) }}" class="h-40 w-40"
+                            <a href="{{ route('photos.show', ['uuid' => $photo->uuid]) }}" class="h-40 w-40"
                                 @if ($loop->last) id="last_record" @endif
                                 @if ($photo->is_video) style="background-image: url('{{ $photo->path }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
                 @else

@@ -49,7 +49,7 @@ new #[Layout('layouts.app')] class extends Component {
 
                     <div class="flex gap-2 flex-wrap ">
                         @foreach ($albums as $album)
-                            <div href="{{ route('albums.album', $album->id) }}" class=" cursor-pointer" wire:navigate>
+                            <div href="{{ route('album.show', $album->id) }}" class=" cursor-pointer" wire:navigate>
 
                                 @if ($album->cover)
                                     <div class="h-40 w-40 border-2  block overflow-hidden "

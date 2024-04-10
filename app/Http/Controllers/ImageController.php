@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Photo;
+use App\Models\pivot\PhotoTag;
 
 class ImageController extends Controller
 {
@@ -18,6 +19,26 @@ class ImageController extends Controller
         $path = 'photos/' . $photo->user_id . '/' . $photo->path;
 
         if (!Storage::exists($path) || !Auth::check()) {
+            abort(404);
+        }
+
+        $file = Storage::get($path);
+        $type = Storage::mimeType($path);
+
+        return Response::make($file, 200, ['Content-Type' => $type]);
+    }
+
+    public function getPublicImage($uuid)
+    {
+
+        $photoTag = PhotoTag::where('uuid', $uuid)->firstOrFail();
+
+        $photo = Photo::where('id', $photoTag->photo_id)->firstOrFail();
+
+
+        $path = 'photos/' . $photo->user_id . '/' . $photo->path;
+
+        if (!Storage::exists($path)) {
             abort(404);
         }
 
