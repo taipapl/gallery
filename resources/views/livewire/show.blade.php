@@ -96,28 +96,21 @@ new #[Layout('layouts.app')] class extends Component {
                 {{ __('Delete') }}
             </x-sub-nav-link>
 
-        </div>
-    </div>
 
+            <div class="text-sm px-5">@lang('Belong to Albums')</div>
 
-
-    <header class="bg-white shadow">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-
-
-            <div class="flex justify-between ">
-
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Show') }}
-                </h2>
-
-                <div class="flex gap-2 justify-end">
-
-                </div>
+            <div class="px-5">
+                @foreach ($tags ?? [] as $tag)
+                    <a href="{{ route('album.show', $tag->uuid) }}"
+                        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+                        {{ Str::limit($tag->name, 10) }}
+                    </a>
+                @endforeach
             </div>
 
+
         </div>
-    </header>
+    </div>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -139,37 +132,6 @@ new #[Layout('layouts.app')] class extends Component {
                         <img :style="{ transform: 'rotate(' + rotation + 'deg)' }" class="m-auto"
                             src="{{ route('get.image', ['photo' => $photo->uuid]) }}" alt="">
                     @endif
-
-
-                    @if (!$photo->is_video)
-                        <x-secondary-button class="mt-4" wire:click="download">
-                            {{ __('Download') }}
-                        </x-secondary-button>
-
-                        <x-secondary-button @click="rotation += 90" class="mt-4" wire:click="rotate">
-                            {{ __('Rotate') }}
-                        </x-secondary-button>
-                    @endif
-
-                    <x-secondary-button class="mt-4" wire:confirm="{{ __('Are you sure?') }}" wire:click="archived">
-                        {{ $photo->is_archived ? __('Un Archived') : __('Archived') }}
-                    </x-secondary-button>
-
-                    <x-secondary-button class="mt-4"
-                        wire:confirm="{{ __('Are you sure? Delete photo go to Trash') }}" wire:click="delete">
-                        {{ __('Delete') }}
-                    </x-secondary-button>
-
-
-
-                    @foreach ($tags ?? [] as $tag)
-                        <a href="{{ route('album.show', $tag->uuid) }}"
-                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                            {{ $tag->name }}
-                        </a>
-                    @endforeach
-
-
 
                 </div>
             </div>

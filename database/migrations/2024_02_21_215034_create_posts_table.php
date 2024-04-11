@@ -24,6 +24,8 @@ return new class extends Migration
 
         Schema::create('posts_photos', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->index();
+            $table->boolean('first')->default(0);
             $table->foreignId('post_id')->constrained('posts')->onDelete('cascade');
             $table->foreignId('photo_id')->constrained('photos')->onDelete('cascade');
             $table->timestamps();

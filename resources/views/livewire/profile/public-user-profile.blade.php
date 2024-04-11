@@ -65,7 +65,7 @@ new class extends Component {
             {{ $uid }}
 
             <x-primary-link target="_blank"
-                href="{{ route('public_profile', $uid) }}">{{ __('Open') }}</x-primary-link>
+                href="{{ route('public.profile', $uid) }}">{{ __('Open') }}</x-primary-link>
         @else
             {{ __('No public profile url') }}
         @endif

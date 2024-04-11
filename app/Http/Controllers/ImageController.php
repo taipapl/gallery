@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\pivot\UsersTags;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Photo;
 use App\Models\pivot\PhotoTag;
+use App\Models\pivot\PostPhoto;
+use App\Models\pivot\UsersTags;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 
 class ImageController extends Controller
 {
@@ -28,13 +29,9 @@ class ImageController extends Controller
         return Response::make($file, 200, ['Content-Type' => $type]);
     }
 
-    public function getPublicImage($uuid)
+    public function getPublicCover($uuid)
     {
-
-        $photoTag = PhotoTag::where('uuid', $uuid)->firstOrFail();
-
-        $photo = Photo::where('id', $photoTag->photo_id)->firstOrFail();
-
+        $photo = Photo::withTrashed()->where('uuid', $uuid)->firstOrFail();
 
         $path = 'photos/' . $photo->user_id . '/' . $photo->path;
 
@@ -43,6 +40,45 @@ class ImageController extends Controller
         }
 
         $file = Storage::get($path);
+        $type = Storage::mimeType($path);
+
+        return Response::make($file, 200, ['Content-Type' => $type]);
+    }
+
+
+    public function publicBlog($uuid)
+    {
+
+        $postPhoto = PostPhoto::where('uuid', $uuid)->firstOrFail();
+
+        $photo = Photo::where('id', $postPhoto->photo_id)->firstOrFail();
+
+        $path = 'photos/' . $photo->user_id . '/' . $photo->path;
+
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
+
+        $file = Storage::get($path);
+        $type = Storage::mimeType($path);
+
+        return Response::make($file, 200, ['Content-Type' => $type]);
+    }
+
+    public function getPublicImage($uuid)
+    {
+        $photoTag = PhotoTag::where('uuid', $uuid)->firstOrFail();
+
+        $photo = Photo::where('id', $photoTag->photo_id)->firstOrFail();
+
+        $path = 'photos/' . $photo->user_id . '/' . $photo->path;
+
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
+
+        $file = Storage::get($path);
+
         $type = Storage::mimeType($path);
 
         return Response::make($file, 200, ['Content-Type' => $type]);

@@ -17,23 +17,26 @@ use Livewire\Volt\Volt;
 
 Route::get('user/{photo}', [ImageController::class, 'getImage'])->name('get.image');
 Route::get('public/{photo}', [ImageController::class, 'getPublicImage'])->name('get.public');
+Route::get('public/cover/{photo}', [ImageController::class, 'getPublicCover'])->name('get.cover');
+
+Route::get('public/post/{photo}', [ImageController::class, 'publicBlog'])->name('get.blog');
 
 Route::get('user_file/{usersTags}/{photo}', [ImageController::class, 'getUserImage'])->name('get.user_image');
 
 Route::view('/', 'welcome')
     ->name('home');
 
-Volt::route('public_profile/{public_url}', 'public.profil')
-    ->name('public_profile');
+Volt::route('public/profile/{public_url}', 'public.profil')
+    ->name('public.profile');
 
-Volt::route('public_blog/{public_url}', 'public.blog')
-    ->name('public_blog');
+Volt::route('public/blog/{public_url}', 'public.blog')
+    ->name('public.blog');
 
 Volt::route('public/album/{public_url}', 'public.album')
     ->name('public.album');
 
-Volt::route('user_album/{user_url}', 'public.guest')
-    ->name('user_album');
+Volt::route('public/user/{user_url}', 'public.user')
+    ->name('public.user');
 
 Volt::route('albums', 'albums.list')
     ->middleware(['auth', 'verified'])

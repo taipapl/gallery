@@ -9,6 +9,7 @@ use Illuminate\View\View;
 use App\Models\Post;
 use Livewire\WithFileUploads;
 use App\Models\Photo;
+use Illuminate\Support\Str;
 
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination;
@@ -32,7 +33,7 @@ new #[Layout('layouts.app')] class extends Component {
             $this->post->photos()->detach($id);
             unset($this->photoIds[array_search($id, $this->photoIds)]);
         } else {
-            $this->post->photos()->attach($photo, ['created_at' => now(), 'updated_at' => now()]);
+            $this->post->photos()->attach($photo, ['uuid' => (string) Str::uuid(), 'created_at' => now(), 'updated_at' => now()]);
             $this->photoIds[] = $id;
         }
     }

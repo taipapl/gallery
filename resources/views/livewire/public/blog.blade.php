@@ -73,7 +73,12 @@ new #[Layout('layouts.user')] class extends Component {
                             @foreach ($posts as $post)
                                 <div class="mb-4">
                                     <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
-                                    <div>{{ $post->created_at->format('d.m.Y') }}</div>
+                                    <div class="text-sm">{{ $post->created_at->format('d.m.Y') }}</div>
+
+                                    @if ($post->photos->first())
+                                        <img src="{{ route('get.blog', ['photo' => $post->photos->first()->pivot->uuid]) }}"
+                                            alt="{{ $post->photos->first()->name }}" class=" object-cover">
+                                    @endif
 
                                     <p>{{ $post->post }}</p>
 
