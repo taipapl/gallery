@@ -101,7 +101,7 @@ new #[Layout('layouts.app')] class extends Component {
 
             <div class="px-5">
                 @foreach ($tags ?? [] as $tag)
-                    <a href="{{ route('album.show', $tag->uuid) }}"
+                    <a href="{{ route('albums.show', $tag->uuid) }}"
                         class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
                         {{ Str::limit($tag->name, 10) }}
                     </a>

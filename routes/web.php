@@ -35,8 +35,12 @@ Volt::route('public/blog/{public_url}', 'public.blog')
 Volt::route('public/album/{public_url}', 'public.album')
     ->name('public.album');
 
-Volt::route('public/user/{user_url}', 'public.user')
-    ->name('public.user');
+Volt::route('user/album/{user_url}', 'user.album')
+    ->name('user.album');
+
+Volt::route('user/profil/{user_url}', 'user.profil')
+    ->name('user.profil');
+
 
 Volt::route('albums', 'albums.list')
     ->middleware(['auth', 'verified'])
@@ -48,7 +52,7 @@ Volt::route('albums/archived', 'albums.archived')
 
 Volt::route('album/{uuid}', 'albums.show')
     ->middleware(['auth', 'verified'])
-    ->name('album.show');
+    ->name('albums.show');
 
 Volt::route('album/add/{uuid}', 'albums.add')
     ->middleware(['auth', 'verified'])
@@ -56,7 +60,7 @@ Volt::route('album/add/{uuid}', 'albums.add')
 
 Volt::route('album/share/{uuid}', 'albums.share')
     ->middleware(['auth', 'verified'])
-    ->name('album.share');
+    ->name('albums.share');
 
 Volt::route('show/{uuid}', 'show')
     ->middleware(['auth', 'verified'])

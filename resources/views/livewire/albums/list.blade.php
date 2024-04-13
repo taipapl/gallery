@@ -77,7 +77,7 @@ new #[Layout('layouts.app')] class extends Component {
 
                     <div class="flex gap-2 flex-wrap ">
                         @foreach ($albums as $album)
-                            <a href="{{ route('album.show', ['uuid' => $album->uuid]) }}" class=" cursor-pointer"
+                            <a href="{{ route('albums.show', ['uuid' => $album->uuid]) }}" class=" cursor-pointer"
                                 wire:navigate>
 
                                 @if ($album->cover)

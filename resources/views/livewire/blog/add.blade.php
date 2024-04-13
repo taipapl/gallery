@@ -54,7 +54,24 @@ new #[Layout('layouts.app')] class extends Component {
 
 ?>
 
-<div class="py-12">
+<div>
+
+    <div
+        class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-40 w-60 dark:bg-gray-900 dark:border-gray-700">
+
+        <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Video')</h2>
+
+        <div class="mt-8 space-y-4">
+
+            <x-sub-nav-link href="{{ route('blog.edit', $post->uuid) }}">
+                @lang('Cancel')
+            </x-sub-nav-link>
+
+        </div>
+    </div>
+
+
+
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900">

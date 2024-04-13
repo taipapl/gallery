@@ -45,7 +45,7 @@ class AlbumShared extends Mailable
         return new Content(
             markdown: 'mail.albumShared',
             with: [
-                'url' => route('user_album', $this->usersTags->id),
+                'url' => route('user.album', $this->usersTags->uuid),
             ],
         );
     }

@@ -87,7 +87,7 @@ new #[Layout('layouts.app')] class extends Component {
                 @lang('Add Photo')
             </x-sub-nav-link>
 
-            <x-sub-nav-link href="{{ route('album.share', $tag->uuid) }}">
+            <x-sub-nav-link href="{{ route('albums.share', $tag->uuid) }}">
                 @lang('Share Album')
             </x-sub-nav-link>
 

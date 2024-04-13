@@ -26,10 +26,10 @@ new #[Layout('layouts.user')] class extends Component {
         $this->perPage += 10;
     }
 
-    public function mount(UsersTags $user_url)
+    public function mount(string $user_url)
     {
-        $this->userTag = $user_url;
-        $this->album = Tag::find($user_url->tag_id);
+        $this->userTag = UsersTags::where('uuid', $user_url)->firstOrFail();
+        $this->album = Tag::find($this->userTag->tag_id);
 
         if ($this->userTag) {
             $count = $this->userTag->count;
@@ -56,7 +56,7 @@ new #[Layout('layouts.user')] class extends Component {
             @foreach ($photos as $key => $photo)
                 <img class="lightbox cursor-pointer" @click="openLightbox({{ $key }})" alt=""
                     @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
-                    src="{{ $photo->is_video ? $photo->path : route('get.image', ['photo' => $photo->id]) }}" />
+                    src="{{ $photo->is_video ? $photo->path : route('get.public', ['photo' => $photo->pivot->uuid]) }}" />
             @endforeach
         </div>
 

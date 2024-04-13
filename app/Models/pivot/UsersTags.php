@@ -14,6 +14,10 @@ class UsersTags extends Model
 
     protected $table = 'users_tags';
 
+    protected $fillable = [
+        'uuid'
+    ];
+
     /**
      * Get the tag that owns the UsersTags
      */

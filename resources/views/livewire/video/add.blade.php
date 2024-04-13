@@ -94,7 +94,7 @@ new #[Layout('layouts.app')] class extends Component {
 
 
             <x-sub-nav-link href="{{ route('video.list') }}">
-                @lang('Videos')
+                @lang('Cancel')
             </x-sub-nav-link>
 
         </div>
@@ -124,7 +124,8 @@ new #[Layout('layouts.app')] class extends Component {
                         @endif
 
                         <form wire:submit="save">
-                            <input class="w-full" wire:model="video" wire:change="changeURL()" />
+                            <input class="w-full" wire:model="video" wire:change="changeURL()"
+                                wire:paste="changeURL()" />
 
                             @if ($addError)
                                 <div class="text-red-500 mt-2 text-sm">
@@ -137,9 +138,7 @@ new #[Layout('layouts.app')] class extends Component {
                                     @lang('Add')
                                 </x-primary-button>
 
-                                <x-primary-link href="{{ route('video.list') }}">
-                                    @lang('Cancel')
-                                </x-primary-link>
+
                             </div>
 
                         </form>

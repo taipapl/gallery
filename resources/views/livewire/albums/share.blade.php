@@ -8,12 +8,15 @@ use Illuminate\View\View;
 use App\Models\User;
 use App\Models\Tag;
 use App\Models\pivot\UsersTags;
+use App\Rules\OneEmail;
+use App\Rules\Me;
+use App\Mail\AlbumShared;
+use App\Models\Email;
 
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination;
 
     public $email = '';
-    public $tagId;
     public $shared;
     public $tag;
     public $checkbox_public;
@@ -22,22 +25,26 @@ new #[Layout('layouts.app')] class extends Component {
     public function add()
     {
         $validated = $this->validate([
-            'email' => ['required', 'email', new OneEmail($this->tagId), new Me()],
+            'email' => ['required', 'email', new OneEmail($this->tag->id), new Me()],
         ]);
 
-        $email = \App\Models\Email::firstOrCreate(['email' => $validated['email']]);
+        $email = Email::firstOrCreate(['email' => $validated['email']]);
 
-        $email->users()->attach(Auth::user(), ['uuid' => Str::uuid(), 'created_at' => now(), 'updated_at' => now()]);
+        $usersEmails = UsersEmails::firstOrCreate(['email_id' => $email->id, 'user_id' => Auth::id()]);
+
+        if (!$usersEmails) {
+            $email->users()->attach(Auth::user(), ['uuid' => Str::uuid(), 'created_at' => now(), 'updated_at' => now()]);
+        }
 
         $usersTags = new UsersTags();
         $usersTags->uuid = Str::uuid();
         $usersTags->user_id = Auth::id();
         $usersTags->email_id = $email->id;
-        $usersTags->tag_id = $this->tagId;
+        $usersTags->tag_id = $this->tag->id;
 
         $usersTags->save();
 
-        $this->shared = UsersTags::where('tag_id', $this->tagId)->get();
+        $this->shared = UsersTags::where('tag_id', $this->tag->id)->get();
         $this->email = '';
 
         Mail::to($validated['email'])->send(new AlbumShared($this->tag, $usersTags));
@@ -51,7 +58,7 @@ new #[Layout('layouts.app')] class extends Component {
     public function delete(UsersTags $usersTags)
     {
         $usersTags->delete();
-        $this->shared = UsersTags::where('tag_id', $this->tagId)->get();
+        $this->shared = UsersTags::where('tag_id', $this->tag->id)->get();
     }
 
     public function publicAlbum()
@@ -79,7 +86,25 @@ new #[Layout('layouts.app')] class extends Component {
     }
 };
 ?>
-<div class="py-12">
+<div>
+
+    <div
+        class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-40 w-60 dark:bg-gray-900 dark:border-gray-700">
+
+        <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Album')</h2>
+
+        <div class="mt-8 space-y-4">
+
+            <x-sub-nav-link href="{{ route('albums.show', $this->tag->uuid) }}">
+                @lang('Cancel')
+            </x-sub-nav-link>
+
+        </div>
+
+    </div>
+
+
+
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900">
@@ -156,11 +181,6 @@ new #[Layout('layouts.app')] class extends Component {
                                     wire:click="changePublicUrl()">{{ __('Change album url') }}</x-primary-button>
                             </div>
                         @endif
-                    </div>
-
-                    <div class="mt-3">
-                        <x-primary-link
-                            href="{{ route('album.show', $this->tag_uuid) }}">{{ __('Cancel') }}</x-primary-button>
                     </div>
 
                 </div>
