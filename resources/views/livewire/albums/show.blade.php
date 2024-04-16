@@ -46,14 +46,14 @@ new #[Layout('layouts.app')] class extends Component {
         $this->redirectRoute('albums.list');
     }
 
-    public function mount(Tag $tag)
+    public function mount($uuid)
     {
-        if ($tag->user_id != auth()->id()) {
+        $this->tag = Tag::where('uuid', $uuid)->firstOrFail();
+
+        if ($this->tag->user_id != auth()->id()) {
             abort(403);
         }
-
-        $this->tag = $tag;
-        $this->name = $tag->name;
+        $this->name = $this->tag->name;
 
         seo()->title(__('Album') . ' - ' . $this->tag->name . ' - ' . config('app.name'));
     }
@@ -83,14 +83,12 @@ new #[Layout('layouts.app')] class extends Component {
 
         <div class="mt-8 space-y-4">
 
-            <x-sub-nav-link
-                onclick="Livewire.dispatch('openModal', { component: 'add-photos' , arguments: {modelId: '{{ $tag->id }}' } })">
+            <x-sub-nav-link href="{{ route('albums.add', $tag->uuid) }}">
                 @lang('Add Photo')
             </x-sub-nav-link>
 
-            <x-sub-nav-link
-                onclick="Livewire.dispatch('openModal', { component: 'shared-tag' , arguments: {tagId: '{{ $tag->id }}' } })">
-                @lang('Sheard Album')
+            <x-sub-nav-link href="{{ route('albums.share', $tag->uuid) }}">
+                @lang('Share Album')
             </x-sub-nav-link>
 
             <x-sub-nav-link wire:key="archive" wire:confirm="{{ __('Are You sure?') }}" wire:click="archived()">
@@ -122,11 +120,11 @@ new #[Layout('layouts.app')] class extends Component {
 
                     <div class="flex gap-2 flex-wrap mt-5">
                         @foreach ($photos ?? [] as $key => $photo)
-                            <a href="{{ route('photos.show', $photo->id) }}" class="h-40 w-40"
+                            <a href="{{ route('photos.show', ['uuid' => $photo->uuid]) }}" class="h-40 w-40"
                                 @if ($loop->last) id="last_record" @endif
                                 @if ($photo->is_video) style="background-image: url('{{ $photo->path }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
                 @else
-                style="background-image: url('{{ route('get.image', ['photo' => $photo->id]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;"> @endif
+                style="background-image: url('{{ route('get.image', ['photo' => $photo->uuid]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;"> @endif
                                 </a>
                         @endforeach
                         <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>

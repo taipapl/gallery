@@ -7,12 +7,17 @@ use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\Tag;
 use Illuminate\View\View;
+use App\Models\pivot\UsersTags;
+use App\Models\Photo;
 
 new #[Layout('layouts.user')] class extends Component {
     use WithPagination;
 
     public $album;
-    public $photos = [];
+
+    public $userTag;
+
+    public Photo $photos;
 
     public $perPage = 50;
 
@@ -21,14 +26,15 @@ new #[Layout('layouts.user')] class extends Component {
         $this->perPage += 10;
     }
 
-    public function mount($public_url)
+    public function mount(string $user_url)
     {
-        $this->album = Tag::where('public_url', $public_url)->where('is_public', 1)->firstOrFail();
+        $this->userTag = UsersTags::where('uuid', $user_url)->firstOrFail();
+        $this->album = Tag::find($this->userTag->tag_id);
 
-        if ($this->album) {
-            $count = $this->album->count;
-            $this->album->count = $count + 1;
-            $this->album->save();
+        if ($this->userTag) {
+            $count = $this->userTag->count;
+            $this->userTag->count = $count + 1;
+            $this->userTag->save();
         }
     }
 
@@ -50,7 +56,7 @@ new #[Layout('layouts.user')] class extends Component {
             @foreach ($photos as $key => $photo)
                 <img class="lightbox cursor-pointer" @click="openLightbox({{ $key }})" alt=""
                     @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
-                    src="{{ $photo->is_video ? $photo->path : route('get.image', ['photo' => $photo->id]) }}" />
+                    src="{{ $photo->is_video ? $photo->path : route('get.public', ['photo' => $photo->pivot->uuid]) }}" />
             @endforeach
         </div>
 
@@ -116,10 +122,16 @@ new #[Layout('layouts.user')] class extends Component {
                         this.isOpen = false;
                         const currentPhoto = this.photos[this.currentIndex];
                         if (currentPhoto.type === 'youtube') {
+                            // Pobierz iframe dla filmu z YouTube
                             const iframe = document.querySelector('.youtube-iframe');
+
                             const temp = iframe.src;
                             iframe.src = '';
                             iframe.src = temp;
+
+
+
+
                         }
                     },
                     nextImage() {

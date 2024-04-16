@@ -46,8 +46,6 @@ new #[Layout('layouts.app')] class extends Component {
 
     <div x-data="{ open: false }">
 
-
-
         <div
             class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-40 w-60 dark:bg-gray-900 dark:border-gray-700">
 
@@ -68,8 +66,6 @@ new #[Layout('layouts.app')] class extends Component {
 
         <div class="py-12">
 
-
-
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
@@ -80,21 +76,30 @@ new #[Layout('layouts.app')] class extends Component {
 
                         @foreach ($posts as $post)
                             <div class="mb-4">
+
                                 <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
-                                <div>{{ $post->created_at->format('d.m.Y') }}</div>
+                                <div class="text-sm">{{ $post->created_at->format('d.m.Y') }}</div>
+
+
+                                @if ($post->photos->first())
+                                    <img src="{{ route('get.image', ['photo' => $post->photos->first()->uuid]) }}"
+                                        alt="{{ $post->photos->first()->name }}" class=" h-[550px] object-cover">
+                                @endif
+
+
                                 <div>
                                     @if ($post->active)
-                                        <span class="text-green-500">Active</span>
+                                        <span class="text-green-500">@lang('Active')</span>
                                     @else
-                                        <span class="text-red-500">Not active</span>
+                                        <span class="text-red-500">@lang('No Active')</span>
                                     @endif
                                 </div>
+
                                 <p>{{ $post->post }}</p>
 
-                                <x-secondary-link href="{{ route('blog.edit', ['post' => $post->id]) }}">
+                                <x-secondary-link href="{{ route('blog.edit', $post->uuid) }}">
                                     @lang('Edit post')
                                 </x-secondary-link>
-
 
                             </div>
                         @endforeach

@@ -20,16 +20,10 @@
                 let dates = [];
 
                 for (let i = 0; i < files.length; i++) {
-
-                    console.log(files[i].lastModifiedDate);
-
                     dates.push(files[i].lastModifiedDate);
-
                 }
 
                 $wire.addDates(dates);
-
-
             });
         </script>
     @endscript

@@ -24,6 +24,7 @@ class User extends Authenticatable
         'public_url',
         'is_public',
         'is_blog',
+        'blog_url',
         'lang'
     ];
 
@@ -60,7 +61,6 @@ class User extends Authenticatable
     /**
      * Get all posts for the User
      */
-
     public function posts(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Post::class);
@@ -89,6 +89,6 @@ class User extends Authenticatable
 
     public function emails(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Email::class, 'users_emails', 'user_id', 'email_id')->withPivot('id', 'share_blog');
+        return $this->belongsToMany(Email::class, 'users_emails', 'user_id', 'email_id')->withPivot('id', 'share_blog', 'uuid');
     }
 }

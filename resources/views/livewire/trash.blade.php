@@ -97,7 +97,7 @@ new #[Layout('layouts.app')] class extends Component {
                                 <div class="w-full text-center text-lg text-black ">{{ $dataLabel }}</div>
                             @endif
                             <div class="relative h-40 w-40" @if ($loop->last) id="last_record" @endif
-                                style="background-image: url('{{ route('get.image', ['photo' => $photo->id]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
+                                style="background-image: url('{{ route('get.image', ['photo' => $photo->uuid]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
                                 <div wire:confirm="{{ __('Are you sure you want to permanently delete the file?') }}"
                                     wire:click="delete('{{ $photo->id }}')"
                                     class="cursor-pointer bg-slate-50 absolute p-2 border">@lang('Delete')</div>

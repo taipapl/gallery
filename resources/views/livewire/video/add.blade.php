@@ -58,6 +58,7 @@ new #[Layout('layouts.app')] class extends Component {
         }
 
         $photoModel = Photo::create([
+            'uuid' => (string) Str::uuid(),
             'path' => $this->videoImage,
             'video_path' => $this->videoUrl,
             'is_video' => true,
@@ -93,7 +94,7 @@ new #[Layout('layouts.app')] class extends Component {
 
 
             <x-sub-nav-link href="{{ route('video.list') }}">
-                @lang('Videos')
+                @lang('Cancel')
             </x-sub-nav-link>
 
         </div>
@@ -123,7 +124,8 @@ new #[Layout('layouts.app')] class extends Component {
                         @endif
 
                         <form wire:submit="save">
-                            <input class="w-full" wire:model="video" wire:change="changeURL()" />
+                            <input class="w-full" wire:model="video" wire:change="changeURL()"
+                                wire:paste="changeURL()" />
 
                             @if ($addError)
                                 <div class="text-red-500 mt-2 text-sm">
@@ -135,6 +137,8 @@ new #[Layout('layouts.app')] class extends Component {
                                 <x-primary-button type="submit">
                                     @lang('Add')
                                 </x-primary-button>
+
+
                             </div>
 
                         </form>

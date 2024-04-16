@@ -11,5 +11,10 @@ class PhotoTag extends Model
 
     protected $table = 'photos_tags';
 
-    protected $fillable = ['photo_id', 'tag_id'];
+    protected $fillable = [
+        'uuid',
+        'user_id',
+        'photo_id',
+        'tag_id'
+    ];
 }

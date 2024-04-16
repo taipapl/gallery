@@ -37,14 +37,15 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $view->emails = Auth::user()->emails()->get();
+        $view->emails = Auth::user()
+            ->emails()
+            ->paginate($this->perPage)
+            ->unique('email');
     }
 };
 ?>
 
 <div>
-
-
     <div
         class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-40 w-60 dark:bg-gray-900 dark:border-gray-700">
 
@@ -75,6 +76,7 @@ new #[Layout('layouts.app')] class extends Component {
 
                                 <label class="relative inline-flex items-center cursor-pointer">
 
+
                                     <input wire:click="sendPublic('{{ $email->pivot->id }}')" type="checkbox"
                                         wire:model="is_public" @if ($email->pivot->share_blog == 1) checked @endif
                                         class="sr-only peer" value="1">
@@ -83,9 +85,20 @@ new #[Layout('layouts.app')] class extends Component {
                                     </div>
                                     <span
                                         class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Public')
-
                                     </span>
+
+
                                 </label>
+
+                                <div>
+
+                                    @if ($email->pivot->share_blog == 1)
+                                        <x-primary-link target="_blank"
+                                            href="{{ route('user.profil', $email->pivot->uuid) }}" class="mt-2">
+                                            {{ __('View') }}
+                                        </x-primary-link>
+                                    @endif
+                                </div>
                             </div>
                         @endforeach
                         <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>

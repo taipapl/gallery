@@ -37,11 +37,6 @@ Michał Myśliński
 ## TOFIX
 - check security
 - fix public album for user
-- fix migrate
-- move migrate emeil to begine
-- change menu for mobile (right side)
-- remove modal windows
-- remove string relation in database
 - back from trash to photo
 
 

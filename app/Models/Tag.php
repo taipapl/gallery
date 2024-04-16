@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
 
     protected $fillable = [
+        'uuid',
         'name',
         'photo_id',
         'user_id',
@@ -28,7 +28,7 @@ class Tag extends Model
 
     public function photos()
     {
-        return $this->belongsToMany(Photo::class, 'photos_tags', 'tag_id', 'photo_id');
+        return $this->belongsToMany(Photo::class, 'photos_tags', 'tag_id', 'photo_id')->withPivot('uuid');
     }
 
     public function user()
@@ -38,7 +38,7 @@ class Tag extends Model
 
     public function emails()
     {
-        return $this->belongsToMany(Email::class, 'users_tags', 'tag_id', 'email_id');
+        return $this->belongsToMany(Email::class, 'users_tags', 'tag_id', 'email_id')->withPivot('uuid');
     }
 
     public function shared()

@@ -3,12 +3,11 @@
 namespace App\Models\pivot;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class UsersEmails extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
 
     protected $table = 'users_emails';
 
@@ -17,6 +16,7 @@ class UsersEmails extends Model
     ];
 
     protected $fillable = [
+        'uuid',
         'user_id',
         'email',
         'share_blog',

@@ -7,10 +7,11 @@ new class extends Component {
     public function createAlbum(): void
     {
         $tag = Tag::create([
+            'uuid' => (string) Str::uuid(),
             'user_id' => Auth()->user()->id,
             'is_album' => true,
         ]);
-        $this->redirectRoute('albums.album', ['tag' => $tag->id]);
+        $this->redirectRoute('albums.show', ['uuid' => $tag->uuid]);
     }
 }; ?>
 

@@ -21,9 +21,9 @@ new #[Layout('layouts.app')] class extends Component {
         $this->perPage += 10;
     }
 
-    public function mount(Tag $tag)
+    public function mount(string $uuid)
     {
-        $this->album = Tag::where('id', $tag->id)->firstOrFail();
+        $this->album = Tag::where('uuid', $uuid)->firstOrFail();
 
         if ($this->album) {
             $count = $this->album->count;
@@ -70,7 +70,7 @@ new #[Layout('layouts.app')] class extends Component {
                                     <img class="lightbox cursor-pointer" @click="openLightbox({{ $key }})"
                                         alt=""
                                         @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
-                                        src="{{ $photo->is_video ? $photo->path : route('get.image', ['photo' => $photo->id]) }}" />
+                                        src="{{ $photo->is_video ? $photo->path : route('get.image', ['photo' => $photo->uuid]) }}" />
                                 @endforeach
                             </div>
 

@@ -13,11 +13,11 @@ class Email extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'users_emails', 'email_id', 'user_id');
+        return $this->belongsToMany(User::class, 'users_emails', 'email_id', 'user_id')->withPivot('uuid');
     }
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'users_tags', 'email_id', 'tag_id');
+        return $this->belongsToMany(Tag::class, 'users_tags', 'email_id', 'tag_id')->withPivot('uuid');
     }
 }

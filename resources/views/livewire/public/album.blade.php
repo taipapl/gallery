@@ -7,17 +7,12 @@ use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\Tag;
 use Illuminate\View\View;
-use App\Models\pivot\UsersTags;
-use App\Models\Photo;
 
 new #[Layout('layouts.user')] class extends Component {
     use WithPagination;
 
     public $album;
-
-    public $userTag;
-
-    public Photo $photos;
+    public $photos = [];
 
     public $perPage = 50;
 
@@ -26,15 +21,14 @@ new #[Layout('layouts.user')] class extends Component {
         $this->perPage += 10;
     }
 
-    public function mount(UsersTags $user_url)
+    public function mount($public_url)
     {
-        $this->userTag = $user_url;
-        $this->album = Tag::find($user_url->tag_id);
+        $this->album = Tag::where('public_url', $public_url)->where('is_public', 1)->firstOrFail();
 
-        if ($this->userTag) {
-            $count = $this->userTag->count;
-            $this->userTag->count = $count + 1;
-            $this->userTag->save();
+        if ($this->album) {
+            $count = $this->album->count;
+            $this->album->count = $count + 1;
+            $this->album->save();
         }
     }
 
@@ -51,12 +45,11 @@ new #[Layout('layouts.user')] class extends Component {
     <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $album->name }}</h1>
 
     <div x-data="lightbox()">
-        <!-- Miniatury zdjęć -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach ($photos as $key => $photo)
                 <img class="lightbox cursor-pointer" @click="openLightbox({{ $key }})" alt=""
                     @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
-                    src="{{ $photo->is_video ? $photo->path : route('get.image', ['photo' => $photo->id]) }}" />
+                    src="{{ $photo->is_video ? $photo->path : route('get.public', ['photo' => $photo->pivot->uuid]) }}" />
             @endforeach
         </div>
 
@@ -93,7 +86,7 @@ new #[Layout('layouts.user')] class extends Component {
 
         <script>
             function lightbox() {
-                const images = document.querySelectorAll('.lightbox'); // Znajdź wszystkie obrazy na stronie
+                const images = document.querySelectorAll('.lightbox');
 
                 const photos = Array.from(images).map(img => {
 
@@ -122,16 +115,10 @@ new #[Layout('layouts.user')] class extends Component {
                         this.isOpen = false;
                         const currentPhoto = this.photos[this.currentIndex];
                         if (currentPhoto.type === 'youtube') {
-                            // Pobierz iframe dla filmu z YouTube
                             const iframe = document.querySelector('.youtube-iframe');
-
                             const temp = iframe.src;
                             iframe.src = '';
                             iframe.src = temp;
-
-
-
-
                         }
                     },
                     nextImage() {

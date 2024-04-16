@@ -23,6 +23,8 @@ new #[Layout('layouts.app')] class extends Component {
     public function mount()
     {
         seo()->title(__('Create Post') . ' - ' . config('app.name'));
+
+        $this->createt_at = now()->format('Y-m-d');
     }
 
     public function addPost()
@@ -34,6 +36,7 @@ new #[Layout('layouts.app')] class extends Component {
         ]);
 
         $post = app(Post::class);
+        $post->uuid = (string) Str::uuid();
         $post->timestamps = false;
         $post->title = $this->title;
         $post->post = $this->content;
@@ -46,6 +49,8 @@ new #[Layout('layouts.app')] class extends Component {
         $this->content = '';
         $this->createt_at = '';
         $this->active = true;
+
+        $this->redirectRoute('blog.edit', ['uuid' => $post->uuid]);
     }
 
     public function clickActive()
@@ -112,9 +117,17 @@ new #[Layout('layouts.app')] class extends Component {
                                 </div>
 
 
+                                <div class="flex justify-between mt-3">
+                                    <x-primary-button type="submit" class="btn btn-primary">@lang('Add post')
+                                    </x-primary-button>
 
-                                <x-primary-button type="submit"
-                                    class="btn btn-primary">@lang('Add post')</x-primary-button>
+                                    <x-primary-link href="{{ route('blog.list') }}">
+                                        @lang('Cancel')
+                                    </x-primary-link>
+
+                                </div>
+
+
                             </div>
                         </form>
 
