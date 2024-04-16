@@ -86,7 +86,7 @@ Volt::route('shared', 'shared.list')
     ->middleware(['auth', 'verified'])
     ->name('shared.list');
 
-Volt::route('shared/{tag}', 'shared.show')
+Volt::route('shared/{uuid}', 'shared.show')
     ->middleware(['auth', 'verified'])
     ->name('shared.show');
 

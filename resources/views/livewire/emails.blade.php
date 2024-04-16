@@ -91,9 +91,10 @@ new #[Layout('layouts.app')] class extends Component {
                                 </label>
 
                                 <div>
+
                                     @if ($email->pivot->share_blog == 1)
-                                        <x-primary-link href="{{ route('user.profil', $email->pivot->uuid) }}"
-                                            class="mt-2">
+                                        <x-primary-link target="_blank"
+                                            href="{{ route('user.profil', $email->pivot->uuid) }}" class="mt-2">
                                             {{ __('View') }}
                                         </x-primary-link>
                                     @endif

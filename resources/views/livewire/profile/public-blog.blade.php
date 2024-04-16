@@ -6,6 +6,7 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     public $checkbox_public;
+    public string $uid;
 
     /**
      * Mount the component.
@@ -13,12 +14,25 @@ new class extends Component {
     public function mount(): void
     {
         $this->checkbox_public = Auth::user()->is_blog;
+        $this->uid = (string) Auth::user()->blog_url;
     }
 
     public function publicBlog(): void
     {
+        if (empty($this->uid)) {
+            $this->uid = Str::uuid();
+        }
+
         Auth::user()->update([
             'is_blog' => (int) $this->checkbox_public,
+        ]);
+    }
+
+    public function changeUrl(): void
+    {
+        $this->uid = Str::uuid();
+        Auth::user()->update([
+            'blog_url' => $this->uid,
         ]);
     }
 }; ?>
@@ -44,6 +58,23 @@ new class extends Component {
         <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Public')
         </span>
     </label>
+
+    <div class="mt-6 flex justify-start items-center gap-3 ">
+        @if (Auth::user()->is_blog)
+            {{ $uid }}
+
+            <x-primary-link target="_blank" href="{{ route('public.blog', $uid) }}">{{ __('Open') }}</x-primary-link>
+        @else
+            {{ __('No public blog url') }}
+        @endif
+    </div>
+    @if (Auth::user()->is_blog)
+        <div class="mt-6 flex justify-start">
+            <x-primary-button
+                wire:confirm="{{ __('If you change the link, you will have to resend it to the people you want to share the profile?') }}"
+                wire:click="changeUrl()">{{ __('Change blog url') }}</x-primary-button>
+        </div>
+    @endif
 
 
 

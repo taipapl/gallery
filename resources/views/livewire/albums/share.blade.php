@@ -12,6 +12,7 @@ use App\Rules\OneEmail;
 use App\Rules\Me;
 use App\Mail\AlbumShared;
 use App\Models\Email;
+use App\Models\pivot\UsersEmails;
 
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination;
@@ -30,7 +31,9 @@ new #[Layout('layouts.app')] class extends Component {
 
         $email = Email::firstOrCreate(['email' => $validated['email']]);
 
-        $usersEmails = UsersEmails::firstOrCreate(['email_id' => $email->id, 'user_id' => Auth::id()]);
+        $usersEmails = UsersEmails::where('email_id', $email->id)
+            ->where('user_id', Auth::id())
+            ->first();
 
         if (!$usersEmails) {
             $email->users()->attach(Auth::user(), ['uuid' => Str::uuid(), 'created_at' => now(), 'updated_at' => now()]);
