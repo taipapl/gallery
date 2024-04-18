@@ -30,7 +30,7 @@ new #[Layout('layouts.user')] class extends Component {
     <div class="flex gap-2 flex-wrap ">
 
         @if ($profil->is_blog)
-            <a href="{{ route('public.blog', $profil->public_url) }}">
+            <a href="{{ route('public.blog', $profil->blog_url) }}">
                 <div class="h-40 w-40 bg-gray-200 flex items-center justify-center">
                     <div class="text-center text-lg text-gray-500">
                         @lang('Blog')

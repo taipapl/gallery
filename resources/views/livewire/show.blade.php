@@ -133,6 +133,28 @@ new #[Layout('layouts.app')] class extends Component {
                             src="{{ route('get.image', ['photo' => $photo->uuid]) }}" alt="">
                     @endif
 
+                    @if (is_array($photo->meta))
+
+
+                        @foreach ($photo->meta as $key => $meta)
+                            <div class="text-left">
+                                <span class="font-bold">{{ $key }}:</span>
+
+                                @if (is_array($meta))
+                                    @foreach ($meta as $key => $value)
+                                        <div>{{ $key }}: {{ $value }}</div>
+                                    @endforeach
+                                @else
+                                    <span>{{ $meta }}</span>
+                                @endif
+
+                            </div>
+                        @endforeach
+
+                    @endif
+
+
+
                 </div>
             </div>
         </div>

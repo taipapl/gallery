@@ -58,12 +58,21 @@ class FileUploads extends ModalComponent
             $image->save($storagePath);
 
 
+            $date = date('Y-m-d');
+            if (isset($meta['DateTimeOriginal'])) {
+                $date = date('Y-m-d', strtotime($meta['DateTimeOriginal']));
+            } elseif (isset($meta['DateTimeDigitized'])) {
+                $date = date('Y-m-d', strtotime($meta['DateTimeDigitized']));
+            } elseif (isset($this->dates[$key])) {
+                $date = $this->dates[$key];
+            }
+
             $photoModel = Photo::create([
                 'uuid' => (string) Str::uuid(),
                 'path' => $image->basename,
                 'user_id' => auth()->id(),
                 'meta' => $meta,
-                'photo_date' => (isset($this->dates[$key])) ? $this->dates[$key] : date('Y-m-d'),
+                'photo_date' => $date,
             ]);
 
             $photo->delete();
