@@ -31,7 +31,7 @@ new #[Layout('layouts.app')] class extends Component {
     {
         $validated = $this->validate([
             'title' => 'required|min:3',
-            'content' => 'required|min:3',
+            'content' => 'min:3',
             'createt_at' => 'required|date',
         ]);
 

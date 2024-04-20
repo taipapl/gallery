@@ -124,7 +124,7 @@ new #[Layout('layouts.app')] class extends Component {
                         @endif
 
                         <form wire:submit="save">
-                            <input class="w-full" wire:model="video" wire:change="changeURL()"
+                            <input class="w-full" wire:model="video" wire:past="changeURL()" wire:change="changeURL()"
                                 wire:paste="changeURL()" />
 
                             @if ($addError)

@@ -48,6 +48,7 @@ new #[Layout('layouts.app')] class extends Component {
         $view->photos = auth()
             ->user()
             ->photos()
+            ->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
     }
 };

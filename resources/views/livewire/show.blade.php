@@ -63,6 +63,13 @@ new #[Layout('layouts.app')] class extends Component {
         $img->rotate(-90);
         $img->save();
     }
+
+    public function favorite()
+    {
+        $this->photo->update([
+            'is_favorite' => !$this->photo->is_favorite,
+        ]);
+    }
 };
 
 ?>
@@ -96,6 +103,9 @@ new #[Layout('layouts.app')] class extends Component {
                 {{ __('Delete') }}
             </x-sub-nav-link>
 
+            <x-sub-nav-link wire:click="favorite">
+                {{ $photo->is_favorite ? __('Un Favorite') : __('Favorite') }}
+            </x-sub-nav-link>
 
             <div class="text-sm px-5">@lang('Belong to Albums')</div>
 

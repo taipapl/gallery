@@ -34,6 +34,7 @@ new #[Layout('layouts.user')] class extends Component {
             ->posts()
             ->with('photos')
             ->where('active', 1)
+            ->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
     }
 };
@@ -60,10 +61,14 @@ new #[Layout('layouts.user')] class extends Component {
                                     <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
                                     <div class="text-sm">{{ $post->created_at->format('d.m.Y') }}</div>
 
+
+
                                     @if ($post->photos->first())
                                         <img src="{{ route('get.blog', ['photo' => $post->photos->first()->pivot->uuid]) }}"
                                             alt="{{ $post->photos->first()->name }}" class=" object-cover">
                                     @endif
+
+
 
                                     <p>{{ $post->post }}</p>
 
@@ -71,10 +76,13 @@ new #[Layout('layouts.user')] class extends Component {
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                     @foreach ($post->photos as $photo)
-                                        <img class="lightbox cursor-pointer" @click="openLightbox({{ $index }})"
-                                            alt=""
+                                        @if ($loop->first)
+                                            @continue
+                                        @endif
+                                        <img class="lightbox cursor-pointer w-32 h-32 object-cover "
+                                            @click="openLightbox({{ $index }})" alt=""
                                             @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
-                                            src="{{ $photo->is_video ? $photo->path : route('get.image', ['photo' => $photo->id]) }}" />
+                                            src="{{ $photo->is_video ? $photo->path : route('get.blog', ['photo' => $photo->pivot->uuid]) }}" />
                                         @php $index++ @endphp
                                     @endforeach
                                 </div>

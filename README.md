@@ -24,20 +24,20 @@ Michał Myśliński
 - Change password
 - Change language (pl/en)
 - Email list and options to share albums in one link
+- Add image to favorite
 
 ## TODO
 - Add comments to blog
 - add autocomplete email in share album
-- add same link to share album for user
-- add favorite images
+- add link to all albums for user with active email
 - add date archive images page
 - add search images
 - add favorite images page
+- add change date images
+- add back from trash to photo
 
-## TOFIX
-- check security
-- fix public album for user
-- back from trash to photo
+
+
 
 
 

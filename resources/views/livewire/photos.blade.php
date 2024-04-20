@@ -15,6 +15,9 @@ new #[Layout('layouts.app')] class extends Component {
     public $perPage = 50;
     public $photos;
 
+    public $is_favorite = 0;
+    public $is_archived = 0;
+
     public function mount()
     {
         $this->photos = collect([]);
@@ -25,6 +28,18 @@ new #[Layout('layouts.app')] class extends Component {
     protected $listeners = [
         'appendPhoto2' => 'appendPhoto2',
     ];
+
+    public function favorite()
+    {
+        $this->is_favorite = (int) !$this->is_favorite;
+        $this->resetPage();
+    }
+
+    public function archived()
+    {
+        $this->is_archived = (int) !$this->is_archived;
+        $this->resetPage();
+    }
 
     public function appendPhoto2($photo)
     {
@@ -40,12 +55,17 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $view->photos = auth()
-            ->user()
-            ->photos()
-            ->where('is_archived', 0)
-            ->orderBy('photo_date', 'desc')
-            ->paginate($this->perPage);
+        $query = auth()->user()->photos()->getQuery();
+
+        if ($this->is_archived) {
+            $query->where('is_archived', $this->is_archived);
+        }
+
+        if ($this->is_favorite) {
+            $query->where('is_favorite', $this->is_favorite);
+        }
+
+        $view->photos = $query->orderBy('photo_date', 'desc')->paginate($this->perPage);
     }
 };
 
@@ -60,6 +80,30 @@ new #[Layout('layouts.app')] class extends Component {
         <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">{{ __('Photos') }}</h2>
 
         <div class="mt-8 space-y-4">
+
+
+
+            <label wire:click="archived()" class="relative inline-flex items-center cursor-pointer">
+                <input wire:model="is_archived" type="checkbox" @if ($is_archived) checked @endif
+                    class="sr-only peer" value="1">
+                <div
+                    class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                </div>
+                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Archived')
+                </span>
+            </label>
+
+            <label wire:click="favorite()" class="relative inline-flex items-center cursor-pointer">
+                <input wire:model="is_favorite" type="checkbox" @if ($is_favorite) checked @endif
+                    class="sr-only peer" value="1">
+                <div
+                    class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                </div>
+                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Favorites')
+                </span>
+            </label>
+
+
 
             <livewire:file-uploads />
 

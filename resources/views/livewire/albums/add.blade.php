@@ -19,7 +19,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     public $tag;
 
-    public $perPage = 10;
+    public $perPage = 50;
 
     public $model = '';
 
@@ -83,6 +83,7 @@ new #[Layout('layouts.app')] class extends Component {
         $view->photos = auth()
             ->user()
             ->photos()
+            ->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
     }
 };

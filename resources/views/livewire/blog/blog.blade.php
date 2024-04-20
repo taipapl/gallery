@@ -49,7 +49,7 @@ new #[Layout('layouts.app')] class extends Component {
         <div x-show="active" @click.away="active = false"
             class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r w-40 dark:bg-gray-900 dark:border-gray-700">
 
-            <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Video')</h2>
+            <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Blog')</h2>
 
             <div class="mt-8 space-y-4">
 
@@ -83,7 +83,7 @@ new #[Layout('layouts.app')] class extends Component {
 
                                 @if ($post->photos->first())
                                     <img src="{{ route('get.image', ['photo' => $post->photos->first()->uuid]) }}"
-                                        alt="{{ $post->photos->first()->name }}" class=" h-[550px] object-cover">
+                                        alt="{{ $post->photos->first()->name }}" class=" object-cover">
                                 @endif
 
 
