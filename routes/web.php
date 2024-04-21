@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -20,8 +21,12 @@ Route::get('public/{photo}', [ImageController::class, 'getPublicImage'])->name('
 Route::get('public/cover/{photo}', [ImageController::class, 'getPublicCover'])->name('get.cover');
 
 Route::get('public/post/{photo}', [ImageController::class, 'publicBlog'])->name('get.blog');
-
 Route::get('user_file/{usersTags}/{photo}', [ImageController::class, 'getUserImage'])->name('get.user_image');
+
+
+Route::get('upload', [UploadController::class, 'index'])->name('upload');
+
+
 
 Route::view('/', 'welcome')
     ->name('home');
@@ -66,9 +71,15 @@ Volt::route('show/{uuid}', 'show')
     ->middleware(['auth', 'verified'])
     ->name('photos.show');
 
-Volt::route('photos', 'photos')
+Volt::route('photos', 'photos.photos')
     ->middleware(['auth', 'verified'])
     ->name('photos.list');
+
+Volt::route('photos/upload', 'photos.upload')
+    ->middleware(['auth', 'verified'])
+    ->name('photos.upload');
+
+Route::post('photos/upload', [ImageController::class, 'store'])->name('store');
 
 Volt::route('photosArchived', 'photosArchived')
     ->middleware(['auth', 'verified'])

@@ -9,6 +9,7 @@ use App\Models\pivot\UsersTags;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Http\Request;
 
 class ImageController extends Controller
 {
@@ -97,5 +98,17 @@ class ImageController extends Controller
         $type = Storage::mimeType($path);
 
         return Response::make($file, 200, ['Content-Type' => $type]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $imageName = time() . '.' . $request->file->extension();
+        $request->file->move(public_path('images'), $imageName);
+
+        return response()->json(['success' => $imageName]);
     }
 }
