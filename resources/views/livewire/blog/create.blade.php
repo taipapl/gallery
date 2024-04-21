@@ -16,7 +16,7 @@ new #[Layout('layouts.app')] class extends Component {
     public $posts;
 
     public $title;
-    public $content;
+    public $content = '';
     public $createt_at;
     public $active = true;
 
