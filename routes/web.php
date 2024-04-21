@@ -46,10 +46,6 @@ Volt::route('albums', 'albums.list')
     ->middleware(['auth', 'verified'])
     ->name('albums.list');
 
-Volt::route('albums/archived', 'albums.archived')
-    ->middleware(['auth', 'verified'])
-    ->name('albums.archived');
-
 Volt::route('album/{uuid}', 'albums.show')
     ->middleware(['auth', 'verified'])
     ->name('albums.show');
@@ -66,13 +62,9 @@ Volt::route('show/{uuid}', 'show')
     ->middleware(['auth', 'verified'])
     ->name('photos.show');
 
-Volt::route('photos', 'photos')
+Volt::route('photos', 'photos.photos')
     ->middleware(['auth', 'verified'])
     ->name('photos.list');
-
-Volt::route('photosArchived', 'photosArchived')
-    ->middleware(['auth', 'verified'])
-    ->name('photos.archived');
 
 Volt::route('video', 'video.list')
     ->middleware(['auth', 'verified'])

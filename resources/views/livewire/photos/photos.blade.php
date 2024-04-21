@@ -59,6 +59,8 @@ new #[Layout('layouts.app')] class extends Component {
 
         if ($this->is_archived) {
             $query->where('is_archived', $this->is_archived);
+        } else {
+            $query->where('is_archived', 0);
         }
 
         if ($this->is_favorite) {
@@ -82,34 +84,33 @@ new #[Layout('layouts.app')] class extends Component {
         <div class="mt-8 space-y-4">
 
 
+            <div class="px-2">
+                <label wire:click="archived()" class="relative inline-flex items-center cursor-pointer">
+                    <input wire:model="is_archived" type="checkbox" @if ($is_archived) checked @endif
+                        class="sr-only peer" value="1">
+                    <div
+                        class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                    </div>
+                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Archived')
+                    </span>
+                </label>
 
-            <label wire:click="archived()" class="relative inline-flex items-center cursor-pointer">
-                <input wire:model="is_archived" type="checkbox" @if ($is_archived) checked @endif
-                    class="sr-only peer" value="1">
-                <div
-                    class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                </div>
-                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Archived')
-                </span>
-            </label>
-
-            <label wire:click="favorite()" class="relative inline-flex items-center cursor-pointer">
-                <input wire:model="is_favorite" type="checkbox" @if ($is_favorite) checked @endif
-                    class="sr-only peer" value="1">
-                <div
-                    class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                </div>
-                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Favorites')
-                </span>
-            </label>
+                <label wire:click="favorite()" class="relative inline-flex items-center cursor-pointer">
+                    <input wire:model="is_favorite" type="checkbox" @if ($is_favorite) checked @endif
+                        class="sr-only peer" value="1">
+                    <div
+                        class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                    </div>
+                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Favorites')
+                    </span>
+                </label>
+            </div>
 
 
 
             <livewire:file-uploads />
 
-            <x-sub-nav-link href="{{ route('photos.archived') }}">
-                @lang('Archived Photos')
-            </x-sub-nav-link>
+
 
         </div>
     </div>
