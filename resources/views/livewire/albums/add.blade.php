@@ -69,9 +69,9 @@ new #[Layout('layouts.app')] class extends Component {
             $image->save($storagePath);
 
             $date = date('Y-m-d');
-            if (isset($meta['DateTimeOriginal'])) {
+            if (isset($meta['DateTimeOriginal']) && $meta['DateTimeOriginal'] != '0000:00:00 00:00:00') {
                 $date = date('Y-m-d', strtotime($meta['DateTimeOriginal']));
-            } elseif (isset($meta['DateTimeDigitized'])) {
+            } elseif (isset($meta['DateTimeDigitized']) && $meta['DateTimeDigitized'] != '0000:00:00 00:00:00') {
                 $date = date('Y-m-d', strtotime($meta['DateTimeDigitized']));
             } elseif (isset($this->dates[$key])) {
                 $date = $this->dates[$key];
@@ -94,6 +94,17 @@ new #[Layout('layouts.app')] class extends Component {
     public function loadMore()
     {
         $this->perPage += 10;
+    }
+
+    public function validDates($dates)
+    {
+        try {
+            Carbon::parse($date);
+        } catch (\Exception $e) {
+            return false;
+        } finally {
+            return true;
+        }
     }
 
     public function addPhoto($id)
@@ -216,17 +227,20 @@ new #[Layout('layouts.app')] class extends Component {
 
     @script
         <script>
-            document.getElementById('uploadPhotos').addEventListener('change', function(event) {
+            document.addEventListener('livewire:init', () => {
+                document.getElementById('uploadPhotos').addEventListener('change', function(event) {
 
-                let files = event.target.files;
+                    let files = event.target.files;
 
-                let dates = [];
+                    let dates = [];
 
-                for (let i = 0; i < files.length; i++) {
-                    dates.push(files[i].lastModifiedDate);
-                }
+                    for (let i = 0; i < files.length; i++) {
+                        dates.push(files[i].lastModifiedDate);
+                    }
 
-                $wire.addDates(dates);
+                    $wire.addDates(dates);
+                });
+
             });
         </script>
     @endscript
