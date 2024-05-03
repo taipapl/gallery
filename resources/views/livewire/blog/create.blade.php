@@ -61,9 +61,13 @@ new #[Layout('layouts.app')] class extends Component {
 
 ?>
 
-<div>
+<div class="flex w-full" x-data="{ active: true }">
 
-    <div>
+    <div class="flex-none order-3 ">
+        <livewire:layout.navigation />
+    </div>
+
+    <div class="grow order-2">
 
 
 
