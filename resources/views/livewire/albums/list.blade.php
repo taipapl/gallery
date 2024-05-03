@@ -53,8 +53,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <div class="flex-none order-2" x-show="!active">
 
-        <div
-            class="fixed right-0 top-0  h-screen py-8 overflow-y-auto bg-white border-l border-r w-40 dark:bg-gray-900 dark:border-gray-700">
+        <div class="h-screen py-8 overflow-y-auto bg-white border-l border-r w-40 dark:bg-gray-900 dark:border-gray-700">
 
             <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Albums')</h2>
 
@@ -88,50 +87,8 @@ new #[Layout('layouts.app')] class extends Component {
         </div>
     </div>
 
-
-
     <div class="grow order-1 ">
-
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class=" p-6 text-gray-900 ">
-
-                        <div class="flex gap-2 flex-wrap ">
-                            @foreach ($albums as $album)
-                                <a href="{{ route('albums.show', ['uuid' => $album->uuid]) }}" class=" cursor-pointer"
-                                    wire:navigate>
-
-                                    @if ($album->cover)
-                                        <div class="h-40 w-40 border-2  block overflow-hidden "
-                                            @if ($loop->last) id="last_record" @endif
-                                            style="background-image: url('{{ route('get.image', ['photo' => $album->cover]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
-
-                                        </div>
-                                    @else
-                                        <div class="h-40 w-40 bg-gray-200 flex items-center justify-center">
-                                            <div class="text-center text-lg text-gray-500">@lang('No photos')
-                                            </div>
-                                        </div>
-                                    @endif
-
-
-                                    <div class="text-sm">
-                                        <div> {{ Str::limit($album->name, 18) }}</div>
-                                        <div> {{ $album->photos->count() }} @lang('elements')</div>
-                                    </div>
-
-                                </a>
-                            @endforeach
-                        </div>
-
-                        @if (count($albums) == 0)
-                            <div class="text-center text-lg text-black ">No Albums</div>
-                        @endif
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
+        <x-card>
+            <x-albums :albums="$albums" />
+        </x-card>
     </div>

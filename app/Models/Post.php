@@ -22,6 +22,6 @@ class Post extends Model
 
     public function photos()
     {
-        return $this->belongsToMany(Photo::class, 'posts_photos', 'post_id', 'photo_id')->withPivot('uuid');
+        return $this->belongsToMany(Photo::class, 'posts_photos', 'post_id', 'photo_id')->withPivot('uuid')->orderBy('first', 'desc');
     }
 }

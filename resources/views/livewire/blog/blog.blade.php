@@ -42,16 +42,16 @@ new #[Layout('layouts.app')] class extends Component {
 
 ?>
 
-<div class="flex w-full" x-data="{ active: true }">
+<div class="flex w-full" x-data="{ active: false }">
 
-    <div class="flex-none order-3 ">
+    <div class="flex-none order-3 " x-show="active">
         <livewire:layout.navigation />
     </div>
 
-    <div class="flex-none order-2">
+    <div class="flex-none order-2" x-show="!active">
 
-        <div x-show="active" @click.away="active = false"
-            class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r w-40 dark:bg-gray-900 dark:border-gray-700">
+        <div
+            class="fixed right-0 top-0 h-screen py-8 overflow-y-auto bg-white border-l border-r w-40 dark:bg-gray-900 dark:border-gray-700">
 
             <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Blog')</h2>
 
@@ -63,6 +63,10 @@ new #[Layout('layouts.app')] class extends Component {
 
                 <x-sub-nav-link href="{{ route('blog.emails') }}">
                     @lang('Emails')
+                </x-sub-nav-link>
+
+                <x-sub-nav-link x-on:click="active = ! active">
+                    @lang('Main menu')
                 </x-sub-nav-link>
 
             </div>
@@ -92,6 +96,19 @@ new #[Layout('layouts.app')] class extends Component {
                                     <img src="{{ route('get.image', ['photo' => $post->photos->first()->uuid]) }}"
                                         alt="{{ $post->photos->first()->name }}" class=" object-cover">
                                 @endif
+
+
+                                <div class="flex gap-2 flex-wrap mt-5">
+                                    @foreach ($post->photos ?? [] as $key => $photo)
+                                        @if ($post->photos[$key] != $post->photos->first())
+                                            <a href="{{ route('photos.show', $photo->uuid) }}" class="h-40 w-40"
+                                                @if ($photo->is_video) style="background-image: url('{{ $photo->path }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
+                                            @else
+                                                style="background-image: url('{{ route('get.image', ['photo' => $photo->uuid]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;"> @endif
+                                                </a>
+                                        @endif
+                                    @endforeach
+                                </div>
 
 
                                 <div>
