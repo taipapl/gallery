@@ -72,81 +72,91 @@ new #[Layout('layouts.app')] class extends Component {
 };
 
 ?>
-<div x-data="{ active: true }">
 
-    <div x-show="active" @click.away="active = false"
-        class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r w-40 dark:bg-gray-900 dark:border-gray-700">
+<div class="flex w-full" x-data="{ active: true }">
 
-
-
-        <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">{{ __('Photos') }}</h2>
-
-        <div class="mt-8 space-y-4">
+    <div class="flex-none order-3 ">
+        <livewire:layout.navigation />
+    </div>
 
 
-            <div class="px-2">
-                <label wire:click="archived()" class="relative inline-flex items-center cursor-pointer">
-                    <input wire:model="is_archived" type="checkbox" @if ($is_archived) checked @endif
-                        class="sr-only peer" value="1">
-                    <div
-                        class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                    </div>
-                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Archived')
-                    </span>
-                </label>
+    <div class="grow order-2">
+        <div x-show="active" @click.away="active = false"
+            class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r w-40 dark:bg-gray-900 dark:border-gray-700">
 
-                <label wire:click="favorite()" class="relative inline-flex items-center cursor-pointer">
-                    <input wire:model="is_favorite" type="checkbox" @if ($is_favorite) checked @endif
-                        class="sr-only peer" value="1">
-                    <div
-                        class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                    </div>
-                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Favorites')
-                    </span>
-                </label>
+
+
+            <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">{{ __('Photos') }}</h2>
+
+            <div class="mt-8 space-y-4">
+
+
+                <div class="px-2">
+                    <label wire:click="archived()" class="relative inline-flex items-center cursor-pointer">
+                        <input wire:model="is_archived" type="checkbox" @if ($is_archived) checked @endif
+                            class="sr-only peer" value="1">
+                        <div
+                            class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                        </div>
+                        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Archived')
+                        </span>
+                    </label>
+
+                    <label wire:click="favorite()" class="relative inline-flex items-center cursor-pointer">
+                        <input wire:model="is_favorite" type="checkbox" @if ($is_favorite) checked @endif
+                            class="sr-only peer" value="1">
+                        <div
+                            class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                        </div>
+                        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Favorites')
+                        </span>
+                    </label>
+                </div>
+
+
+
+                <livewire:file-uploads />
+
+
+
             </div>
-
-
-
-            <livewire:file-uploads />
-
-
-
         </div>
     </div>
 
 
-    <div class="py-12">
+    <div class="grow order-1">
+        <div class="py-12">
 
 
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900">
 
-                    @if (count($photos) == 0)
-                        <div class="text-center text-lg text-black ">@lang('No photos')</div>
-                    @endif
+                        @if (count($photos) == 0)
+                            <div class="text-center text-lg text-black ">@lang('No photos')</div>
+                        @endif
 
-                    <div class="flex gap-2 flex-wrap">
-                        @php($dataLabel = null)
-                        @foreach ($photos ?? [] as $key => $photo)
-                            @if ($dataLabel != $photo->photo_date->format('F Y'))
-                                @php($dataLabel = $photo->photo_date->format('F Y'))
-                                <div class="w-full text-center text-lg text-black ">{{ $dataLabel }}</div>
-                            @endif
-                            <x-photo :photo="$photo" :loop="$loop" />
-                        @endforeach
+                        <div class="flex gap-2 flex-wrap">
+                            @php($dataLabel = null)
+                            @foreach ($photos ?? [] as $key => $photo)
+                                @if ($dataLabel != $photo->photo_date->format('F Y'))
+                                    @php($dataLabel = $photo->photo_date->format('F Y'))
+                                    <div class="w-full text-center text-lg text-black ">{{ $dataLabel }}</div>
+                                @endif
+                                <x-photo :photo="$photo" :loop="$loop" />
+                            @endforeach
 
-                        <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
+                            <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
+
+                        </div>
 
                     </div>
-
                 </div>
             </div>
+
+
         </div>
-
-
     </div>
 
 

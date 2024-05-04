@@ -73,36 +73,46 @@ new #[Layout('layouts.app')] class extends Component {
 
 ?>
 
-<div x-data="{ active: true }">
+<div class="flex w-full" x-data="{ active: false }">
 
+    <div class="flex-none order-3" x-show="active">
+        <livewire:layout.navigation />
+    </div>
 
-    <div x-show="active" @click.away="active = false"
-        class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r w-40 dark:bg-gray-900 dark:border-gray-700">
+    <div class="flex-none order-2" x-show="!active">
+        <div
+            class="fixed right-0 top-0 h-screen py-8 overflow-y-auto bg-white border-l border-r w-40 dark:bg-gray-900 dark:border-gray-700">
 
-        <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Albums')</h2>
+            <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Albums')</h2>
 
-        <div class="mt-8 space-y-4">
+            <div class="mt-8 space-y-4">
 
-            <x-sub-nav-link href="{{ route('albums.add', $tag->uuid) }}">
-                @lang('Add Photo')
-            </x-sub-nav-link>
+                <x-sub-nav-link href="{{ route('albums.add', $tag->uuid) }}">
+                    @lang('Add Photo')
+                </x-sub-nav-link>
 
-            <x-sub-nav-link href="{{ route('albums.share', $tag->uuid) }}">
-                @lang('Share Album')
-            </x-sub-nav-link>
+                <x-sub-nav-link href="{{ route('albums.share', $tag->uuid) }}">
+                    @lang('Share Album')
+                </x-sub-nav-link>
 
-            <x-sub-nav-link wire:key="archive" wire:confirm="{{ __('Are You sure?') }}" wire:click="archived()">
-                {{ $tag->is_archived ? __('Un Archived') : __('Archived') }}
-            </x-sub-nav-link>
+                <x-sub-nav-link wire:key="archive" wire:confirm="{{ __('Are You sure?') }}" wire:click="archived()">
+                    {{ $tag->is_archived ? __('Un Archived') : __('Archived') }}
+                </x-sub-nav-link>
 
-            <x-sub-nav-link wire:confirm="{{ __('Are You sure?') }}" wire:click="deleteAlbum('{{ $tag->id }}')">
-                @lang('Delete Album')
-            </x-sub-nav-link>
+                <x-sub-nav-link wire:confirm="{{ __('Are You sure?') }}"
+                    wire:click="deleteAlbum('{{ $tag->id }}')">
+                    @lang('Delete Album')
+                </x-sub-nav-link>
 
+                <x-sub-nav-link href="{{ route('albums.list') }}">
+                    @lang('Albums List')
+                </x-sub-nav-link>
+
+            </div>
         </div>
     </div>
 
-    <div class="py-12">
+    <div class="grow order-1">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">

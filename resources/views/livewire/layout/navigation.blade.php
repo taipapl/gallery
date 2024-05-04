@@ -15,9 +15,10 @@ new class extends Component {
     }
 }; ?>
 
-<aside class="fixed right-0 flex">
+<aside class="flex  w-[56px]">
 
-    <div class="flex flex-col items-center w-16 h-screen py-8 space-y-8 bg-white dark:bg-gray-900 dark:border-gray-700">
+    <div
+        class="flex  fixed z-50 right-0 top-0 flex-col items-center w-16 h-screen py-8 space-y-8 bg-white dark:bg-gray-900 dark:border-gray-700">
 
         <a href="{{ route('albums.list') }}">
             <x-icons.empty-logo class="w-9 h-6" />
