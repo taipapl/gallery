@@ -31,14 +31,16 @@ new #[Layout('layouts.app')] class extends Component {
     {
         $photo = User::find(auth()->id())->photos()->onlyTrashed()->find($photo_id);
 
-        $photoTags = PhotoTag::where('photo_id', $photo->id)->get();
-        foreach ($photoTags as $photoTag) {
-            $photoTag->delete();
-        }
-
         Storage::delete('photos/' . $photo->path);
 
         $photo->forceDelete();
+    }
+
+    public function recorvery($photo_id): void
+    {
+        $photo = User::find(auth()->id())->photos()->onlyTrashed()->find($photo_id);
+
+        $photo->restore();
     }
 
     public function deleteAll(): void
@@ -62,65 +64,60 @@ new #[Layout('layouts.app')] class extends Component {
 };
 ?>
 
-<div class="flex w-full" x-data="{ active: true }">
-
-    <div class="flex-none order-3 ">
-        <livewire:layout.navigation />
-    </div>
-
-    <div class="flex-none order-2">
+<x-container>
 
 
-        <div x-show="active" @click.away="active = false"
-            class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r w-40 dark:bg-gray-900 dark:border-gray-700">
+
+    <x-card>
+
+        <div class="flex items-center">
 
             <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Video')</h2>
 
-            <div class="mt-8 space-y-4">
+            <div>
 
                 <x-sub-nav-link wire:confirm="{{ __('Are you sure you want to permanently delete the files?') }}"
                     wire:click="deleteAll">{{ __('Delete All') }}
                 </x-sub-nav-link>
 
             </div>
+
         </div>
-    </div>
 
+    </x-card>
 
-    <div class="grow order-1">
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
+    <x-card>
+        @if (count($photos) == 0)
+            <div class="text-center text-lg text-black ">@lang('Trash is empty')</div>
+        @endif
 
-                        @if (count($photos) == 0)
-                            <div class="text-center text-lg text-black ">@lang('Trash is empty')</div>
-                        @endif
+        <div class="flex gap-2 flex-wrap">
+            @php($dataLabel = null)
+            @foreach ($photos ?? [] as $key => $photo)
+                @if ($dataLabel != $photo->photo_date->format('F Y'))
+                    @php($dataLabel = $photo->photo_date->format('F Y'))
+                    <div class="w-full text-center text-lg text-black ">{{ $dataLabel }}</div>
+                @endif
+                <div class="relative h-40 w-40" @if ($loop->last) id="last_record" @endif>
+                    <img src="{{ route('get.image', ['photo' => $photo->uuid]) }}" alt="{{ $photo->name }}"
+                        class="object-cover mx-auto w-full rounded-lg shadow-lg">
+                    <div wire:confirm="{{ __('Are you sure you want to permanently delete the file?') }}"
+                        wire:click="delete('{{ $photo->id }}')"
+                        class="cursor-pointer bg-slate-50 absolute top-0 p-2 border">@lang('Delete')</div>
 
-                        <div class="flex gap-2 flex-wrap">
-                            @php($dataLabel = null)
-                            @foreach ($photos ?? [] as $key => $photo)
-                                @if ($dataLabel != $photo->photo_date->format('F Y'))
-                                    @php($dataLabel = $photo->photo_date->format('F Y'))
-                                    <div class="w-full text-center text-lg text-black ">{{ $dataLabel }}</div>
-                                @endif
-                                <div class="relative h-40 w-40"
-                                    @if ($loop->last) id="last_record" @endif
-                                    style="background-image: url('{{ route('get.image', ['photo' => $photo->uuid]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
-                                    <div wire:confirm="{{ __('Are you sure you want to permanently delete the file?') }}"
-                                        wire:click="delete('{{ $photo->id }}')"
-                                        class="cursor-pointer bg-slate-50 absolute p-2 border">@lang('Delete')</div>
-                                </div>
-                            @endforeach
-
-                            <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
-
-                        </div>
-
-
+                    <div wire:confirm="{{ __('Are you sure you want recorvery the file?') }}"
+                        wire:click="recorvery('{{ $photo->id }}')"
+                        class="cursor-pointer bg-slate-50 absolute right-0 top-0 p-2 border">@lang('Recorvery')
                     </div>
                 </div>
-            </div>
+            @endforeach
+
+            <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
+
         </div>
-    </div>
-</div>
+
+    </x-card>
+
+
+
+</x-container>

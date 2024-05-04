@@ -77,13 +77,13 @@ new #[Layout('layouts.app')] class extends Component {
 
                     <form class="mb-4" wire:submit.prevent="addPost">
                         <div class="flex gap-3 flex-col">
-                            <input type="text" class="form-input" placeholder="@lang('title')" wire:model="title">
+                            <input type="text" class="form-input" placeholder="@lang('Title')" wire:model="title">
                             <div>
                                 @error('title')
                                     <div class="text-red-700 "> {{ $message }}</div>
                                 @enderror
                             </div>
-                            <textarea class="form-input" placeholder="@lang('content')" wire:model="content"></textarea>
+                            <textarea class="form-input" placeholder="@lang('Content')" wire:model="content"></textarea>
                             <div>
                                 @error('content')
                                     <div class="text-red-700 ">{{ $message }}</div>

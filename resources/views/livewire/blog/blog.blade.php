@@ -39,100 +39,87 @@ new #[Layout('layouts.app')] class extends Component {
             ->paginate($this->perPage);
     }
 };
-
 ?>
+<x-container class="max-w-3xl">
 
-<div class="flex w-full" x-data="{ active: false }">
+    <x-card>
 
-    <div class="flex-none order-3 " x-show="active">
-        <livewire:layout.navigation />
-    </div>
-
-    <div class="flex-none order-2" x-show="!active">
-
-        <div
-            class="fixed right-0 top-0 h-screen py-8 overflow-y-auto bg-white border-l border-r w-40 dark:bg-gray-900 dark:border-gray-700">
+        <div class="flex gap-3 items-center ">
 
             <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Blog')</h2>
 
-            <div class="mt-8 space-y-4">
+            <x-sub-nav-link href="{{ route('blog.create') }}">
+                @lang('Create post')
+            </x-sub-nav-link>
 
-                <x-sub-nav-link href="{{ route('blog.create') }}">
-                    @lang('Create post')
-                </x-sub-nav-link>
+            <x-sub-nav-link href="{{ route('blog.emails') }}">
+                @lang('Emails')
+            </x-sub-nav-link>
 
-                <x-sub-nav-link href="{{ route('blog.emails') }}">
-                    @lang('Emails')
-                </x-sub-nav-link>
-
-                <x-sub-nav-link x-on:click="active = ! active">
-                    @lang('Main menu')
-                </x-sub-nav-link>
-
-            </div>
         </div>
-    </div>
 
-    <div class="grow order-1">
+    </x-card>
 
-        <div class="py-12">
+    @if ($posts->count() == 0)
+        <x-card>
+            @lang('No posts')
+        </x-card>
+    @endif
 
-            <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
+    @foreach ($posts as $post)
+        <x-card>
 
-                        @if ($posts->count() == 0)
-                            <div class="text-center text-lg text-black ">@lang('No posts')</div>
-                        @endif
+            <div class="flex flex-col gap-3">
 
-                        @foreach ($posts as $post)
-                            <div class="mb-4">
+                <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
 
-                                <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
-                                <div class="text-sm">{{ $post->created_at->format('d.m.Y') }}</div>
+                <div class="text-sm">
+                    {{ $post->created_at->diffForHumans() }}
 
+                    @if ($post->active)
+                        <span class="text-green-500">@lang('Active')</span>
+                    @else
+                        <span class="text-red-500">@lang('No Active')</span>
+                    @endif
 
-                                @if ($post->photos->first())
-                                    <img src="{{ route('get.image', ['photo' => $post->photos->first()->uuid]) }}"
-                                        alt="{{ $post->photos->first()->name }}" class=" object-cover">
-                                @endif
-
-
-                                <div class="flex gap-2 flex-wrap mt-5">
-                                    @foreach ($post->photos ?? [] as $key => $photo)
-                                        @if ($post->photos[$key] != $post->photos->first())
-                                            <a href="{{ route('photos.show', $photo->uuid) }}" class="h-40 w-40"
-                                                @if ($photo->is_video) style="background-image: url('{{ $photo->path }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
-                                            @else
-                                                style="background-image: url('{{ route('get.image', ['photo' => $photo->uuid]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;"> @endif
-                                                </a>
-                                        @endif
-                                    @endforeach
-                                </div>
-
-
-                                <div>
-                                    @if ($post->active)
-                                        <span class="text-green-500">@lang('Active')</span>
-                                    @else
-                                        <span class="text-red-500">@lang('No Active')</span>
-                                    @endif
-                                </div>
-
-                                <p>{{ $post->post }}</p>
-
-                                <x-secondary-link href="{{ route('blog.edit', $post->uuid) }}">
-                                    @lang('Edit post')
-                                </x-secondary-link>
-
-                            </div>
-                        @endforeach
-
-
-                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-</div>
+                @if ($post->photos->first())
+                    <img src="{{ route('get.image', ['photo' => $post->photos->first()->uuid]) }}"
+                        alt="{{ $post->photos->first()->name }}"
+                        class="object-cover mx-auto w-full rounded-lg shadow-lg">
+                @endif
+
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    @foreach ($post->photos ?? [] as $key => $photo)
+                        @if ($post->photos[$key] != $post->photos->first())
+                            <a href="{{ route('photos.show', $photo->uuid) }}">
+                                <img class="h-40 w-40 object-cover rounded-lg shadow-lg"
+                                    @if ($photo->is_video) src="{{ $photo->path }}"
+
+                            @else
+
+                            src="{{ route('get.image', ['photo' => $photo->uuid]) }}" @endif
+                                    alt="{{ $photo->name }}" />
+                            </a>
+                        @endif
+                    @endforeach
+                </div>
+
+                <div>{{ $post->post }}</div>
+
+                <div>
+
+                    <x-secondary-link href="{{ route('blog.edit', $post->uuid) }}">
+                        @lang('Edit post')
+                    </x-secondary-link>
+
+                </div>
+
+            </div>
+
+        </x-card>
+    @endforeach
+
+</x-container>

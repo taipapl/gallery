@@ -13,7 +13,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     public Tag $tag;
     public $name = '';
-    public $perPage = 10;
+    public $perPage = 46;
     public $photos;
 
     protected $listeners = [
@@ -28,7 +28,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function loadMore()
     {
-        $this->perPage += 10;
+        $this->perPage += 14;
     }
 
     public function updated($name, $value)
@@ -73,80 +73,63 @@ new #[Layout('layouts.app')] class extends Component {
 
 ?>
 
-<div class="flex w-full" x-data="{ active: false }">
+<x-container>
 
-    <div class="flex-none order-3" x-show="active">
-        <livewire:layout.navigation />
-    </div>
+    <x-card>
 
-    <div class="flex-none order-2" x-show="!active">
-        <div
-            class="fixed right-0 top-0 h-screen py-8 overflow-y-auto bg-white border-l border-r w-40 dark:bg-gray-900 dark:border-gray-700">
+        <div class="flex justify-center ">
 
             <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Albums')</h2>
 
-            <div class="mt-8 space-y-4">
+            <x-sub-nav-link href="{{ route('albums.add', $tag->uuid) }}">
+                @lang('Add Photo')
+            </x-sub-nav-link>
 
-                <x-sub-nav-link href="{{ route('albums.add', $tag->uuid) }}">
-                    @lang('Add Photo')
-                </x-sub-nav-link>
+            <x-sub-nav-link href="{{ route('albums.share', $tag->uuid) }}">
+                @lang('Share Album')
+            </x-sub-nav-link>
 
-                <x-sub-nav-link href="{{ route('albums.share', $tag->uuid) }}">
-                    @lang('Share Album')
-                </x-sub-nav-link>
+            <x-sub-nav-link wire:key="archive" wire:confirm="{{ __('Are You sure?') }}" wire:click="archived()">
+                {{ $tag->is_archived ? __('Un Archived') : __('Archived') }}
+            </x-sub-nav-link>
 
-                <x-sub-nav-link wire:key="archive" wire:confirm="{{ __('Are You sure?') }}" wire:click="archived()">
-                    {{ $tag->is_archived ? __('Un Archived') : __('Archived') }}
-                </x-sub-nav-link>
+            <x-sub-nav-link wire:confirm="{{ __('Are You sure?') }}" wire:click="deleteAlbum('{{ $tag->id }}')">
+                @lang('Delete Album')
+            </x-sub-nav-link>
 
-                <x-sub-nav-link wire:confirm="{{ __('Are You sure?') }}"
-                    wire:click="deleteAlbum('{{ $tag->id }}')">
-                    @lang('Delete Album')
-                </x-sub-nav-link>
-
-                <x-sub-nav-link href="{{ route('albums.list') }}">
-                    @lang('Albums List')
-                </x-sub-nav-link>
-
-            </div>
         </div>
-    </div>
 
-    <div class="grow order-1">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+    </x-card>
+
+    <x-card>
 
 
-                    <form wire:submit>
-                        <input type="text" name="name" id="name" wire:model.live.debounce.800ms="name"
-                            class="form-input rounded-md shadow-sm mt-1 block w-full" placeholder="@lang('Album name')" />
-                    </form>
+        <form wire:submit>
+            <input type="text" name="name" id="name" wire:model.live.debounce.800ms="name"
+                class="form-input rounded-md shadow-sm mt-1 block w-full" placeholder="@lang('Album name')" />
+        </form>
 
-                    @if (count($photos) == 0)
-                        <div class="text-center text-lg text-black ">@lang('No photos in album')</div>
+        @if (count($photos) == 0)
+            <div class="text-center text-lg text-black ">@lang('No photos in album')</div>
+        @endif
+
+
+        <div class="flex gap-2 flex-wrap mt-5">
+            @foreach ($photos ?? [] as $key => $photo)
+                <a class="w-full md:w-auto cursor-pointer" href="{{ route('photos.show', ['uuid' => $photo->uuid]) }}"
+                    @if ($loop->last) id="last_record" @endif>
+                    @if ($photo->is_video)
+                        <img class="w-full md:h-44 md:w-44 object-cover object-top rounded-lg shadow-lg"
+                            src="{{ $photo->path }}" alt="{{ $photo->name }}" />
+                    @else
+                        <img class=" w-full md:h-44 md:w-44 object-cover object-top  rounded-lg shadow-lg"
+                            src="{{ route('get.image', ['photo' => $photo->uuid]) }}" alt="{{ $photo->name }}" />
                     @endif
-
-
-                    <div class="flex gap-2 flex-wrap mt-5">
-                        @foreach ($photos ?? [] as $key => $photo)
-                            <a href="{{ route('photos.show', ['uuid' => $photo->uuid]) }}" class="h-40 w-40"
-                                @if ($loop->last) id="last_record" @endif
-                                @if ($photo->is_video) style="background-image: url('{{ $photo->path }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
-                @else
-                style="background-image: url('{{ route('get.image', ['photo' => $photo->uuid]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;"> @endif
-                                </a>
-                        @endforeach
-                        <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
-                    </div>
-
-
-
-
-                </div>
-            </div>
+                </a>
+            @endforeach
+            <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
         </div>
-    </div>
 
+    </x-card>
 
-</div>
+</x-container>

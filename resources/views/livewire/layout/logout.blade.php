@@ -17,6 +17,6 @@ new class extends Component {
 
 <div>
     <x-sub-nav-link wire:click="logout">
-        {{ __('Log Out') }}
+        <span class="whitespace-nowrap "> {{ __('Log Out') }} </span>
     </x-sub-nav-link>
 </div>

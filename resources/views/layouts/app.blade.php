@@ -21,7 +21,15 @@
 
     <div class="flex">
 
-        {{ $slot }}
+        <div class="grow order-1 ">
+
+            {{ $slot }}
+
+        </div>
+
+        <div class="flex-none order-2 ">
+            <livewire:layout.navigation />
+        </div>
 
     </div>
 

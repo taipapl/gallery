@@ -41,24 +41,26 @@ new #[Layout('layouts.user')] class extends Component {
 
 ?>
 
-
-<div x-data="{ open: false }">
-
-
-    <x-card class="max-w-3xl">
-        @lang('Blog'): {{ $profil->name }}
-    </x-card>
+<x-container class="max-w-3xl">
 
 
+    <div class="flex flex-col gap-3" x-data="lightbox(), { open: false }">
 
-    @if ($posts->count() == 0)
+
         <x-card class="max-w-3xl">
-            <div class="text-center text-lg text-black ">@lang('No posts')</div>
+            @lang('Blog'): {{ $profil->name }}
         </x-card>
-    @endif
 
 
-    <div x-data="lightbox()">
+
+        @if ($posts->count() == 0)
+            <x-card class="max-w-3xl">
+                <div class="text-center text-lg text-black ">@lang('No posts')</div>
+            </x-card>
+        @endif
+
+
+
         @foreach ($posts as $post)
             <x-card class="max-w-3xl">
                 <div class="mb-4">
@@ -132,63 +134,57 @@ new #[Layout('layouts.user')] class extends Component {
             </button>
         </div>
 
-    </div>
 
 
+        <script>
+            function lightbox() {
+                const images = document.querySelectorAll('.lightbox'); // Znajdź wszystkie obrazy na stronie
 
+                const photos = Array.from(images).map(img => {
 
-
-
-
-
-    <script>
-        function lightbox() {
-            const images = document.querySelectorAll('.lightbox'); // Znajdź wszystkie obrazy na stronie
-
-            const photos = Array.from(images).map(img => {
-
-                if (img.src.includes('youtube.com')) {
-                    return {
-                        type: 'youtube',
-                        url: img.dataset.src,
-                    };
-                } else {
-                    return {
-                        type: 'image',
-                        url: img.src,
-                    };
-                }
-
-            });
-            return {
-                photos: photos,
-                currentIndex: 0,
-                isOpen: false,
-                openLightbox(index) {
-                    this.currentIndex = index;
-                    this.isOpen = true;
-                },
-                closeLightbox() {
-                    this.isOpen = false;
-                    const currentPhoto = this.photos[this.currentIndex];
-                    if (currentPhoto.type === 'youtube') {
-                        const iframe = document.querySelector('.youtube-iframe');
-                        const temp = iframe.src;
-                        iframe.src = '';
-                        iframe.src = temp;
+                    if (img.src.includes('youtube.com')) {
+                        return {
+                            type: 'youtube',
+                            url: img.dataset.src,
+                        };
+                    } else {
+                        return {
+                            type: 'image',
+                            url: img.src,
+                        };
                     }
-                },
-                nextImage() {
-                    this.currentIndex = (this.currentIndex + 1) % this.photos.length;
-                },
-                prevImage() {
-                    this.currentIndex = (this.currentIndex + this.photos.length - 1) % this.photos.length;
-                },
-                get currentPhoto() {
-                    return this.photos[this.currentIndex];
+
+                });
+                return {
+                    photos: photos,
+                    currentIndex: 0,
+                    isOpen: false,
+                    openLightbox(index) {
+                        this.currentIndex = index;
+                        this.isOpen = true;
+                    },
+                    closeLightbox() {
+                        this.isOpen = false;
+                        const currentPhoto = this.photos[this.currentIndex];
+                        if (currentPhoto.type === 'youtube') {
+                            const iframe = document.querySelector('.youtube-iframe');
+                            const temp = iframe.src;
+                            iframe.src = '';
+                            iframe.src = temp;
+                        }
+                    },
+                    nextImage() {
+                        this.currentIndex = (this.currentIndex + 1) % this.photos.length;
+                    },
+                    prevImage() {
+                        this.currentIndex = (this.currentIndex + this.photos.length - 1) % this.photos.length;
+                    },
+                    get currentPhoto() {
+                        return this.photos[this.currentIndex];
+                    }
                 }
             }
-        }
-    </script>
+        </script>
 
-</div>
+    </div>
+</x-container>

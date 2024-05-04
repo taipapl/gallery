@@ -15,6 +15,7 @@ Michał Myśliński
 - make album public (special link)
 - Users can view images and videos in full screen
 - Users can soft delete images and videos and delete in the trash
+- Restore images from trash
 - Add labels to images and videos
 - View count views for images and videos
 - Create blog
@@ -25,6 +26,8 @@ Michał Myśliński
 - Change language (pl/en)
 - Email list and options to share albums in one link
 - Add image to favorite
+- show favorite images 
+- show archive images
 
 ## TODO
 - Add comments to blog
@@ -32,13 +35,14 @@ Michał Myśliński
 - add link to all albums for user with active email
 - add date archive images page
 - add search images
-- add favorite images page
 - add change date images
-- add back from trash to photo
-
-
-
-
+- add cache images
+- translate interface
+- add markdown documentation
+- add mail subscription
+- fix upload images process
+- add toast messages after upload images
+- add modal to confirm
 
 
 ## License

@@ -78,86 +78,48 @@ new #[Layout('layouts.app')] class extends Component {
     }
 };
 ?>
-<div class="flex w-full" x-data="{ active: true }">
+<x-container>
 
-    <div class="flex-none order-3 ">
-        <livewire:layout.navigation />
-    </div>
+    <x-card>
 
+        <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Video')</h2>
 
-    <div class="flex-none order-2">
+    </x-card>
 
+    <x-card>
 
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-3">
+            {{ __('Add Video') }}
+        </h2>
 
-
-        <div x-show="active" @click.away="active = false"
-            class="fixed right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r w-40 dark:bg-gray-900 dark:border-gray-700">
-
-            <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Video')</h2>
-
-            <div class="mt-8 space-y-4">
-
-
-
-                <x-sub-nav-link href="{{ route('video.list') }}">
-                    @lang('Cancel')
-                </x-sub-nav-link>
-
+        @if ($videoUrl)
+            <div class="mt-4">
+                <iframe class="w-full" height="315" src="{{ $videoUrl }}" title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
             </div>
-        </div>
-    </div>
+        @endif
 
+        <form wire:submit="save">
+            <input class="w-full" wire:model="video" wire:past="changeURL()" wire:change="changeURL()"
+                wire:paste="changeURL()" />
 
-    <div class="grow order-1">
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-
-
-                        <div class="p-10">
-
-
-                            <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-3">
-                                {{ __('Add Video') }}
-                            </h2>
-
-                            @if ($videoUrl)
-                                <div class="mt-4">
-                                    <iframe class="w-full" height="315" src="{{ $videoUrl }}"
-                                        title="YouTube video player" frameborder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                        allowfullscreen></iframe>
-                                </div>
-                            @endif
-
-                            <form wire:submit="save">
-                                <input class="w-full" wire:model="video" wire:past="changeURL()"
-                                    wire:change="changeURL()" wire:paste="changeURL()" />
-
-                                @if ($addError)
-                                    <div class="text-red-500 mt-2 text-sm">
-                                        {{ $addError }}
-                                    </div>
-                                @endif
-
-                                <div class="flex justify-between mt-3">
-                                    <x-primary-button type="submit">
-                                        @lang('Add')
-                                    </x-primary-button>
-
-
-                                </div>
-
-                            </form>
-
-                        </div>
-
-
-                    </div>
-
+            @if ($addError)
+                <div class="text-red-500 mt-2 text-sm">
+                    {{ $addError }}
                 </div>
-            </div>
-        </div>
+            @endif
 
-    </div>
+            <div class="flex justify-between mt-3">
+                <x-primary-button type="submit">
+                    @lang('Add')
+                </x-primary-button>
+
+
+            </div>
+
+        </form>
+
+    </x-card>
+
+</x-container>

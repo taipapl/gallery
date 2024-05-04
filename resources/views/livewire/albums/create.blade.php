@@ -17,6 +17,6 @@ new class extends Component {
 
 <div>
     <x-sub-nav-link wire:click="createAlbum">
-        @lang('Create Album')
+        <span class="whitespace-nowrap ">@lang('Create Album')</span>
     </x-sub-nav-link>
 </div>
