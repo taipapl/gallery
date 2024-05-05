@@ -69,6 +69,15 @@ new #[Layout('layouts.app')] class extends Component {
     {
         $view->photos = $this->tag->photos()->paginate($this->perPage);
     }
+
+    public function setAsCover($uuid)
+    {
+        $this->tag->update([
+            'cover' => $uuid,
+        ]);
+
+        $this->dispatch('showToast', __('Cover was set'), 'info', 3);
+    }
 };
 
 ?>
@@ -77,7 +86,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <x-card>
 
-        <div class="flex justify-center ">
+        <div class="flex gap3 flex-col md:flex-row items-left ">
 
             <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Albums')</h2>
 
@@ -116,8 +125,12 @@ new #[Layout('layouts.app')] class extends Component {
 
         <div class="flex gap-2 flex-wrap mt-5">
             @foreach ($photos ?? [] as $key => $photo)
-                <a class="w-full md:w-auto cursor-pointer" href="{{ route('photos.show', ['uuid' => $photo->uuid]) }}"
-                    @if ($loop->last) id="last_record" @endif>
+                <div class="w-full relative block md:w-auto" @if ($loop->last) id="last_record" @endif>
+
+                    <x-context-menu>
+                        <div class="cursor-pointer px-2 " wire:click="setAsCover('{{ $photo->uuid }}')">
+                            @lang('Set as cover')</div>
+                    </x-context-menu>
                     @if ($photo->is_video)
                         <img class="w-full md:h-44 md:w-44 object-cover object-top rounded-lg shadow-lg"
                             src="{{ $photo->path }}" alt="{{ $photo->name }}" />
@@ -125,7 +138,8 @@ new #[Layout('layouts.app')] class extends Component {
                         <img class=" w-full md:h-44 md:w-44 object-cover object-top  rounded-lg shadow-lg"
                             src="{{ route('get.image', ['photo' => $photo->uuid]) }}" alt="{{ $photo->name }}" />
                     @endif
-                </a>
+
+                </div>
             @endforeach
             <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
         </div>

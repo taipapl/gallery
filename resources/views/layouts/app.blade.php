@@ -33,6 +33,8 @@
 
     </div>
 
+    <livewire:toast />
+
 </body>
 
 </html>

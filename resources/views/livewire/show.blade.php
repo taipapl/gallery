@@ -39,6 +39,9 @@ new #[Layout('layouts.app')] class extends Component {
     public function delete()
     {
         $this->photo->delete();
+
+        session()->flash('toast', __('Photo was deleted'));
+
         return redirect()->route('photos.list');
     }
 
@@ -69,6 +72,12 @@ new #[Layout('layouts.app')] class extends Component {
         $this->photo->update([
             'is_favorite' => !$this->photo->is_favorite,
         ]);
+
+        if ($this->photo->is_favorite) {
+            $this->dispatch('showToast', __('Image was add to favorite'), 'info', 3);
+        } else {
+            $this->dispatch('showToast', __('Image was remove from favorite'), 'info', 3);
+        }
     }
 };
 
@@ -123,43 +132,58 @@ new #[Layout('layouts.app')] class extends Component {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen></iframe>
         @else
-            <img :style="{ transform: 'rotate(' + rotation + 'deg)' }" class="m-auto"
-                src="{{ route('get.image', ['photo' => $photo->uuid]) }}" alt="">
+            <div class=" overflow-hidden">
+                <img :style="{ transform: 'rotate(' + rotation + 'deg)' }" class="m-auto"
+                    src="{{ route('get.image', ['photo' => $photo->uuid]) }}" alt="">
+            </div>
         @endif
 
 
-
-        <div class="text-sm px-5">@lang('Belong to Albums')</div>
-
-        <div class="px-5">
-            @foreach ($tags ?? [] as $tag)
-                <a href="{{ route('albums.show', $tag->uuid) }}"
-                    class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                    {{ Str::limit($tag->name, 10) }}
-                </a>
-            @endforeach
-        </div>
+        <div class="flex justify-between">
 
 
-        @if (is_array($photo->meta))
+            <div>
+                <div class="text-sm px-5">@lang('Belong to Albums')</div>
 
+                <div class="px-5">
+                    @foreach ($tags ?? [] as $tag)
+                        <a href="{{ route('albums.show', $tag->uuid) }}"
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+                            @if ($tag->name == '')
+                                {{ __('No name') }}
+                            @else
+                                {{ Str::limit($tag->name, 10) }}
+                            @endif
 
-            @foreach ($photo->meta as $key => $meta)
-                <div class="text-left">
-                    <span class="font-bold">{{ $key }}:</span>
-
-                    @if (is_array($meta))
-                        @foreach ($meta as $key => $value)
-                            <div>{{ $key }}: {{ $value }}</div>
-                        @endforeach
-                    @else
-                        <span>{{ $meta }}</span>
-                    @endif
-
+                        </a>
+                    @endforeach
                 </div>
-            @endforeach
 
-        @endif
+            </div>
+
+            <div>
+                @if (is_array($photo->meta))
+
+
+                    @foreach ($photo->meta as $key => $meta)
+                        <div class="text-left">
+                            <span class="font-bold">{{ $key }}:</span>
+
+                            @if (is_array($meta))
+                                @foreach ($meta as $key => $value)
+                                    <div>{{ $key }}: {{ $value }}</div>
+                                @endforeach
+                            @else
+                                <span>{{ $meta }}</span>
+                            @endif
+
+                        </div>
+                    @endforeach
+
+                @endif
+            </div>
+
+        </div>
 
 
 

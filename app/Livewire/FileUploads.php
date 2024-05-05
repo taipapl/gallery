@@ -83,6 +83,8 @@ class FileUploads extends ModalComponent
 
             $this->dispatch('appendPhoto2', $photoModel);
         }
+
+        $this->dispatch('showToast', __('Images was added'), 'info', 3);
     }
 
     public function addDates($dates)

@@ -19,6 +19,7 @@ class Tag extends Model
         'public_url',
         'is_archived',
         'count',
+        'cover'
     ];
 
     protected $casts = [

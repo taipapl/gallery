@@ -48,7 +48,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <x-card>
 
-        <div class="flex items-left gap3 flex-col md:flex-row items-center">
+        <div class="flex gap3 flex-col md:flex-row items-left">
 
             <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Albums')</h2>
 

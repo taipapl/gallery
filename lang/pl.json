@@ -29,5 +29,8 @@
     "Name": "Imię",
     "Profile": "Profil",
     "Log Out": "Wyloguj się",
-    "No shared albums": "Brak udostępnionych albumów"
+    "No shared albums": "Brak udostępnionych albumów",
+    "Add Photo": "Dodaj zdjęcie",
+    "Share Album": "Udostępnij album",
+    "Delete Album": "Usuń album"
 }

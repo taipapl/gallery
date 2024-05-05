@@ -25,6 +25,8 @@ new #[Layout('layouts.user')] class extends Component {
 
     public function mount($public_url)
     {
+        $firstPost = User::where('blog_url', $public_url)->where('is_blog', 1)->first();
+
         $this->profil = User::where('blog_url', $public_url)->where('is_blog', 1)->firstOrFail();
     }
 
