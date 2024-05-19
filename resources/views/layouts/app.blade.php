@@ -8,6 +8,8 @@
 
     <x-seo::meta />
 
+    @laravelPWA
+
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

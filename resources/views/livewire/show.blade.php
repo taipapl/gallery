@@ -87,7 +87,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <x-card>
 
-        <div class="flex gap-3 items-center">
+        <div class="flex gap3 flex-col md:flex-row items-left ">
 
             <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">{{ __('Photos') }}</h2>
 
@@ -127,7 +127,7 @@ new #[Layout('layouts.app')] class extends Component {
         </form>
 
         @if ($photo->is_video)
-            <iframe class="w-full" height="615" src="{{ $photo->video_path }}" title="YouTube video player"
+            <iframe class="w-full md:h-[650px]" src="{{ $photo->video_path }}" title="YouTube video player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen></iframe>
@@ -161,7 +161,7 @@ new #[Layout('layouts.app')] class extends Component {
 
             </div>
 
-            <div>
+            <div class="break-all">
                 @if (is_array($photo->meta))
 
 
