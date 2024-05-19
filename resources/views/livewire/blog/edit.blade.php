@@ -60,6 +60,8 @@ new #[Layout('layouts.app')] class extends Component {
         $this->post->active = $this->active;
         $this->post->user_id = auth()->id();
         $this->post->save();
+
+        $this->dispatch('showToast', __('Post was seved'), 'info', 3);
     }
 
     public function clickActive()
@@ -81,12 +83,11 @@ new #[Layout('layouts.app')] class extends Component {
 };
 
 ?>
-
 <x-container class="max-w-3xl">
 
     <x-card>
 
-        <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Video')</h2>
+        <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Edit blog')</h2>
 
     </x-card>
 
@@ -129,8 +130,9 @@ new #[Layout('layouts.app')] class extends Component {
                             <div
                                 class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
                             </div>
-                            <span
-                                class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Public')</span>
+                            <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                @lang('Public')
+                            </span>
                         </label>
                     </div>
 
@@ -154,7 +156,7 @@ new #[Layout('layouts.app')] class extends Component {
             </div>
         </form>
 
-        <div class="flex gap-2 flex-wrap mt-5">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach ($photos ?? [] as $key => $photo)
                 @if ($post->photos[$key] != $post->photos->first())
                     <img wire:click="changePhoto('{{ $photo->pivot->uuid }}')"
@@ -167,6 +169,6 @@ new #[Layout('layouts.app')] class extends Component {
 
         </div>
 
-        </div>
+
     </x-card>
 </x-container>
