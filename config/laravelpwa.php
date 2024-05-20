@@ -9,8 +9,8 @@ return [
         'background_color' => '#ffffff',
         'theme_color' => '#000000',
         'display' => 'standalone',
-        'orientation'=> 'any',
-        'status_bar'=> 'black',
+        'orientation' => 'any',
+        'status_bar' => 'black',
         'icons' => [
             '72x72' => [
                 'path' => '/images/icons/icon-72x72.png',
@@ -34,7 +34,7 @@ return [
             ],
             '192x192' => [
                 'path' => '/images/icons/icon-192x192.png',
-                'purpose' => 'any'
+                'purpose' => 'maskable'
             ],
             '384x384' => [
                 'path' => '/images/icons/icon-384x384.png',
