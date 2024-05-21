@@ -47,10 +47,16 @@ new #[Layout('layouts.user')] class extends Component {
     <div x-data="lightbox()">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach ($photos as $key => $photo)
-                <img class="lightbox cursor-pointer" @click="openLightbox({{ $key }})" alt=""
+                <img @if ($loop->last) id="last_record" @endif class="lightbox cursor-pointer"
+                    @click="openLightbox({{ $key }})" alt=""
                     @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
                     src="{{ $photo->is_video ? $photo->path : route('get.public', ['photo' => $photo->pivot->uuid]) }}" />
             @endforeach
+            <div x-intersect.full="$wire.loadMore(); addMore()" class="p-4">
+                <div wire:loading wire:target="loadMore" class="loading-indicator">
+                    @lang('Loading more photos...')
+                </div>
+            </div>
         </div>
 
         <!-- Lightbox -->

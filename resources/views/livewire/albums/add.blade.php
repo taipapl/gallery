@@ -213,7 +213,11 @@ new #[Layout('layouts.app')] class extends Component {
                     @if (in_array($photo->id, $photoIds)) <x-icon-do-not-disturb-on class=" text-green-600 w-6 h-6 fill-green-600 relative top-0 right-0" /> @endif
                     </div>
             @endforeach
-            <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
+            <div x-intersect.full="$wire.loadMore()" class="p-4">
+                <div wire:loading wire:target="loadMore" class="loading-indicator">
+                    @lang('Loading more photos')
+                </div>
+            </div>
         </div>
 
     </x-card>
