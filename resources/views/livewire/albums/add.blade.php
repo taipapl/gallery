@@ -205,13 +205,21 @@ new #[Layout('layouts.app')] class extends Component {
 
         <div class="flex gap-2 flex-wrap mt-3">
             @foreach ($photos ?? [] as $key => $photo)
-                <div wire:click="addPhoto('{{ $photo->id }}')" class="h-40 w-40"
-                    @if ($loop->last) id="last_record" @endif
-                    @if ($photo->is_video) style="background-image: url('{{ $photo->path }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
-                @else
-                style="background-image: url('{{ route('get.image', ['photo' => $photo->uuid]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;"> @endif
-                    @if (in_array($photo->id, $photoIds)) <x-icon-do-not-disturb-on class=" text-green-600 w-6 h-6 fill-green-600 relative top-0 right-0" /> @endif
-                    </div>
+                <div wire:click="addPhoto('{{ $photo->id }}')" class="relative h-40 w-40"
+                    @if ($loop->last) id="last_record" @endif>
+
+                    <img loading="lazy"
+                        @if ($photo->is_video) src="{{ $photo->path }}"
+                        @else
+                            src="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '160']) }}" @endif
+                        class="object-cover  shadow-md rounded-md h-40 w-40 ">
+
+
+                    @if (in_array($photo->id, $photoIds))
+                        <x-icon-do-not-disturb-on
+                            class=" text-green-600 w-6 h-6 fill-green-600 absolute top-0 right-0" />
+                    @endif
+                </div>
             @endforeach
             <div x-intersect.full="$wire.loadMore()" class="p-4">
                 <div wire:loading wire:target="loadMore" class="loading-indicator">

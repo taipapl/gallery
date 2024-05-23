@@ -5,8 +5,8 @@
             wire:navigate>
 
             @if ($album->cover)
-                <img src="{{ route('get.image', ['photo' => $album->cover]) }}" alt="{{ $album->name }}"
-                    class="h-40 w-full md:w-40 object-cover object-top  rounded-lg shadow-lg">
+                <img loading="lazy" src="{{ route('get.image', ['photo' => $album->cover, 'size' => '160']) }}"
+                    alt="{{ $album->name }}" class="h-40 w-full md:w-40 object-cover object-top  rounded-lg shadow-lg">
             @else
                 <div class="h-40 w-full md:w-40 bg-gray-200 flex items-center justify-center rounded-lg shadow-lg">
                     <div class="text-center text-lg text-gray-500">@lang('No photos')
