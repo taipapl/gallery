@@ -1,4 +1,4 @@
-<a href="{{ route('photos.show', $photo->uuid) }}" class=" cursor-pointer "
+<a href="{{ route('photos.show', $photo->uuid) }}" class=" relative cursor-pointer "
     @if ($loop->last) id="last_record" @endif>
 
     <img loading="lazy"
@@ -7,6 +7,6 @@
         src="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '160']) }}" @endif
         class="object-cover shadow-md rounded-md h-40 w-40 ">
     @if (now()->diffInDays(Carbon\Carbon::parse($photo->created_at)) < 3)
-        <x-icons.new class="fill-blue-500" />
+        <x-icons.new class="fill-blue-500 absolute top-1 left-1" />
     @endif
 </a>

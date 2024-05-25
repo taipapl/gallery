@@ -16,7 +16,7 @@ use Livewire\Volt\Volt;
 */
 
 Route::get('user/{photo}/{size?}', [ImageController::class, 'getImage'])->name('get.image');
-Route::get('public/{photo}', [ImageController::class, 'getPublicImage'])->name('get.public');
+
 Route::get('public/cover/{photo}', [ImageController::class, 'getPublicCover'])->name('get.cover');
 
 Route::get('public/post/{photo}', [ImageController::class, 'publicBlog'])->name('get.blog');
@@ -34,6 +34,8 @@ Volt::route('public/blog/{public_url}', 'public.blog')
 
 Volt::route('public/album/{public_url}', 'public.album')
     ->name('public.album');
+
+Route::get('public/{photo}/{size?}', [ImageController::class, 'getPublicImage'])->name('get.public');
 
 Volt::route('user/album/{user_url}', 'user.album')
     ->name('user.album');

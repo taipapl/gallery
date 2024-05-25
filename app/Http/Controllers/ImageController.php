@@ -21,24 +21,22 @@ class ImageController extends Controller
         $path = 'photos/' . $photo->user_id . '/' . $photo->path;
 
         if ($size) {
-            $size = $this->getSize($size);
+            $sizeArray = $this->getSize($size);
 
-            $cache = 'photos/' . $photo->user_id . '/cache/' . $photo->path;
+            $cache = 'photos/' . $photo->user_id . '/cache/' . $size . '-' . $photo->path;
 
             if (!Storage::exists($cache)) {
 
                 $storagePath = storage_path('app/' . $path);
 
-                $image = Image::make($storagePath)->fit($size[0], $size[1]);
+                $image = Image::make($storagePath)->fit($sizeArray[0], $sizeArray[1]);
 
                 $storagePath = storage_path('app/' . $cache);
 
                 $image->save($storagePath);
             }
 
-            $path = 'photos/' . $photo->user_id . '/cache/' . $photo->path;
-        } else {
-            $path = 'photos/' . $photo->user_id . '/' . $photo->path;
+            $path = 'photos/' . $photo->user_id . '/cache/' . $size . '-' . $photo->path;
         }
 
         if (!Storage::exists($path) || !Auth::check()) {
@@ -87,13 +85,36 @@ class ImageController extends Controller
         return Response::make($file, 200, ['Content-Type' => $type]);
     }
 
-    public function getPublicImage($uuid)
+    public function getPublicImage($uuid, string $size = null)
     {
+
         $photoTag = PhotoTag::where('uuid', $uuid)->firstOrFail();
 
         $photo = Photo::where('id', $photoTag->photo_id)->firstOrFail();
 
         $path = 'photos/' . $photo->user_id . '/' . $photo->path;
+
+        if ($size) {
+            $sizeArray = $this->getSize($size);
+
+
+
+            $cache = 'photos/' . $photo->user_id . '/cache/' . $size . '-' . $photo->path;
+
+            if (!Storage::exists($cache)) {
+
+                $storagePath = storage_path('app/' . $path);
+
+                $image = Image::make($storagePath)->fit($sizeArray[0], $sizeArray[1]);
+
+                $storagePath = storage_path('app/' . $cache);
+
+                $image->save($storagePath);
+            }
+
+            $path = 'photos/' . $photo->user_id . '/cache/' . $size . '-' . $photo->path;
+        }
+
 
         if (!Storage::exists($path)) {
             abort(404);
@@ -103,7 +124,7 @@ class ImageController extends Controller
 
         $type = Storage::mimeType($path);
 
-        return Response::make($file, 200, ['Content-Type' => $type]);
+        return Response::make($file, 200, ['Content-Type' => $type, 'Cache-Control' => 'max-age=31536000']);
     }
 
     public function getUserImage(UsersTags $usersTags, Photo $photo)
@@ -123,8 +144,10 @@ class ImageController extends Controller
 
     private function getSize($size): array
     {
+
         $s =   match ($size) {
-            160 => '160x160',
+            '160' => '160x160',
+            '600' => '600x600',
             default => '160x160',
         };
 
