@@ -15,38 +15,39 @@ class ImageController extends Controller
 {
     public function getImage(string $uuid, string $size = null)
     {
-
         $photo = Photo::withTrashed()->where('uuid', $uuid)->firstOrFail();
+
+
 
         $path = 'photos/' . $photo->user_id . '/' . $photo->path;
 
+
+
+
         if ($size) {
+
             $sizeArray = $this->getSize($size);
 
-            $cache = 'photos/' . $photo->user_id . '/cache/' . $size . '-' . $photo->path;
+            $storagePath = storage_path('app/' . $path);
 
-            if (!Storage::exists($cache)) {
+            $file = Image::cache(function ($image) use ($storagePath, $sizeArray) {
+                $image->make($storagePath)->fit($sizeArray[0], $sizeArray[1]);
+            }, 10, true);
 
-                $storagePath = storage_path('app/' . $path);
+            $type = Storage::mimeType($path);
 
-                $image = Image::make($storagePath)->fit($sizeArray[0], $sizeArray[1]);
+            return Response::make($file, 200, ['Content-Type' => $type, 'Cache-Control' => 'max-age=31536000']);
+        } else {
 
-                $storagePath = storage_path('app/' . $cache);
-
-                $image->save($storagePath);
+            if (!Storage::exists($path) || !Auth::check()) {
+                abort(404);
             }
 
-            $path = 'photos/' . $photo->user_id . '/cache/' . $size . '-' . $photo->path;
+            $file = Storage::get($path);
+            $type = Storage::mimeType($path);
+
+            return Response::make($file, 200, ['Content-Type' => $type]);
         }
-
-        if (!Storage::exists($path) || !Auth::check()) {
-            abort(404);
-        }
-
-        $file = Storage::get($path);
-        $type = Storage::mimeType($path);
-
-        return Response::make($file, 200, ['Content-Type' => $type, 'Cache-Control' => 'max-age=31536000']);
     }
 
     public function getPublicCover($uuid)

@@ -173,6 +173,10 @@ new #[Layout('layouts.app')] class extends Component {
 
         <div class="flex items-center">
 
+            <div x-show="uploading">
+                <x-icons.update />
+            </div>
+
             <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Album')</h2>
 
             <label
@@ -183,7 +187,7 @@ new #[Layout('layouts.app')] class extends Component {
             </label>
 
             <x-sub-nav-link href="{{ route('albums.show', $this->tag->uuid) }}">
-                @lang('Cancel')
+                @lang('Done')
             </x-sub-nav-link>
 
         </div>
@@ -192,9 +196,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <x-card>
 
-        <div x-show="uploading">
-            <progress class="bg-white w-full" max="100" x-bind:value="progress"></progress>
-        </div>
+
 
         <div class="flex justify-between ">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -212,7 +214,7 @@ new #[Layout('layouts.app')] class extends Component {
                         @if ($photo->is_video) src="{{ $photo->path }}"
                         @else
                             src="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '160']) }}" @endif
-                        class="object-cover  shadow-md rounded-md h-40 w-40 ">
+                        class="object-cover shadow-md rounded-md h-40 w-40 ">
 
 
                     @if (in_array($photo->id, $photoIds))
