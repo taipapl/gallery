@@ -30,6 +30,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
         event(new Registered(($user = User::create($validated))));
 
+        mkdir(storage_path('app/photos/' . $user->id), 0777, true);
+
         Auth::login($user);
 
         $this->redirect(RouteServiceProvider::HOME, navigate: true);

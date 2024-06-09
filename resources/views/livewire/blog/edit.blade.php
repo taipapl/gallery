@@ -142,10 +142,8 @@ new #[Layout('layouts.app')] class extends Component {
                 <div class="flex flex-col  md:flex-row gap-2">
 
                     <x-primary-link href="{{ route('blog.add', ['uuid' => $post->uuid]) }}">
-
                         @lang('Add Photo')
                     </x-primary-link>
-
 
                     <x-primary-button type="submit" class="btn btn-primary">
                         @lang('Save post')
@@ -160,10 +158,10 @@ new #[Layout('layouts.app')] class extends Component {
             @foreach ($photos ?? [] as $key => $photo)
                 @if ($post->photos[$key] != $post->photos->first())
                     <img wire:click="changePhoto('{{ $photo->pivot->uuid }}')"
-                        class="h-40 w-40 object-cover cursor-pointer " loading="lazy"
+                        class="h-40 w-40 object-cover cursor-pointer shadow-md rounded-md" loading="lazy"
                         @if ($photo->is_video) src="{{ $photo->path }}"
                             @else
-                                src="{{ route('get.image', ['photo' => $photo->uuid]) }}" @endif />
+                                src="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '160']) }}" @endif />
                 @endif
             @endforeach
 

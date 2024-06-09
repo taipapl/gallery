@@ -125,12 +125,13 @@ new #[Layout('layouts.app')] class extends Component {
 
         <div class="flex items-center">
 
-            <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-whit whitespace-nowrap"> {{ __('Add Photos') }}
-            </h2>
-
             <div x-show="uploading">
-                <progress class="bg-white w-full" max="100" x-bind:value="progress"></progress>
+                <x-icons.update />
             </div>
+
+            <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-whit whitespace-nowrap">
+                {{ __('Add Photos') }}
+            </h2>
 
             <label
                 class="cursor-pointer flex items-center w-full px-5 py-2 transition-colors duration-200 dark:hover:bg-gray-800 gap-x-2 hover:bg-gray-100 focus:outline-none">

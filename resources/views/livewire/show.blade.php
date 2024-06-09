@@ -62,7 +62,6 @@ new #[Layout('layouts.app')] class extends Component {
     public function rotate()
     {
         $img = Image::make(storage_path('app/photos/' . $this->photo->user_id . '/' . $this->photo->path));
-
         $img->rotate(-90);
         $img->save();
     }
@@ -133,7 +132,7 @@ new #[Layout('layouts.app')] class extends Component {
                 allowfullscreen></iframe>
         @else
             <div class=" overflow-hidden">
-                <img :style="{ transform: 'rotate(' + rotation + 'deg)' }" class="m-auto"
+                <img :style="{ transform: 'rotate(' + rotation + 'deg)' }" class="m-auto rounded-lg shadow-lg"
                     src="{{ route('get.image', ['photo' => $photo->uuid]) }}" alt="">
             </div>
         @endif
