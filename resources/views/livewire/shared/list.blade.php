@@ -52,12 +52,10 @@ new #[Layout('layouts.app')] class extends Component {
                 <a href="{{ route('shared.show', $album->uuid) }}">
 
 
-
-
                     @if ($album->cover)
-                        <div class="h-40 w-40 border-2  block overflow-hidden "
+                        <div class="h-40 w-40 border-2 block overflow-hidden rounded-lg shadow-lg"
                             @if ($loop->last) id="last_record" @endif
-                            style="background-image: url('{{ route('get.image', ['photo' => $album->cover]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
+                            style="background-image: url('{{ route('get.image', ['photo' => $album->cover, 'size' => '160']) }}'); background-repeat: no-repeat; background-position: top center;  background-size: cover;">
 
                         </div>
                     @else

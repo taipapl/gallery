@@ -130,6 +130,10 @@ new #[Layout('layouts.app')] class extends Component {
                     <x-context-menu>
                         <div class="cursor-pointer px-2 " wire:click="setAsCover('{{ $photo->uuid }}')">
                             @lang('Set as cover')</div>
+                        <a class="cursor-pointer px-2 " href="{{ route('photos.show', $photo->uuid) }}">
+                            @lang('Show')</a>
+
+
                     </x-context-menu>
                     @if ($photo->is_video)
                         <img class="w-full md:h-44 md:w-44 object-cover object-top rounded-lg shadow-lg"

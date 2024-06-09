@@ -50,7 +50,18 @@ new #[Layout('layouts.user')] class extends Component {
 
 
         <x-card class="max-w-3xl">
-            @lang('Blog'): {{ $profil->name }}
+
+            <div class="flex gap-3">
+
+                @auth
+                    <a href="{{ route('home') }}"><x-icons.back /></a>
+                @endauth
+
+
+
+                @lang('Blog'): {{ $profil->name }}
+            </div>
+
         </x-card>
 
 

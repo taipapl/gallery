@@ -100,7 +100,7 @@ new #[Layout('layouts.app')] class extends Component {
 
                             @else
 
-                            src="{{ route('get.image', ['photo' => $photo->uuid]) }}" @endif
+                            src="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '160']) }}" @endif
                                     alt="{{ $photo->name }}" />
                             </a>
                         @endif

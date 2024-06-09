@@ -58,6 +58,11 @@ new #[Layout('layouts.user')] class extends Component {
                     @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
                     src="{{ $photo->is_video ? $photo->path : route('get.public', ['photo' => $photo->pivot->uuid]) }}" />
             @endforeach
+            <div x-intersect.full="$wire.loadMore(); addMore()" class="p-4">
+                <div wire:loading wire:target="loadMore" class="loading-indicator">
+                    @lang('Loading more photos...')
+                </div>
+            </div>
         </div>
 
         <!-- Lightbox -->
@@ -93,7 +98,7 @@ new #[Layout('layouts.user')] class extends Component {
 
         <script>
             function lightbox() {
-                const images = document.querySelectorAll('.lightbox'); // Znajdź wszystkie obrazy na stronie
+                let images = document.querySelectorAll('.lightbox'); // Znajdź wszystkie obrazy na stronie
 
                 const photos = Array.from(images).map(img => {
 
@@ -114,6 +119,26 @@ new #[Layout('layouts.user')] class extends Component {
                     photos: photos,
                     currentIndex: 0,
                     isOpen: false,
+                    addMore() {
+                        let images = document.querySelectorAll('.lightbox'); // Znajdź wszystkie obrazy na stronie
+
+                        const photos = Array.from(images).map(img => {
+
+                            if (img.src.includes('youtube.com')) {
+                                return {
+                                    type: 'youtube',
+                                    url: img.dataset.src,
+                                };
+                            } else {
+                                return {
+                                    type: 'image',
+                                    url: img.src,
+                                };
+                            }
+
+                        });
+
+                    },
                     openLightbox(index) {
                         this.currentIndex = index;
                         this.isOpen = true;

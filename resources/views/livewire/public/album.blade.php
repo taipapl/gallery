@@ -42,15 +42,18 @@ new #[Layout('layouts.user')] class extends Component {
 
 <div>
 
-    <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $album->name }}</h1>
+    <h1 class="text-2xl mb-3 font-semibold text-gray-900 dark:text-white">{{ $album->name }}</h1>
 
     <div x-data="lightbox()">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach ($photos as $key => $photo)
-                <img class="lightbox cursor-pointer" @click="openLightbox({{ $key }})" alt=""
+                <img @if ($loop->last) id="last_record" @endif
+                    class="lightbox cursor-pointer object-cover shadow-md rounded-md"
+                    @click="openLightbox({{ $key }})" alt=""
                     @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
-                    src="{{ $photo->is_video ? $photo->path : route('get.public', ['photo' => $photo->pivot->uuid]) }}" />
+                    src="{{ $photo->is_video ? $photo->path : route('get.public', ['photo' => $photo->pivot->uuid, 'size' => '600']) }}" />
             @endforeach
+            <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
         </div>
 
         <!-- Lightbox -->

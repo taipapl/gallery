@@ -34,7 +34,7 @@ Michał Myśliński
 - add autocomplete email in share album
 - add link to all albums for user with active email
 - add date archive images page
-- add search images
+- add search images and add public profiles
 - add change date images
 - add cache images
 - translate interface
@@ -43,6 +43,7 @@ Michał Myśliński
 - fix upload images process
 - add toast messages after upload images
 - add modal to confirm
+- add download option for public images
 
 
 ## License
