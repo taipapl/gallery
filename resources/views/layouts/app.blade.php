@@ -8,7 +8,6 @@
 
     <x-seo::meta />
 
-    @laravelPWA
 
 
     <!-- Fonts -->
