@@ -14,7 +14,6 @@ new #[Layout('layouts.app')] class extends Component {
     public Tag $tag;
     public $name = '';
     public $perPage = 46;
-    public $photos;
 
     protected $listeners = [
         'appendPhoto' => 'appendPhoto',
@@ -44,6 +43,16 @@ new #[Layout('layouts.app')] class extends Component {
 
         $tag->delete();
         $this->redirectRoute('albums.list');
+    }
+
+    public function rotate($uuid)
+    {
+        $photo = Photo::where('uuid', $uuid)->firstOrFail();
+        $img = Image::make(storage_path('app/photos/' . $photo->user_id . '/' . $photo->path));
+        $img->rotate(-90);
+        $img->save();
+
+        $this->redirectRoute('albums.show', $this->tag->uuid);
     }
 
     public function mount($uuid)
@@ -106,6 +115,10 @@ new #[Layout('layouts.app')] class extends Component {
                 @lang('Delete Album')
             </x-sub-nav-link>
 
+            <x-sub-nav-link href="{{ route('albums.list') }}">
+                @lang('Back to albums')
+            </x-sub-nav-link>
+
         </div>
 
     </x-card>
@@ -132,6 +145,10 @@ new #[Layout('layouts.app')] class extends Component {
                             @lang('Set as cover')</div>
                         <a class="cursor-pointer px-2 " href="{{ route('photos.show', $photo->uuid) }}">
                             @lang('Show')</a>
+                        @if (!$photo->is_video)
+                            <div class="cursor-pointer px-2 " wire:click="rotate('{{ $photo->uuid }}')">
+                                @lang('Rotate')</div>
+                        @endif
 
 
                     </x-context-menu>
@@ -140,7 +157,8 @@ new #[Layout('layouts.app')] class extends Component {
                             src="{{ $photo->path }}" alt="{{ $photo->name }}" />
                     @else
                         <img class=" w-full md:h-44 md:w-44 object-cover object-top  rounded-lg shadow-lg"
-                            src="{{ route('get.image', ['photo' => $photo->uuid]) }}" alt="{{ $photo->name }}" />
+                            src="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '600']) }}"
+                            alt="{{ $photo->name }}" />
                     @endif
 
                 </div>

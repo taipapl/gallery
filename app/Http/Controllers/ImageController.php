@@ -17,33 +17,33 @@ class ImageController extends Controller
     {
         $photo = Photo::withTrashed()->where('uuid', $uuid)->firstOrFail();
 
+        if ($photo->is_video) {
+            return redirect()->away($photo->path);
+        }
+
 
 
         $path = 'photos/' . $photo->user_id . '/' . $photo->path;
 
+        if (!Storage::exists($path) || !Auth::check()) {
+            abort(404);
+        }
 
-
-
-        if ($size) {
+        if ($size && !$photo->is_video) {
 
             $sizeArray = $this->getSize($size);
 
             $storagePath = storage_path('app/' . $path);
 
-            $file = Image::cache(function ($image) use ($storagePath, $sizeArray) {
-                $image->make($storagePath)->fit($sizeArray[0], $sizeArray[1]);
-            }, 10, true);
+            $file =  Image::make($storagePath)->fit($sizeArray[0], $sizeArray[1]);
 
             $type = Storage::mimeType($path);
 
-            return Response::make($file, 200, ['Content-Type' => $type, 'Cache-Control' => 'max-age=31536000']);
+            return $file->response($type, 60);
         } else {
 
-            if (!Storage::exists($path) || !Auth::check()) {
-                abort(404);
-            }
-
             $file = Storage::get($path);
+
             $type = Storage::mimeType($path);
 
             return Response::make($file, 200, ['Content-Type' => $type]);
@@ -95,42 +95,33 @@ class ImageController extends Controller
 
         $path = 'photos/' . $photo->user_id . '/' . $photo->path;
 
-        if ($size) {
-            $sizeArray = $this->getSize($size);
-
-
-
-            $cache = 'photos/' . $photo->user_id . '/cache/' . $size . '-' . $photo->path;
-
-            if (!Storage::exists($cache)) {
-
-                $storagePath = storage_path('app/' . $path);
-
-                $image = Image::make($storagePath)->fit($sizeArray[0], $sizeArray[1]);
-
-                $storagePath = storage_path('app/' . $cache);
-
-                $image->save($storagePath);
-            }
-
-            $path = 'photos/' . $photo->user_id . '/cache/' . $size . '-' . $photo->path;
-        }
-
-
         if (!Storage::exists($path)) {
             abort(404);
         }
 
-        $file = Storage::get($path);
+        if ($size) {
 
-        $type = Storage::mimeType($path);
+            $sizeArray = $this->getSize($size);
 
-        return Response::make($file, 200, ['Content-Type' => $type, 'Cache-Control' => 'max-age=31536000']);
+            $storagePath = storage_path('app/' . $path);
+
+            $file =  Image::make($storagePath)->fit($sizeArray[0], $sizeArray[1]);
+
+            $type = Storage::mimeType($path);
+
+            return $file->response($type, 60);
+        } else {
+
+            $file = Storage::get($path);
+
+            $type = Storage::mimeType($path);
+
+            return Response::make($file, 200, ['Content-Type' => $type, 'Cache-Control' => 'max-age=31536000']);
+        }
     }
 
     public function getUserImage(UsersTags $usersTags, Photo $photo)
     {
-
         $path = 'photos/' . $photo->user_id . '/' . $photo->path;
 
         if (!Storage::exists($path) || !$usersTags) {

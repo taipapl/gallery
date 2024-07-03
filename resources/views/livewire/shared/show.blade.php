@@ -39,134 +39,116 @@ new #[Layout('layouts.app')] class extends Component {
 };
 ?>
 
-<div x-data="{ active: true }">
+<x-container>
 
-    <div x-show="active" @click.away="active = false"
-        class="fixed z-50 right-0 top-0 mr-14 h-screen py-8 overflow-y-auto bg-white border-l border-r w-40 dark:bg-gray-900 dark:border-gray-700">
-
+    <x-card>
         <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Shared album')</h2>
-
-        <div class="mt-8 space-y-4">
-
-        </div>
-    </div>
+    </x-card>
 
 
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+    <x-card>
 
 
-                    <div>
+        <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $album->name }}</h1>
 
-                        <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $album->name }}</h1>
-
-                        <div x-data="lightbox()">
-                            <!-- Miniatury zdjęć -->
-                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                @foreach ($photos as $key => $photo)
-                                    <img class="lightbox cursor-pointer" @click="openLightbox({{ $key }})"
-                                        alt=""
-                                        @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
-                                        src="{{ $photo->is_video ? $photo->path : route('get.image', ['photo' => $photo->uuid]) }}" />
-                                @endforeach
-                            </div>
-
-                            <!-- Lightbox -->
-                            <div x-show="isOpen" @keydown.window.escape="closeLightbox"
-                                @keydown.window.arrow-left="prevImage" @keydown.window.arrow-right="nextImage"
-                                class="flex justify-center items-center z-[999] fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 cursor-pointer ">
-                                <template x-if="currentPhoto.type === 'image'">
-                                    <img :src="currentPhoto.url" style="max-width: 90%; max-height: 90%;" />
-                                </template>
-                                <template x-if="currentPhoto.type === 'youtube'">
-                                    <iframe class="youtube-iframe" width="560" height="315" :src="currentPhoto.url"
-                                        frameborder="0" allowfullscreen></iframe>
-                                </template>
-                                <button @click="prevImage" style="position: absolute; top: 50%; left: 20px;">
-                                    <svg fill="#fff" xmlns="http://www.w3.org/2000/svg" height="24"
-                                        viewBox="0 -960 960 960" width="24">
-                                        <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z" />
-                                    </svg>
-                                </button>
-                                <button @click="nextImage" style="position: absolute; top: 50%; right: 20px;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" height="24"
-                                        viewBox="0 -960 960 960" width="24">
-                                        <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z" />
-                                    </svg>
-                                </button>
-                                <button @click="closeLightbox" style="position: absolute; top: 20px; right: 20px;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
-                                        width="24">
-                                        <path fill="#fff"
-                                            d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <script>
-                                function lightbox() {
-                                    const images = document.querySelectorAll('.lightbox'); // Znajdź wszystkie obrazy na stronie
-
-                                    const photos = Array.from(images).map(img => {
-
-                                        if (img.src.includes('youtube.com')) {
-                                            return {
-                                                type: 'youtube',
-                                                url: img.dataset.src,
-                                            };
-                                        } else {
-                                            return {
-                                                type: 'image',
-                                                url: img.src,
-                                            };
-                                        }
-
-                                    });
-                                    return {
-                                        photos: photos,
-                                        currentIndex: 0,
-                                        isOpen: false,
-                                        openLightbox(index) {
-                                            this.currentIndex = index;
-                                            this.isOpen = true;
-                                        },
-                                        closeLightbox() {
-                                            this.isOpen = false;
-                                            const currentPhoto = this.photos[this.currentIndex];
-                                            if (currentPhoto.type === 'youtube') {
-                                                const iframe = document.querySelector('.youtube-iframe');
-                                                const temp = iframe.src;
-                                                iframe.src = '';
-                                                iframe.src = temp;
-                                            }
-                                        },
-                                        nextImage() {
-                                            this.currentIndex = (this.currentIndex + 1) % this.photos.length;
-                                        },
-                                        prevImage() {
-                                            this.currentIndex = (this.currentIndex + this.photos.length - 1) % this.photos.length;
-                                        },
-                                        get currentPhoto() {
-                                            return this.photos[this.currentIndex];
-                                        }
-                                    }
-                                }
-                            </script>
-
-
-                        </div>
-                    </div>
-
-
-
-
-                </div>
+        <div x-data="lightbox()">
+            <!-- Miniatury zdjęć -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                @foreach ($photos as $key => $photo)
+                    <img class="lightbox cursor-pointer" @click="openLightbox({{ $key }})" alt=""
+                        @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
+                        src="{{ $photo->is_video ? $photo->path : route('get.image', ['photo' => $photo->uuid, 'size' => '160']) }}" />
+                @endforeach
             </div>
+
+            <!-- Lightbox -->
+            <div x-show="isOpen" @keydown.window.escape="closeLightbox" @keydown.window.arrow-left="prevImage"
+                @keydown.window.arrow-right="nextImage"
+                class="flex justify-center items-center z-[999] fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 cursor-pointer ">
+                <template x-if="currentPhoto.type === 'image'">
+                    <img :src="currentPhoto.url" style="max-width: 90%; max-height: 90%;" />
+                </template>
+                <template x-if="currentPhoto.type === 'youtube'">
+                    <iframe class="youtube-iframe" width="560" height="315" :src="currentPhoto.url" frameborder="0"
+                        allowfullscreen></iframe>
+                </template>
+                <button @click="prevImage" style="position: absolute; top: 50%; left: 20px;">
+                    <svg fill="#fff" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
+                        width="24">
+                        <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z" />
+                    </svg>
+                </button>
+                <button @click="nextImage" style="position: absolute; top: 50%; right: 20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" height="24" viewBox="0 -960 960 960"
+                        width="24">
+                        <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z" />
+                    </svg>
+                </button>
+                <button @click="closeLightbox" style="position: absolute; top: 20px; right: 20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                        <path fill="#fff"
+                            d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                    </svg>
+                </button>
+            </div>
+
+            <script>
+                function lightbox() {
+                    const images = document.querySelectorAll('.lightbox'); // Znajdź wszystkie obrazy na stronie
+
+                    const photos = Array.from(images).map(img => {
+
+                        if (img.src.includes('youtube.com')) {
+                            return {
+                                type: 'youtube',
+                                url: img.dataset.src,
+                            };
+                        } else {
+                            return {
+                                type: 'image',
+                                url: img.src,
+                            };
+                        }
+
+                    });
+                    return {
+                        photos: photos,
+                        currentIndex: 0,
+                        isOpen: false,
+                        openLightbox(index) {
+                            this.currentIndex = index;
+                            this.isOpen = true;
+                        },
+                        closeLightbox() {
+                            this.isOpen = false;
+                            const currentPhoto = this.photos[this.currentIndex];
+                            if (currentPhoto.type === 'youtube') {
+                                const iframe = document.querySelector('.youtube-iframe');
+                                const temp = iframe.src;
+                                iframe.src = '';
+                                iframe.src = temp;
+                            }
+                        },
+                        nextImage() {
+                            this.currentIndex = (this.currentIndex + 1) % this.photos.length;
+                        },
+                        prevImage() {
+                            this.currentIndex = (this.currentIndex + this.photos.length - 1) % this.photos.length;
+                        },
+                        get currentPhoto() {
+                            return this.photos[this.currentIndex];
+                        }
+                    }
+                }
+            </script>
+
+
         </div>
-    </div>
 
 
-</div>
+
+
+
+    </x-card>
+
+</x-container>

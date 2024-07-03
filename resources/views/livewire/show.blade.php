@@ -162,9 +162,7 @@ new #[Layout('layouts.app')] class extends Component {
 
             <div class="break-all">
                 @if (is_array($photo->meta))
-
-
-                    @foreach ($photo->meta as $key => $meta)
+                    {{-- @foreach ($photo->meta as $key => $meta)
                         <div class="text-left">
                             <span class="font-bold">{{ $key }}:</span>
 
@@ -177,8 +175,7 @@ new #[Layout('layouts.app')] class extends Component {
                             @endif
 
                         </div>
-                    @endforeach
-
+                    @endforeach --}}
                 @endif
             </div>
 
