@@ -55,7 +55,8 @@ new #[Layout('layouts.app')] class extends Component {
             <!-- Miniatury zdjęć -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 @foreach ($photos as $key => $photo)
-                    <img class="lightbox cursor-pointer" @click="openLightbox({{ $key }})" alt=""
+                    <img class="lightbox cursor-pointer h-40 w-full md:w-40 object-cover object-top  rounded-lg shadow-lg"
+                        @click="openLightbox({{ $key }})" alt=""
                         @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
                         src="{{ $photo->is_video ? $photo->path : route('get.image', ['photo' => $photo->uuid, 'size' => '160']) }}" />
                 @endforeach

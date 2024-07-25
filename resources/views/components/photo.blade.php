@@ -1,5 +1,4 @@
-<a href="{{ route('photos.show', $photo->uuid) }}" class="w-full  md:w-auto relative cursor-pointer "
-    @if ($loop->last) id="last_record" @endif>
+<div class="w-full  md:w-auto relative " @if ($loop->last) id="last_record" @endif>
 
     <img loading="lazy"
         @if ($photo->is_video) src="{{ $photo->path }}"
@@ -9,4 +8,4 @@
     @if (now()->diffInDays(Carbon\Carbon::parse($photo->created_at)) < 3)
         <x-icons.new class="fill-blue-500 absolute top-1 left-1" />
     @endif
-</a>
+</div>

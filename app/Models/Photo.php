@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Casts\Json;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Intervention\Image\Facades\Image;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Photo extends Model
 {
@@ -42,5 +43,24 @@ class Photo extends Model
         return Attribute::make(
             get: fn ($value) => $this->meta['video_image'] ?? null,
         );
+    }
+
+    public function archive(): void
+    {
+        $this->is_archived = $this->is_archived ? false : true;
+        $this->save();
+    }
+
+    public function favorite(): void
+    {
+        $this->is_favorite = $this->is_favorite ? false : true;
+        $this->save();
+    }
+
+    public function rotateLeft(): void
+    {
+        $img = Image::make(storage_path('app/photos/' . $this->user_id . '/' . $this->path));
+        $img->rotate(-90);
+        $img->save();
     }
 }

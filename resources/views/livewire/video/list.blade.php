@@ -58,11 +58,12 @@ new #[Layout('layouts.app')] class extends Component {
 
         <div class="flex gap-2 flex-wrap ">
             @foreach ($videos ?? [] as $key => $video)
-                <a href="{{ route('photos.show', $video->uuid) }}" class="h-40 w-40"
-                    @if ($loop->last) id="last_record" @endif
-                    style="background-image: url('{{ $video->path }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
-
-                </a>
+                <div class="w-full relative block md:w-auto" @if ($loop->last) id="last_record" @endif>
+                    <a href="{{ route('photos.show', $video->uuid) }}" class="h-40 w-40">
+                        <img class="w-full md:h-44 md:w-44 object-cover object-top rounded-lg shadow-lg"
+                            src="{{ $video->path }}" alt="{{ $video->name }}" />
+                    </a>
+                </div>
             @endforeach
             <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
         </div>

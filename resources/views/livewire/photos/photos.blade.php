@@ -69,6 +69,11 @@ new #[Layout('layouts.app')] class extends Component {
 
         $view->photos = $query->orderBy('photo_date', 'desc')->paginate($this->perPage);
     }
+
+    public function clickLightbox($uuid, $type)
+    {
+        $this->dispatch('lightbox', $uuid, $type);
+    }
 };
 
 ?>
@@ -130,7 +135,9 @@ new #[Layout('layouts.app')] class extends Component {
                     @php($dataLabel = $photo->photo_date->format('F Y'))
                     <div class="w-full text-center text-lg text-black ">{{ $dataLabel }}</div>
                 @endif
-                <x-photo :photo="$photo" :loop="$loop" />
+                <div wire:click="clickLightbox('{{ $photo->uuid }}', 'private')" class="cursor-pointer ">
+                    <x-photo :photo="$photo" :loop="$loop" />
+                </div>
             @endforeach
 
             <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>

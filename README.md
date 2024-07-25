@@ -44,6 +44,8 @@ Michał Myśliński
 - add toast messages after upload images
 - add modal to confirm
 - add download option for public images
+- add public gallery to blog
+- build show image component
 
 
 ## License

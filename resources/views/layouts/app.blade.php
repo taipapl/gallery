@@ -34,7 +34,11 @@
 
     </div>
 
+    <livewire:lightbox />
+
     <livewire:toast />
+
+
 
 </body>
 

@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use Illuminate\View\View;
 use App\Models\Post;
 use Livewire\WithFileUploads;
+use App\Models\Tag;
 
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination;
@@ -19,12 +20,17 @@ new #[Layout('layouts.app')] class extends Component {
     public $content = '';
     public $createt_at;
     public $active = true;
+    public $publicAlbums = [];
+
+    public $pa = '';
 
     public function mount()
     {
         seo()->title(__('Create Post') . ' - ' . config('app.name'));
 
         $this->createt_at = now()->format('Y-m-d');
+
+        $this->publicAlbums = Tag::where('is_public', 1)->where('user_id', auth()->id())->get();
     }
 
     public function addPost()
@@ -110,16 +116,25 @@ new #[Layout('layouts.app')] class extends Component {
                                     <span
                                         class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Public')</span>
                                 </label>
+                            </div>
 
-
-
-
+                            <div>
+                                <select wire:model.change="pa">
+                                    <option value="">{{ __('Select public album') }}</option>
+                                    @foreach ($publicAlbums as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
 
                             <div class="flex justify-between mt-3">
-                                <x-primary-button type="submit" class="btn btn-primary">@lang('Add post')
+
+
+                                <x-primary-button type="submit" class="btn btn-primary">
+                                    @lang('Add post')
                                 </x-primary-button>
+
 
                                 <x-primary-link href="{{ route('blog.list') }}">
                                     @lang('Cancel')
