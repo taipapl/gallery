@@ -17,26 +17,42 @@ new class extends Component {
     public $curentImage;
     public $image;
     public $type;
+    public $tag;
+    public $label;
 
     protected $listeners = [
         'lightbox' => 'lightbox',
     ];
 
-    public function lightbox($image, $type): void
+    public function clickSetAsCover($image)
+    {
+        $this->dispatch('setAsCover', $image);
+    }
+
+    public function updated($name, $value)
+    {
+        $this->image->update([
+            $name => $value,
+        ]);
+    }
+
+    public function lightbox($image, $type, $tag = null): void
     {
         $this->show = true;
         $this->type = $type;
+        $this->tag = $tag;
 
         if ($type) {
             switch ($type) {
                 case 'private':
                     $this->image = Photo::where('uuid', $image)->firstOrFail();
+                    $this->label = $this->image->label;
                     break;
 
                 case 'public':
                     $photoTag = PhotoTag::where('uuid', $image)->firstOrFail();
-
                     $this->image = Photo::where('id', $photoTag->id)->firstOrFail();
+                    $this->label = $this->image->label;
                     break;
             }
         }
@@ -72,8 +88,18 @@ new class extends Component {
             <div class="flex items-center justify-center h-full w-full ">
 
                 <div class="flex flex-col">
-                    <div class="text-white">
-                        {{ $image->label }}
+                    <div>
+                        @if ($this->type == 'private')
+                            <form wire:submit class="mb-5">
+                                <input type="text" name="label" id="label" wire:model.live.debounce.800ms="label"
+                                    class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                    placeholder="@lang('Label')" />
+                            </form>
+                        @else
+                            <span class="text-white">{{ $label }}</span>
+                        @endif
+
+
                     </div>
                     <div>
                         @if ($image->is_video)
@@ -84,33 +110,51 @@ new class extends Component {
                         @else
                             <div class=" overflow-hidden">
 
-                                <img :style="{ transform: 'rotate(' + rotation + 'deg)' }"
-                                    class="h-[90svh] object-cover "
-                                    src="{{ route('get.image', ['photo' => $curentImage]) }}" alt="">
+                                @if ($this->type == 'private')
+                                    <img :style="{ transform: 'rotate(' + rotation + 'deg)' }"
+                                        class="h-[90svh] object-cover "
+                                        src="{{ route('get.image', ['photo' => $curentImage]) }}" alt="">
+                                @else
+                                    <img class="h-[90svh] object-cover "
+                                        src="{{ route('get.public', ['photo' => $curentImage]) }}" alt="">
+                                @endif
 
                             </div>
                         @endif
                     </div>
 
+
                     <div>
 
-                        <button wire:click="close" class="bg-white text-black px-3 py-1 rounded-md">Close</button>
+                        <button wire:click="close"
+                            class="bg-white text-black px-3 py-1 rounded-md">@lang('Close')</button>
 
-                        <x-primary-button wire:confirm="{{ __('Are you sure?') }}" wire:click="archived">
-                            {{ $image->is_archived ? __('Un Archived') : __('Archived') }}
-                        </x-primary-button>
+                        @if ($this->type == 'private')
 
-                        <x-primary-button wire:click="favorite">
-                            {{ $image->is_favorite ? __('Un Favorite') : __('Favorite') }}
-                        </x-primary-button>
+                            <x-primary-button wire:confirm="{{ __('Are you sure?') }}" wire:click="archived">
+                                {{ $image->is_archived ? __('Un Archived') : __('Archived') }}
+                            </x-primary-button>
 
-                        <x-primary-button @click="rotation += 90" wire:click="rotate">
-                            {{ __('Rotate') }}
-                        </x-primary-button>
+                            <x-primary-button wire:click="favorite">
+                                {{ $image->is_favorite ? __('Un Favorite') : __('Favorite') }}
+                            </x-primary-button>
 
+                            @if (!$image->is_video)
+                                <x-primary-button @click="rotation += 90" wire:click="rotate">
+                                    {{ __('Rotate') }}
+                                </x-primary-button>
+                            @endif
 
+                            @if ($this->tag)
+                                <x-primary-button wire:click="clickSetAsCover('{{ $image->uuid }}')">
+                                    {{ __('Set as cover') }}
+                                </x-primary-button>
+                            @endif
+
+                        @endif
 
                     </div>
+
 
                 </div>
             </div>

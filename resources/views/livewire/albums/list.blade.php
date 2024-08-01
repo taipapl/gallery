@@ -40,6 +40,8 @@ new #[Layout('layouts.app')] class extends Component {
             $query->where('is_archived', 0);
         }
 
+        $query->orderBy('created_at', 'desc');
+
         $view->albums = $query->paginate($this->perPage);
     }
 };

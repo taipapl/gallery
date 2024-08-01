@@ -34,7 +34,7 @@ new #[Layout('layouts.user')] class extends Component {
     {
         $view->posts = $this->profil
             ->posts()
-            ->with('photos')
+            ->with('photos', 'gallery.photos')
             ->where('active', 1)
             ->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
@@ -77,8 +77,25 @@ new #[Layout('layouts.user')] class extends Component {
         @foreach ($posts as $post)
             <x-card class="max-w-3xl">
                 <div class="mb-4">
-                    <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
-                    <div class="text-sm">{{ $post->created_at->diffForHumans() }}</div>
+
+                    @if (!$post->tag_id)
+                        <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
+                        <div class="text-sm">{{ $post->created_at->diffForHumans() }}</div>
+                    @else
+                        <h2 class="text-xl font-semibold">{{ $post->gallery->name }}</h2>
+                        <div class="text-sm">{{ $post->gallery->created_at->diffForHumans() }}</div>
+
+                        @if ($post->gallery->cover)
+                            <a href="{{ route('public.album', $post->gallery->public_url) }}">
+                                <img src="{{ route('get.cover', ['photo' => $post->gallery->cover]) }}"
+                                    alt="{{ $post->gallery->name }}"
+                                    class=" object-cover mx-auto w-full rounded-lg shadow-lg">
+                            </a>
+                        @endif
+                    @endif
+
+
+
 
 
 

@@ -37,9 +37,9 @@ new #[Layout('layouts.user')] class extends Component {
         $view->photos = $this->album->photos()->paginate($this->perPage);
     }
 
-    public function showImges($image): void
+    public function clickLightbox($image, $type): void
     {
-        $this->dispatch('showImage', image: $image);
+        $this->dispatch('lightbox', $image, $type);
     }
 };
 
@@ -54,7 +54,7 @@ new #[Layout('layouts.user')] class extends Component {
             @foreach ($photos as $key => $photo)
                 <img @if ($loop->last) id="last_record" @endif
                     class=" cursor-pointer object-cover shadow-md rounded-md" alt=""
-                    wire:click="showImges('{{ $photo->pivot->uuid }}')"
+                    wire:click="clickLightbox('{{ $photo->pivot->uuid }}', 'public')"
                     @if ($photo->is_video) data-src="{{ $photo->video_path }}" @endif
                     src="{{ $photo->is_video ? $photo->path : route('get.public', ['photo' => $photo->pivot->uuid, 'size' => '600']) }}" />
             @endforeach
@@ -62,5 +62,5 @@ new #[Layout('layouts.user')] class extends Component {
         </div>
 
     </div>
-    <livewire:public.lightbox />
+    <livewire:lightbox />
 </div>

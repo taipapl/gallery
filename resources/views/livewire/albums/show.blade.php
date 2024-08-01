@@ -17,6 +17,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     protected $listeners = [
         'appendPhoto' => 'appendPhoto',
+        'setAsCover' => 'setAsCover',
     ];
 
     public function appendPhoto($photo)
@@ -87,6 +88,11 @@ new #[Layout('layouts.app')] class extends Component {
 
         $this->dispatch('showToast', __('Cover was set'), 'info', 3);
     }
+
+    public function clickLightbox($uuid, $type, $tag)
+    {
+        $this->dispatch('lightbox', $uuid, $type, $tag);
+    }
 };
 
 ?>
@@ -138,20 +144,9 @@ new #[Layout('layouts.app')] class extends Component {
 
         <div class="flex gap-2 flex-wrap mt-5">
             @foreach ($photos ?? [] as $key => $photo)
-                <div class="w-full relative block md:w-auto" @if ($loop->last) id="last_record" @endif>
+                <div wire:click="clickLightbox('{{ $photo->uuid }}', 'private', {{ $this->tag }})"
+                    class="w-full relative block md:w-auto" @if ($loop->last) id="last_record" @endif>
 
-                    <x-context-menu>
-                        <div class="cursor-pointer px-2 " wire:click="setAsCover('{{ $photo->uuid }}')">
-                            @lang('Set as cover')</div>
-                        <a class="cursor-pointer px-2 " href="{{ route('photos.show', $photo->uuid) }}">
-                            @lang('Show')</a>
-                        @if (!$photo->is_video)
-                            <div class="cursor-pointer px-2 " wire:click="rotate('{{ $photo->uuid }}')">
-                                @lang('Rotate')</div>
-                        @endif
-
-
-                    </x-context-menu>
                     @if ($photo->is_video)
                         <img class="w-full md:h-44 md:w-44 object-cover object-top rounded-lg shadow-lg"
                             src="{{ $photo->path }}" alt="{{ $photo->name }}" />

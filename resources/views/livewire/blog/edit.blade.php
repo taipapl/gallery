@@ -10,6 +10,7 @@ use App\Models\Post;
 use Livewire\WithFileUploads;
 use App\Models\Photo;
 use App\Models\pivot\PostPhoto;
+use App\Models\Tag;
 
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination;
@@ -23,6 +24,9 @@ new #[Layout('layouts.app')] class extends Component {
     public $active = true;
 
     public $photos = [];
+    public $publicAlbums = [];
+
+    public $pa = '';
 
     protected $listeners = [
         'appendPhoto' => 'appendPhoto',
@@ -42,8 +46,12 @@ new #[Layout('layouts.app')] class extends Component {
         $this->content = $this->post->post;
         $this->created_at = $this->post->created_at->format('Y-m-d');
 
+        $this->pa = $this->post->tag_id;
+
         $this->active = $this->post->active;
         seo()->title(__('Create Post') . ' - ' . config('app.name'));
+
+        $this->publicAlbums = Tag::where('is_public', 1)->where('user_id', auth()->id())->get();
     }
 
     public function addPost()
@@ -59,6 +67,7 @@ new #[Layout('layouts.app')] class extends Component {
         $this->post->created_at = $this->created_at;
         $this->post->active = $this->active;
         $this->post->user_id = auth()->id();
+        $this->post->tag_id = $this->pa;
         $this->post->save();
 
         $this->dispatch('showToast', __('Post was seved'), 'info', 3);
@@ -136,14 +145,24 @@ new #[Layout('layouts.app')] class extends Component {
                         </label>
                     </div>
 
+                </div>
 
+                <div>
+                    <select wire:model.change="pa">
+                        <option value="">{{ __('Select public album') }}</option>
+                        @foreach ($publicAlbums as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="flex flex-col  md:flex-row gap-2">
 
-                    <x-primary-link href="{{ route('blog.add', ['uuid' => $post->uuid]) }}">
-                        @lang('Add Photo')
-                    </x-primary-link>
+                    @if (!$this->post->tag_id)
+                        <x-primary-link href="{{ route('blog.add', ['uuid' => $post->uuid]) }}">
+                            @lang('Add Photo')
+                        </x-primary-link>
+                    @endif
 
                     <x-primary-button type="submit" class="btn btn-primary">
                         @lang('Save post')
