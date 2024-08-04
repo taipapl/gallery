@@ -40,7 +40,6 @@ Michał Myśliński
 - build show image component
 - add public gallery to blog
 - add toast messages after upload images
-
 - translate interface
 - add markdown documentation
 - add mail subscription

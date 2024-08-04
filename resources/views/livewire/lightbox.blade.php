@@ -36,6 +36,11 @@ new class extends Component {
         ]);
     }
 
+    public function download(): BinaryFileResponse
+    {
+        return response()->download(storage_path('app/photos/' . $this->image->user_id . '/' . $this->image->path));
+    }
+
     public function lightbox($image, $type, $tag = null): void
     {
         $this->show = true;
@@ -84,7 +89,7 @@ new class extends Component {
 ?>
 <div x-data="{ rotation: 0 }">
     @if ($show)
-        <div class="fixed  left-0 top-0 bg-black/80 w-full h-screen ">
+        <div class="fixed  left-0 top-0 bg-black/80 w-full h-screen z-50 ">
             <div class="flex items-center justify-center h-full w-full ">
 
                 <div class="flex flex-col">
@@ -143,6 +148,10 @@ new class extends Component {
                                 <x-primary-button @click="rotation += 90" wire:click="rotate">
                                     {{ __('Rotate') }}
                                 </x-primary-button>
+
+                                <x-primary-button wire:click="download">
+                                    {{ __('Download') }}
+                                </x-primary-button>
                             @endif
 
                             @if ($this->tag)
@@ -150,6 +159,8 @@ new class extends Component {
                                     {{ __('Set as cover') }}
                                 </x-primary-button>
                             @endif
+
+
 
                         @endif
 

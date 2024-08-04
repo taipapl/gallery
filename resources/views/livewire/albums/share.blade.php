@@ -98,7 +98,7 @@ new #[Layout('layouts.app')] class extends Component {
             <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Album')</h2>
 
             <x-sub-nav-link href="{{ route('albums.show', $this->tag->uuid) }}">
-                @lang('Cancel')
+                @lang('Back to album')
             </x-sub-nav-link>
 
         </div>

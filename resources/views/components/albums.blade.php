@@ -1,8 +1,21 @@
 <div class="flex gap-2 flex-wrap ">
     @foreach ($albums as $album)
         <a @if ($loop->last) id="last_record" @endif
-            href="{{ route('albums.show', ['uuid' => $album->uuid]) }}" class="w-full md:w-auto cursor-pointer"
+            href="{{ route('albums.show', ['uuid' => $album->uuid]) }}" class="w-full relative md:w-auto cursor-pointer"
             wire:navigate>
+
+            <div class="absolute flex gap-1">
+
+                @if ($album->is_public)
+                    <x-icons.public class="h-5 w-5  fill-sky-700 drop-shadow-sm bg-white rounded-md" />
+                @endif
+
+                @if ($album->shared->count() > 0)
+                    <x-icons.shared class="left-6 h-5 w-5  fill-sky-700 drop-shadow-sm bg-white rounded-md" />
+                @endif
+
+            </div>
+
 
             @if ($album->cover)
                 <img loading="lazy" src="{{ route('get.image', ['photo' => $album->cover, 'size' => '160']) }}"
