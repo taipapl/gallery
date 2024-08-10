@@ -66,6 +66,11 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    public function firstPost(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Post::class)->orderBy('created_at', 'desc')->limit(1);
+    }
+
     /**
      * Get all videos for the User
      */

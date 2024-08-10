@@ -8,6 +8,8 @@ use Illuminate\View\View;
 use App\Models\User;
 use App\Models\pivot\UsersEmails;
 use Illuminate\Support\Facades\Log;
+use App\Models\Email;
+use App\Mail\RemindProfil;
 
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination;
@@ -33,6 +35,15 @@ new #[Layout('layouts.app')] class extends Component {
         $email = UsersEmails::find($id);
         $email->share_blog = $email->share_blog == 0 ? 1 : 0;
         $email->save();
+    }
+
+    public function remind($uuid)
+    {
+        $UsersEmails = UsersEmails::where('uuid', $uuid)->first();
+
+        $email = Email::where('id', $UsersEmails->email_id)->first();
+
+        Mail::to($email->email)->send(new RemindProfil($UsersEmails));
     }
 
     public function rendering(View $view): void
@@ -73,8 +84,10 @@ new #[Layout('layouts.app')] class extends Component {
                         <div
                             class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
                         </div>
-                        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Public')
+                        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Show blog')
                         </span>
+
+
 
 
                     </label>
@@ -86,6 +99,10 @@ new #[Layout('layouts.app')] class extends Component {
                                 class="mt-2">
                                 {{ __('View') }}
                             </x-primary-link>
+
+                            <x-primary-button wire:click="remind('{{ $email->pivot->uuid }}')" class="mt-2">
+                                {{ __('Remind') }}
+                            </x-primary-button>
                         @endif
                     </div>
                 </div>

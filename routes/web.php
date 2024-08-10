@@ -15,7 +15,7 @@ use Livewire\Volt\Volt;
 |
 */
 
-Route::get('user/{photo}/{size?}', [ImageController::class, 'getImage'])->name('get.image');
+Route::get('image/{photo}/{size?}', [ImageController::class, 'getImage'])->name('get.image');
 
 Route::get('public/cover/{photo}', [ImageController::class, 'getPublicCover'])->name('get.cover');
 

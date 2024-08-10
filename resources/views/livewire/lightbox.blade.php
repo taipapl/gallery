@@ -92,7 +92,7 @@ new class extends Component {
         <div class="fixed  left-0 top-0 bg-black/80 w-full h-screen z-50 ">
             <div class="flex items-center justify-center h-full w-full ">
 
-                <div class="flex flex-col">
+                <div class="flex flex-col h-[90%]">
                     <div>
                         @if ($this->type == 'private')
                             <form wire:submit class="mb-5">
@@ -116,11 +116,10 @@ new class extends Component {
                             <div class=" overflow-hidden">
 
                                 @if ($this->type == 'private')
-                                    <img :style="{ transform: 'rotate(' + rotation + 'deg)' }"
-                                        class="h-[90svh] object-cover "
+                                    <img :style="{ transform: 'rotate(' + rotation + 'deg)' }" class=" object-cover "
                                         src="{{ route('get.image', ['photo' => $curentImage]) }}" alt="">
                                 @else
-                                    <img class="h-[90svh] object-cover "
+                                    <img class=" object-cover "
                                         src="{{ route('get.public', ['photo' => $curentImage]) }}" alt="">
                                 @endif
 
