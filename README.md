@@ -28,7 +28,8 @@ Michał Myśliński
 - Add image to favorite
 - show favorite images 
 - show archive images
-- add cache images
+- cache images
+- public gallery to blog
 
 ## TODO
 - Add comments to blog
@@ -37,8 +38,6 @@ Michał Myśliński
 - add date archive images page
 - add search images and add public profiles
 - add change date images
-- build show image component
-- add public gallery to blog
 - add toast messages after upload images
 - translate interface
 - add markdown documentation
@@ -47,8 +46,7 @@ Michał Myśliński
 - add modal to confirm
 - add download option for public images
 - try picture source for images
-
-
+- find duplicate images
 
 
 ## License

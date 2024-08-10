@@ -1,1 +1,1 @@
-<x-logo class="w-32 " />
+<x-logo class="w-36 " />

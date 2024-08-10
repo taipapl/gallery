@@ -26,14 +26,14 @@
 
         <div class="max-w-7xl mx-auto p-6 lg:p-8">
             <div class="flex justify-center">
-                <x-logo class="w-24 h-24" />
+                <x-logo class="w-36 h-36" />
             </div>
 
             <div class="mt-16">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
 
 
-
+                    aaaa
 
                 </div>
             </div>

@@ -23,7 +23,7 @@ Route::get('public/post/{photo}', [ImageController::class, 'publicBlog'])->name(
 
 Route::get('user_file/{usersTags}/{photo}', [ImageController::class, 'getUserImage'])->name('get.user_image');
 
-Route::view('/', 'welcome')
+Volt::route('/', 'home')
     ->name('home');
 
 Volt::route('public/profile/{public_url}', 'public.profil')
