@@ -52,9 +52,6 @@ new #[Layout('layouts.app')] class extends Component {
                 @lang('Create post')
             </x-sub-nav-link>
 
-            <x-sub-nav-link href="{{ route('blog.emails') }}">
-                @lang('Emails')
-            </x-sub-nav-link>
 
         </div>
 

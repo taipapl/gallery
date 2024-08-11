@@ -86,9 +86,9 @@ Volt::route('shared/{uuid}', 'shared.show')
 
 
 
-Volt::route('emails', 'emails')
+Volt::route('emails', 'emails.list')
     ->middleware(['auth', 'verified'])
-    ->name('blog.emails');
+    ->name('emails.list');
 
 Volt::route('blog', 'blog.blog')
     ->middleware(['auth', 'verified'])

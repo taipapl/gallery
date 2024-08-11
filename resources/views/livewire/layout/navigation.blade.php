@@ -47,6 +47,13 @@ new class extends Component {
             <x-icons.shared class="w-6 h-6" />
         </x-nav-link>
 
+
+
+        <x-nav-link :href="route('emails.list')" :active="request()->routeIs('emails.*')" wire:navigate>
+            <x-icons.emails class="w-6 h-6" />
+        </x-nav-link>
+
+
         <x-nav-link :href="route('trash')" :active="request()->routeIs('trash')" wire:navigate>
             <x-icons.trash class="w-6 h-6" />
         </x-nav-link>
