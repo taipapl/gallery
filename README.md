@@ -36,9 +36,8 @@ Michał Myśliński
 - add autocomplete email in share album
 - add link to all albums for user with active email
 - add date archive images page
-- add search images and add public profiles
+- add search images
 - add change date images
-- add toast messages after upload images
 - translate interface
 - add markdown documentation
 - add mail subscription
