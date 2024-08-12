@@ -64,7 +64,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         $this->post->title = $this->title;
         $this->post->post = $this->content;
-        $this->post->created_at = $this->created_at;
+        $this->post->created_at = $this->created_at . ' ' . now()->format('H:i:s');
         $this->post->active = $this->active;
         $this->post->user_id = auth()->id();
         $this->post->tag_id = $this->pa;

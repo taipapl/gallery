@@ -89,7 +89,7 @@ new class extends Component {
 ?>
 <div x-data="{ rotation: 0 }">
     @if ($show)
-        <div class="fixed  left-0 top-0 bg-black/80 w-full h-screen z-50 ">
+        <div class="fixed  left-0 top-0 bg-black/80 w-full h-screen z-50 animate-fadein  ">
             <div class="flex items-center justify-center h-full w-full ">
 
                 <div class="flex flex-col h-[90%]">
@@ -106,64 +106,85 @@ new class extends Component {
 
 
                     </div>
-                    <div>
-                        @if ($image->is_video)
-                            <iframe class="md:min-w-[800px] md:min-h-[400px]" src="{{ $image->video_path }}"
-                                title="YouTube video player" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen></iframe>
-                        @else
-                            <div class=" overflow-hidden">
+                    <div class="flex gap-2">
+                        <div>
+                            @if ($image->is_video)
+                                <iframe class="md:min-w-[800px] md:min-h-[400px] rounded-md"
+                                    src="{{ $image->video_path }}" title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen></iframe>
+                            @else
+                                <div class=" overflow-hidden">
 
-                                @if ($this->type == 'private')
-                                    <img :style="{ transform: 'rotate(' + rotation + 'deg)' }" class=" object-cover "
-                                        src="{{ route('get.image', ['photo' => $curentImage]) }}" alt="">
-                                @else
-                                    <img class=" object-cover "
-                                        src="{{ route('get.public', ['photo' => $curentImage]) }}" alt="">
+                                    @if ($this->type == 'private')
+                                        <img :style="{ transform: 'rotate(' + rotation + 'deg)' }"
+                                            class=" object-cover rounded-md"
+                                            src="{{ route('get.image', ['photo' => $curentImage]) }}" alt="">
+                                    @else
+                                        <img class=" object-cover rounded-md"
+                                            src="{{ route('get.public', ['photo' => $curentImage]) }}" alt="">
+                                    @endif
+
+                                </div>
+                            @endif
+                        </div>
+                        <div class="flex flex-col gap-2 ">
+
+                            <button wire:click="close" class="flex bg-white text-center text-black px-3 py-1 rounded-md"
+                                title="@lang('Close')">
+                                <x-icons.close /> @lang('Close')
+                            </button>
+
+                            @if ($this->type == 'private')
+
+                                <x-primary-button wire:confirm="{{ __('Are you sure?') }}"
+                                    title="  {{ $image->is_archived ? __('Un Archived') : __('Archived') }}"
+                                    wire:click="archived">
+                                    @if ($image->is_archived)
+                                        <x-icons.unarchive class="fill-white " />
+                                    @else
+                                        <x-icons.archive class="fill-white " />
+                                    @endif
+                                    {{ $image->is_archived ? __('Un Archived') : __('Archived') }}
+                                </x-primary-button>
+
+                                <x-primary-button wire:click="favorite">
+                                    <x-icons.favorite class="fill-white " />
+                                    {{ $image->is_favorite ? __('Un Favorite') : __('Favorite') }}
+
+                                </x-primary-button>
+
+                                @if (!$image->is_video)
+                                    <x-primary-button @click="rotation += 90" wire:click="rotate">
+
+                                        <x-icons.rotate-right class="fill-white " />
+
+                                        {{ __('Rotate') }}
+                                    </x-primary-button>
+
+                                    <x-primary-button wire:click="download">
+                                        <x-icons.download class="fill-white " />
+                                        {{ __('Download') }}
+                                    </x-primary-button>
                                 @endif
 
-                            </div>
-                        @endif
+                                @if ($this->tag)
+                                    <x-primary-button wire:click="clickSetAsCover('{{ $image->uuid }}')">
+
+                                        {{ __('Set as cover') }}
+                                    </x-primary-button>
+                                @endif
+
+
+
+                            @endif
+
+                        </div>
+
                     </div>
 
 
-                    <div>
 
-                        <button wire:click="close"
-                            class="bg-white text-black px-3 py-1 rounded-md">@lang('Close')</button>
-
-                        @if ($this->type == 'private')
-
-                            <x-primary-button wire:confirm="{{ __('Are you sure?') }}" wire:click="archived">
-                                {{ $image->is_archived ? __('Un Archived') : __('Archived') }}
-                            </x-primary-button>
-
-                            <x-primary-button wire:click="favorite">
-                                {{ $image->is_favorite ? __('Un Favorite') : __('Favorite') }}
-                            </x-primary-button>
-
-                            @if (!$image->is_video)
-                                <x-primary-button @click="rotation += 90" wire:click="rotate">
-                                    {{ __('Rotate') }}
-                                </x-primary-button>
-
-                                <x-primary-button wire:click="download">
-                                    {{ __('Download') }}
-                                </x-primary-button>
-                            @endif
-
-                            @if ($this->tag)
-                                <x-primary-button wire:click="clickSetAsCover('{{ $image->uuid }}')">
-                                    {{ __('Set as cover') }}
-                                </x-primary-button>
-                            @endif
-
-
-
-                        @endif
-
-                    </div>
 
 
                 </div>

@@ -22,7 +22,7 @@ new #[Layout('layouts.app')] class extends Component {
     public $active = true;
     public $publicAlbums = [];
 
-    public $pa = '';
+    public $pa;
 
     public function mount()
     {
@@ -46,7 +46,7 @@ new #[Layout('layouts.app')] class extends Component {
         $post->timestamps = false;
         $post->title = $this->title;
         $post->post = $this->content;
-        $post->created_at = $this->createt_at;
+        $post->created_at = $this->createt_at . ' ' . now()->format('H:i:s');
         $post->active = $this->active;
         $post->user_id = auth()->id();
         $post->tag_id = $this->pa;
