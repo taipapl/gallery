@@ -67,7 +67,9 @@ new #[Layout('layouts.app')] class extends Component {
         $this->post->created_at = $this->created_at . ' ' . now()->format('H:i:s');
         $this->post->active = $this->active;
         $this->post->user_id = auth()->id();
-        $this->post->tag_id = $this->pa;
+        if ($this->pa) {
+            $this->post->tag_id = $this->pa;
+        }
         $this->post->save();
 
         $this->dispatch('showToast', __('Post was seved'), 'info', 3);
