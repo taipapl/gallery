@@ -40,7 +40,7 @@ new #[Layout('layouts.app')] class extends Component {
 
 <x-container>
 
-    <x-card>
+    <x-panel>
 
         <div class="flex gap-3 justify-center items-center">
 
@@ -52,9 +52,9 @@ new #[Layout('layouts.app')] class extends Component {
 
         </div>
 
-    </x-card>
+    </x-panel>
 
-    <x-card>
+    <x-panel>
 
 
         @if (count($videos) == 0)
@@ -72,5 +72,5 @@ new #[Layout('layouts.app')] class extends Component {
             @endforeach
             <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
         </div>
-    </x-card>
+    </x-panel>
 </x-container>

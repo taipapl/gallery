@@ -58,13 +58,13 @@ new #[Layout('layouts.app')] class extends Component {
 
 <x-container>
 
-    <x-card>
+    <x-panel>
 
         <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">{{ __('Emails') }}</h2>
 
-    </x-card>
+    </x-panel>
 
-    <x-card>
+    <x-panel>
 
         @if (count($emails) == 0)
             <div class="text-center text-lg text-black ">@lang('No emails')</div>
@@ -109,6 +109,6 @@ new #[Layout('layouts.app')] class extends Component {
             @endforeach
             <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
         </div>
-    </x-card>
+    </x-panel>
 
 </x-container>

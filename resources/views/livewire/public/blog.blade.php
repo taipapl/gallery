@@ -49,7 +49,7 @@ new #[Layout('layouts.user')] class extends Component {
     <div class="flex flex-col gap-3" x-data="lightbox(), { open: false }">
 
 
-        <x-card class="max-w-3xl">
+        <x-panel>
 
             <div class="flex gap-3">
 
@@ -62,20 +62,20 @@ new #[Layout('layouts.user')] class extends Component {
                 @lang('Blog'): {{ $profil->name }}
             </div>
 
-        </x-card>
+        </x-panel>
 
 
 
         @if ($posts->count() == 0)
-            <x-card class="max-w-3xl">
+            <x-panel>
                 <div class="text-center text-lg text-black ">@lang('No posts')</div>
-            </x-card>
+            </x-panel>
         @endif
 
 
 
         @foreach ($posts as $post)
-            <x-card class="max-w-3xl">
+            <x-panel>
                 <div class="mb-4">
 
                     @if (!$post->tag_id)
@@ -125,7 +125,7 @@ new #[Layout('layouts.user')] class extends Component {
                         @php $index++ @endphp
                     @endforeach
                 </div>
-            </x-card>
+            </x-panel>
         @endforeach
 
 

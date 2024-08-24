@@ -96,13 +96,13 @@ new #[Layout('layouts.app')] class extends Component {
 ?>
 <x-container class="max-w-3xl">
 
-    <x-card>
+    <x-panel>
 
         <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Edit blog')</h2>
 
-    </x-card>
+    </x-panel>
 
-    <x-card>
+    <x-panel>
 
         @if ($post->photos->first())
             <div class="mb-3">
@@ -189,5 +189,5 @@ new #[Layout('layouts.app')] class extends Component {
         </div>
 
 
-    </x-card>
+    </x-panel>
 </x-container>

@@ -81,7 +81,7 @@ new #[Layout('layouts.app')] class extends Component {
 <x-container>
 
 
-    <x-card>
+    <x-panel>
 
         <div class="flex gap3 flex-col md:flex-row items-left ">
 
@@ -112,17 +112,15 @@ new #[Layout('layouts.app')] class extends Component {
                 </label>
             </div>
 
-
-
-            <livewire:file-uploads />
+            <livewire:uploads />
 
 
 
         </div>
-    </x-card>
+    </x-panel>
 
 
-    <x-card>
+    <x-panel>
 
         @if (count($photos) == 0)
             <div class="text-center text-lg text-black ">@lang('No photos')</div>
@@ -143,7 +141,7 @@ new #[Layout('layouts.app')] class extends Component {
             <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
 
         </div>
-    </x-card>
+    </x-panel>
 
 
 

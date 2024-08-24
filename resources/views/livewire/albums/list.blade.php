@@ -48,7 +48,7 @@ new #[Layout('layouts.app')] class extends Component {
 ?>
 <x-container>
 
-    <x-card>
+    <x-panel>
 
         <div class="flex gap3 flex-col md:flex-row items-left">
 
@@ -70,12 +70,12 @@ new #[Layout('layouts.app')] class extends Component {
 
         </div>
 
-    </x-card>
+    </x-panel>
 
 
-    <x-card>
+    <x-panel>
         <x-albums :albums="$albums" />
-    </x-card>
+    </x-panel>
 
 
 </x-container>

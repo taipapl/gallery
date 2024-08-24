@@ -2,7 +2,7 @@
 
     <x-container>
 
-        <x-card>
+        <x-panel>
 
             <div class="flex items-center">
 
@@ -25,7 +25,7 @@
 
 
             </div>
-        </x-card>
+        </x-panel>
 
 
 

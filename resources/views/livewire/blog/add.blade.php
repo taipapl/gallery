@@ -121,7 +121,7 @@ new #[Layout('layouts.app')] class extends Component {
     x-on:livewire-upload-finish="uploading = false" x-on:livewire-upload-cancel="uploading = false"
     x-on:livewire-upload-error="uploading = false" x-on:livewire-upload-progress="progress = $event.detail.progress">
 
-    <x-card>
+    <x-panel>
 
         <div class="flex items-center">
 
@@ -146,10 +146,10 @@ new #[Layout('layouts.app')] class extends Component {
 
         </div>
 
-    </x-card>
+    </x-panel>
 
 
-    <x-card>
+    <x-panel>
 
         <div class="flex gap-2 flex-wrap mt-3">
             @foreach ($photos ?? [] as $key => $photo)
@@ -164,7 +164,7 @@ new #[Layout('layouts.app')] class extends Component {
             <div x-intersect="$wire.loadMore()" class="text-center text-lg text-white "></div>
         </div>
 
-    </x-card>
+    </x-panel>
 
     @script
         <script>

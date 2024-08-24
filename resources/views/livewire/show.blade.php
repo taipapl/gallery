@@ -84,7 +84,7 @@ new #[Layout('layouts.app')] class extends Component {
 
 <x-container x-data="{ active: true, rotation: 0 }">
 
-    <x-card>
+    <x-panel>
 
         <div class="flex gap3 flex-col md:flex-row items-left ">
 
@@ -114,10 +114,10 @@ new #[Layout('layouts.app')] class extends Component {
 
         </div>
 
-    </x-card>
+    </x-panel>
 
 
-    <x-card>
+    <x-panel>
 
 
         <form wire:submit class="mb-5">
@@ -185,7 +185,7 @@ new #[Layout('layouts.app')] class extends Component {
 
 
 
-    </x-card>
+    </x-panel>
 
 
 </x-container>

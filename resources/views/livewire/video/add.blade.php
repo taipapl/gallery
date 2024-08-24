@@ -80,13 +80,13 @@ new #[Layout('layouts.app')] class extends Component {
 ?>
 <x-container>
 
-    <x-card>
+    <x-panel>
 
         <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Video')</h2>
 
-    </x-card>
+    </x-panel>
 
-    <x-card>
+    <x-panel>
 
         <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-3">
             {{ __('Add Video') }}
@@ -120,6 +120,6 @@ new #[Layout('layouts.app')] class extends Component {
 
         </form>
 
-    </x-card>
+    </x-panel>
 
 </x-container>

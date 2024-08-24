@@ -169,7 +169,7 @@ new #[Layout('layouts.app')] class extends Component {
     x-on:livewire-upload-error="uploading = false" x-on:livewire-upload-progress="progress = $event.detail.progress">
 
 
-    <x-card>
+    <x-panel>
 
         <div class="flex items-center">
 
@@ -192,9 +192,9 @@ new #[Layout('layouts.app')] class extends Component {
 
         </div>
 
-    </x-card>
+    </x-panel>
 
-    <x-card>
+    <x-panel>
 
 
 
@@ -230,7 +230,7 @@ new #[Layout('layouts.app')] class extends Component {
             </div>
         </div>
 
-    </x-card>
+    </x-panel>
 
     @script
         <script>

@@ -41,12 +41,12 @@ new #[Layout('layouts.app')] class extends Component {
 
 <x-container>
 
-    <x-card>
+    <x-panel>
         <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Shared album')</h2>
-    </x-card>
+    </x-panel>
 
 
-    <x-card>
+    <x-panel>
 
 
         <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $album->name }}</h1>
@@ -150,6 +150,6 @@ new #[Layout('layouts.app')] class extends Component {
 
 
 
-    </x-card>
+    </x-panel>
 
 </x-container>

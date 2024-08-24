@@ -68,7 +68,7 @@ new #[Layout('layouts.app')] class extends Component {
 
 
 
-    <x-card>
+    <x-panel>
 
         <div class="flex items-center">
 
@@ -84,9 +84,9 @@ new #[Layout('layouts.app')] class extends Component {
 
         </div>
 
-    </x-card>
+    </x-panel>
 
-    <x-card>
+    <x-panel>
         @if (count($photos) == 0)
             <div class="text-center text-lg text-black ">@lang('Trash is empty')</div>
         @endif
@@ -116,7 +116,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         </div>
 
-    </x-card>
+    </x-panel>
 
 
 

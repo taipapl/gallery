@@ -42,7 +42,7 @@ new #[Layout('layouts.app')] class extends Component {
 ?>
 <x-container class="max-w-3xl">
 
-    <x-card>
+    <x-panel>
 
         <div class="flex gap-3 items-center ">
 
@@ -55,16 +55,16 @@ new #[Layout('layouts.app')] class extends Component {
 
         </div>
 
-    </x-card>
+    </x-panel>
 
     @if ($posts->count() == 0)
-        <x-card>
+        <x-panel>
             @lang('No posts')
-        </x-card>
+        </x-panel>
     @endif
 
     @foreach ($posts as $post)
-        <x-card>
+        <x-panel>
 
             <div class="flex flex-col gap-3">
 
@@ -116,7 +116,7 @@ new #[Layout('layouts.app')] class extends Component {
 
             </div>
 
-        </x-card>
+        </x-panel>
     @endforeach
 
 </x-container>
