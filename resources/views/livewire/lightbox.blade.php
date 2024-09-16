@@ -56,7 +56,8 @@ new class extends Component {
 
                 case 'public':
                     $photoTag = PhotoTag::where('uuid', $image)->firstOrFail();
-                    $this->image = Photo::where('id', $photoTag->id)->firstOrFail();
+                    $this->image = Photo::where('id', $photoTag->photo_id)->firstOrFail();
+
                     $this->label = $this->image->label;
                     break;
             }

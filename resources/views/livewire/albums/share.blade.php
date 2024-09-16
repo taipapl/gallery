@@ -50,7 +50,7 @@ new #[Layout('layouts.app')] class extends Component {
         $this->shared = UsersTags::where('tag_id', $this->tag->id)->get();
         $this->email = '';
 
-        if (config('glalery.email_queues') === false) {
+        if (config('gallery.email_queues') === false) {
             Mail::to($validated['email'])->send(new AlbumShared($this->tag, $usersTags));
         } else {
             Mail::to($validated['email'])->queue(new AlbumShared($this->tag, $usersTags));

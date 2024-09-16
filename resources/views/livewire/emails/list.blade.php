@@ -43,7 +43,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         $email = Email::where('id', $UsersEmails->email_id)->first();
 
-        if (config('glalery.email_queues') === false) {
+        if (config('gallery.email_queues') === false) {
             Mail::to($email->email)->send(new RemindProfil($UsersEmails));
         } else {
             Mail::to($email->email)->queue(new RemindProfil($UsersEmails));

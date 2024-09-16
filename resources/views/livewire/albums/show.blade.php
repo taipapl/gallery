@@ -134,7 +134,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         <form wire:submit>
             <input type="text" name="name" id="name" wire:model.live.debounce.800ms="name"
-                class="form-input rounded-md shadow-sm mt-1 block w-full" placeholder="@lang('Album name')" />
+                class="form-input rounded-md shadow-sm mt-1 block w-full" placeholder=" @lang('Album without a name')" />
         </form>
 
         @if (count($photos) == 0)

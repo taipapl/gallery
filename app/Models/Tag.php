@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Tag extends Model
 {
@@ -27,22 +30,22 @@ class Tag extends Model
         'is_archived' => 'boolean',
     ];
 
-    public function photos()
+    public function photos(): BelongsToMany
     {
         return $this->belongsToMany(Photo::class, 'photos_tags', 'tag_id', 'photo_id')->withPivot('uuid');
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function emails()
+    public function emails(): BelongsToMany
     {
         return $this->belongsToMany(Email::class, 'users_tags', 'tag_id', 'email_id')->withPivot('uuid');
     }
 
-    public function shared()
+    public function shared(): HasMany
     {
         return $this->hasMany(pivot\UsersTags::class, 'tag_id');
     }

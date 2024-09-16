@@ -21,7 +21,7 @@ Route::get('public/cover/{photo}', [ImageController::class, 'getPublicCover'])->
 
 Route::get('public/post/{photo}', [ImageController::class, 'publicBlog'])->name('get.blog');
 
-Route::get('user_file/{usersTags}/{photo}', [ImageController::class, 'getUserImage'])->name('get.user_image');
+Route::get('user_file/{photo}/{size}', [ImageController::class, 'getUserImage'])->name('get.user_image');
 
 Volt::route('/', 'home')
     ->name('home');

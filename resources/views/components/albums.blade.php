@@ -28,7 +28,13 @@
             @endif
 
             <div class="text-sm mt-1">
-                <div> {{ Str::limit($album->name, 18) }}</div>
+                <div>
+                    @if ($album->name)
+                        {{ Str::limit($album->name, 18) }}
+                    @else
+                        @lang('Album without a name')
+                    @endif
+                </div>
                 <div> {{ $album->photos->count() }} @lang('elements')</div>
             </div>
 
