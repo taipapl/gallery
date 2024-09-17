@@ -70,7 +70,5 @@
             </div>
         </div>
 
-
-
     </x-container>
 </x-app-layout>

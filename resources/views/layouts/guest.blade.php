@@ -46,5 +46,6 @@
         </div>
     </div>
 </body>
+@livewire('wire-elements-modal')
 
 </html>

@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Photo;
 use App\Models\Tag;
 use App\Models\pivot\PhotoTag;
+use App\Models\pivot\PostPhoto;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 new class extends Component {
@@ -58,6 +59,12 @@ new class extends Component {
                     $photoTag = PhotoTag::where('uuid', $image)->firstOrFail();
                     $this->image = Photo::where('id', $photoTag->photo_id)->firstOrFail();
 
+                    $this->label = $this->image->label;
+                    break;
+
+                case 'blog':
+                    $postPhoto = PostPhoto::where('uuid', $image)->firstOrFail();
+                    $this->image = Photo::where('id', $postPhoto->photo_id)->firstOrFail();
                     $this->label = $this->image->label;
                     break;
             }
@@ -121,6 +128,9 @@ new class extends Component {
                                         <img :style="{ transform: 'rotate(' + rotation + 'deg)' }"
                                             class=" object-cover rounded-md"
                                             src="{{ route('get.image', ['photo' => $curentImage]) }}" alt="">
+                                    @elseif ($this->type == 'blog')
+                                        <img class=" object-cover rounded-md"
+                                            src="{{ route('get.blog', ['photo' => $curentImage]) }}" alt="">
                                     @else
                                         <img class=" object-cover rounded-md"
                                             src="{{ route('get.public', ['photo' => $curentImage]) }}" alt="">

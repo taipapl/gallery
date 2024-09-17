@@ -36,6 +36,8 @@
 
     <livewire:toast />
 
+    @livewire('wire-elements-modal')
+
 </body>
 
 </html>

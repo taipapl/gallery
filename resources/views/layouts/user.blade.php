@@ -42,6 +42,8 @@
         </div>
     </div>
 
+    @livewire('wire-elements-modal')
+
     <livewire:lightbox />
 
 </body>

@@ -38,6 +38,11 @@ new #[Layout('layouts.app')] class extends Component {
             ->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
     }
+
+    public function clickLightbox($image, $type): void
+    {
+        $this->dispatch('lightbox', $image, $type);
+    }
 };
 ?>
 <x-container class="max-w-3xl">
@@ -51,7 +56,6 @@ new #[Layout('layouts.app')] class extends Component {
             <x-sub-nav-link href="{{ route('blog.create') }}">
                 @lang('Create post')
             </x-sub-nav-link>
-
 
         </div>
 
@@ -82,24 +86,25 @@ new #[Layout('layouts.app')] class extends Component {
                 </div>
 
                 @if ($post->photos->first())
-                    <img src="{{ route('get.image', ['photo' => $post->photos->first()->uuid]) }}"
+                    <img wire:click="clickLightbox('{{ $post->photos->first()->uuid }}', 'private')"
+                        src="{{ route('get.image', ['photo' => $post->photos->first()->uuid]) }}"
                         alt="{{ $post->photos->first()->name }}"
-                        class="object-cover mx-auto w-full rounded-lg shadow-lg">
+                        class="cursor-pointer object-cover mx-auto w-full rounded-lg shadow-lg">
                 @endif
 
 
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     @foreach ($post->photos ?? [] as $key => $photo)
                         @if ($post->photos[$key] != $post->photos->first())
-                            <a href="{{ route('photos.show', $photo->uuid) }}">
-                                <img class="h-40 w-40 object-cover rounded-lg shadow-lg"
-                                    @if ($photo->is_video) src="{{ $photo->path }}"
+                            <img wire:click="clickLightbox('{{ $photo->uuid }}', 'private')"
+                                class="h-40
+                                w-40 object-cover rounded-lg shadow-lg cursor-pointer"
+                                @if ($photo->is_video) src="{{ $photo->path }}"
 
                             @else
 
                             src="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '160']) }}" @endif
-                                    alt="{{ $photo->name }}" />
-                            </a>
+                                alt="{{ $photo->name }}" />
                         @endif
                     @endforeach
                 </div>
