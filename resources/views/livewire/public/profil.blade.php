@@ -11,14 +11,17 @@ new #[Layout('layouts.user')] class extends Component {
 
     public $profil;
     public $albums;
+    public $lastPost;
 
     public function mount($public_url)
     {
-        $profil = User::where('public_url', $public_url)->where('is_public', 1)->firstOrFail();
+        $this->profil = User::where('public_url', $public_url)->where('is_public', 1)->firstOrFail();
 
-        $this->profil = $profil;
+        if ($this->profil->is_blog) {
+            $this->lastPost = $this->profil->posts()->latest()->first();
+        }
 
-        $this->albums = $profil->tags()->where('is_public', 1)->get();
+        $this->albums = $this->profil->tags()->where('is_public', 1)->get();
     }
 };
 
@@ -31,10 +34,43 @@ new #[Layout('layouts.user')] class extends Component {
 
         @if ($profil->is_blog)
             <a href="{{ route('public.blog', $profil->blog_url) }}">
-                <div class="h-40 w-40 bg-gray-200 flex items-center justify-center">
-                    <div class="text-center text-lg text-gray-500">
-                        @lang('Blog')
-                    </div>
+
+                <div class="text-sm">
+                    <a href="{{ route('public.blog', $profil->blog_url) }}">
+                        @if (!$lastPost->tag_id)
+
+                            @if ($lastPost->photos->first())
+                                <img wire:click="clickLightbox('{{ $lastPost->photos->first()->uuid }}', 'private')"
+                                    src="{{ route('get.image', ['photo' => $lastPost->photos->first()->uuid]) }}"
+                                    alt="{{ $lastPost->photos->first()->name }}"
+                                    class="h-40 w-40 cursor-pointer object-cover mx-auto rounded-lg shadow-lg">
+                            @else
+                                <div class="h-40 w-40 cursor-pointer object-cover mx-auto rounded-lg shadow-lg">
+                                    <div class="text-center text-lg text-gray-500">
+                                        @lang('No photos')
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div> {{ Str::limit($lastPost->title, 18) }}</div>
+                        @else
+                            @if ($lastPost->gallery->cover)
+                                <img src="{{ route('get.cover', ['photo' => $lastPost->gallery->cover, 'size' => '160']) }}"
+                                    alt="{{ $lastPost->gallery->name }}"
+                                    class="h-40 w-40 cursor-pointer object-cover mx-auto rounded-lg shadow-l">
+                            @else
+                                <div class="h-40 w-40 cursor-pointer object-cover mx-auto rounded-lg shadow-lg">
+                                    <div class="text-center text-lg text-gray-500">
+                                        @lang('Blog')
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div> {{ Str::limit($lastPost->gallery->name, 18) }}</div>
+                        @endif
+                    </a>
+                    <div> {{ $lastPost->created_at->diffForHumans() }}</div>
+
                 </div>
             </a>
         @endif
@@ -45,13 +81,12 @@ new #[Layout('layouts.user')] class extends Component {
                 <div href="{{ route('public.album', $album->public_url) }}" class=" cursor-pointer" wire:navigate>
 
                     @if ($album->cover)
-                        <div class="h-40 w-40 border-2  block overflow-hidden "
-                            @if ($loop->last) id="last_record" @endif
-                            style="background-image: url('{{ route('get.cover', ['photo' => $album->cover]) }}');  background-repeat: no-repeat; background-position: top center;  background-size: cover;">
-
-                        </div>
+                        <img loading="lazy" src="{{ route('get.image', ['photo' => $album->cover, 'size' => '160']) }}"
+                            alt="{{ $album->name }}"
+                            class="h-40 w-full md:w-40 object-cover object-top  rounded-lg shadow-lg">
                     @else
-                        <div class="h-40 w-40 bg-gray-200 flex items-center justify-center">
+                        <div
+                            class="h-40 w-40 bg-gray-200 flex items-center justify-center cursor-pointer   rounded-lg shadow-lg">
                             <div class="text-center text-lg text-gray-500">@lang('No photos')
                             </div>
                         </div>

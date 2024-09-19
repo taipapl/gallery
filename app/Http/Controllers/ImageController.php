@@ -21,8 +21,6 @@ class ImageController extends Controller
             return redirect()->away($photo->path);
         }
 
-
-
         $path = 'photos/' . $photo->user_id . '/' . $photo->path;
 
         if (!Storage::exists($path) || !Auth::check()) {
@@ -69,6 +67,7 @@ class ImageController extends Controller
 
     public function publicBlog($uuid)
     {
+
 
         $postPhoto = PostPhoto::where('uuid', $uuid)->firstOrFail();
 

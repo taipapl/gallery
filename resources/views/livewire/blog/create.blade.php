@@ -81,9 +81,41 @@ new #[Layout('layouts.app')] class extends Component {
 
 
 
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+
+
+
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 flex flex-col gap-3">
+
+
+
+            <x-panel>
+
+                <div class="flex gap-3 items-center ">
+
+                    <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Blog')</h2>
+
+                    <x-sub-nav-link href="{{ route('blog.list') }}">
+                        @lang('Back')
+                    </x-sub-nav-link>
+
+                </div>
+
+            </x-panel>
+
+
+
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
+
+
+
+
                 <div class="p-6 text-gray-900">
+
+
+
+
 
                     <form class="mb-4" wire:submit.prevent="addPost">
                         <div class="flex gap-3 flex-col">

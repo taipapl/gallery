@@ -42,6 +42,10 @@ new #[Layout('layouts.user')] class extends Component {
             ->where('id', $this->userEmail->user_id)
             ->firstOrFail();
 
+        if ($this->profil->is_blog) {
+            $this->lastPost = $this->profil->posts()->latest()->first();
+        }
+
         $this->tagsIds = UsersTags::where('user_id', $this->userEmail->user_id)
             ->get()
             ->pluck('tag_id')

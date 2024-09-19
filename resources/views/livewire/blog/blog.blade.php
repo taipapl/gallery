@@ -72,18 +72,29 @@ new #[Layout('layouts.app')] class extends Component {
 
             <div class="flex flex-col gap-3">
 
-                <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
+                @if ($post->active)
+                    <span class="text-green-500">@lang('Active')</span>
+                @else
+                    <span class="text-red-500">@lang('No Active')</span>
+                @endif
 
-                <div class="text-sm">
-                    {{ $post->created_at->diffForHumans() }}
+                @if (!$post->tag_id)
+                    <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
+                    <div class="text-sm">{{ $post->created_at->diffForHumans() }}</div>
+                @else
+                    <h2 class="text-xl font-semibold">{{ $post->gallery->name }}</h2>
+                    <span class="text-sm">{{ $post->gallery->created_at->diffForHumans() }}</span>
 
-                    @if ($post->active)
-                        <span class="text-green-500">@lang('Active')</span>
-                    @else
-                        <span class="text-red-500">@lang('No Active')</span>
+                    @if ($post->gallery->cover)
+                        <a href="{{ route('public.album', $post->gallery->public_url) }}">
+                            <img src="{{ route('get.cover', ['photo' => $post->gallery->cover]) }}"
+                                alt="{{ $post->gallery->name }}"
+                                class=" object-cover mx-auto w-full rounded-lg shadow-lg">
+                        </a>
                     @endif
+                @endif
 
-                </div>
+
 
                 @if ($post->photos->first())
                     <img wire:click="clickLightbox('{{ $post->photos->first()->uuid }}', 'private')"
@@ -101,7 +112,7 @@ new #[Layout('layouts.app')] class extends Component {
                                 w-40 object-cover rounded-lg shadow-lg cursor-pointer"
                                 @if ($photo->is_video) src="{{ $photo->path }}"
 
-                            @else
+                                @else
 
                             src="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '160']) }}" @endif
                                 alt="{{ $photo->name }}" />

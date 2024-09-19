@@ -100,10 +100,6 @@ new #[Layout('layouts.user')] class extends Component {
                     @endif
 
 
-
-
-
-
                     @if ($post->photos->first())
                         <div>
                             <img src="{{ route('get.blog', ['photo' => $post->photos->first()->pivot->uuid]) }}"

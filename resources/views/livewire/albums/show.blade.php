@@ -142,7 +142,7 @@ new #[Layout('layouts.app')] class extends Component {
         @endif
 
 
-        <div class="flex gap-2 flex-wrap mt-5">
+        <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 gap-4 mt-3">
             @foreach ($photos ?? [] as $key => $photo)
                 <div wire:click="clickLightbox('{{ $photo->uuid }}', 'private', {{ $this->tag }})"
                     class="w-full relative block md:w-auto" @if ($loop->last) id="last_record" @endif>
@@ -151,9 +151,14 @@ new #[Layout('layouts.app')] class extends Component {
                         <img class="w-full md:h-44 md:w-44 object-cover object-top rounded-lg shadow-lg"
                             src="{{ $photo->path }}" alt="{{ $photo->name }}" />
                     @else
-                        <img class=" w-full md:h-44 md:w-44 object-cover object-top  rounded-lg shadow-lg"
-                            src="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '600']) }}"
-                            alt="{{ $photo->name }}" />
+                        <picture>
+
+                            <source srcset="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '600']) }}"
+                                media="(min-width: 640px)">
+                            <img class=" w-full md:h-44 md:w-44 object-cover object-top  rounded-lg shadow-lg"
+                                src="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '160']) }}"
+                                alt="{{ $photo->name }}" />
+                        </picture>
                     @endif
 
                 </div>
