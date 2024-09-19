@@ -21,6 +21,8 @@ new #[Layout('layouts.user')] class extends Component {
 
     public $albums;
 
+    public $lastPost;
+
     public $profil;
 
     public $email;
@@ -67,13 +69,47 @@ new #[Layout('layouts.user')] class extends Component {
 
         @if ($profil->is_blog)
             <a href="{{ route('public.blog', $profil->blog_url) }}">
-                <div class="h-40 w-40 bg-gray-200 flex items-center justify-center">
-                    <div class="text-center text-lg text-gray-500">
-                        @lang('Blog')
-                    </div>
+
+                <div class="text-sm">
+                    <a href="{{ route('public.blog', $profil->blog_url) }}">
+                        @if (!$lastPost->tag_id)
+
+                            @if ($lastPost->photos->first())
+                                <img wire:click="clickLightbox('{{ $lastPost->photos->first()->uuid }}', 'private')"
+                                    src="{{ route('get.image', ['photo' => $lastPost->photos->first()->uuid]) }}"
+                                    alt="{{ $lastPost->photos->first()->name }}"
+                                    class="h-40 w-40 cursor-pointer object-cover mx-auto rounded-lg shadow-lg">
+                            @else
+                                <div class="h-40 w-40 cursor-pointer object-cover mx-auto rounded-lg shadow-lg">
+                                    <div class="text-center text-lg text-gray-500">
+                                        @lang('No photos')
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div> {{ Str::limit($lastPost->title, 18) }}</div>
+                        @else
+                            @if ($lastPost->gallery->cover)
+                                <img src="{{ route('get.cover', ['photo' => $lastPost->gallery->cover, 'size' => '160']) }}"
+                                    alt="{{ $lastPost->gallery->name }}"
+                                    class="h-40 w-40 cursor-pointer object-cover mx-auto rounded-lg shadow-l">
+                            @else
+                                <div class="h-40 w-40 cursor-pointer object-cover mx-auto rounded-lg shadow-lg">
+                                    <div class="text-center text-lg text-gray-500">
+                                        @lang('Blog')
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div> {{ Str::limit($lastPost->gallery->name, 18) }}</div>
+                        @endif
+                    </a>
+                    <div> {{ $lastPost->created_at->diffForHumans() }}</div>
+
                 </div>
             </a>
         @endif
+
 
         @foreach ($albums as $album)
             <a href="{{ route('user.album', $album->pivot->uuid) }}" class=" cursor-pointer" wire:navigate>

@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\pivot\UsersEmails;
 use App\Models\pivot\UsersTags;
 use App\Models\Tag;
 use Illuminate\Bus\Queueable;
@@ -15,8 +16,8 @@ class AlbumShared extends Mailable
     use Queueable, SerializesModels;
 
     public $tag;
-
     public $usersTags;
+    public $usersEmails;
 
     /**
      * Create a new message instance.
@@ -25,6 +26,14 @@ class AlbumShared extends Mailable
     {
         $this->tag = $tag;
         $this->usersTags = $usersTags;
+
+        $ue = UsersEmails::where('user_id', $usersTags->user_id)
+            ->where('email_id', $usersTags->email_id)
+            ->first();
+
+        if (isset($ue->share_blog) && $ue->share_blog === true) {
+            $this->usersEmails = $ue;
+        }
     }
 
     /**
@@ -46,6 +55,7 @@ class AlbumShared extends Mailable
             markdown: 'mail.albumShared',
             with: [
                 'url' => route('user.album', $this->usersTags->uuid),
+                'profile_url' => ($this->usersEmails) ? route('user.profil', $this->usersEmails->uuid) : '',
             ],
         );
     }
