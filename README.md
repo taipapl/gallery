@@ -34,14 +34,12 @@ Michał Myśliński
 ## TODO
 - Add comments to blog
 - add autocomplete email in share album
-- add link to all albums for user with active email
 - add date archive images page
 - add search images
 - add change date images
 - translate interface
 - add markdown documentation
 - add mail subscription
-- fix upload images process
 - add modal to confirm
 - add download option for public images
 - try picture source for images

@@ -62,5 +62,5 @@ new #[Layout('layouts.user')] class extends Component {
         </div>
 
     </div>
-    <livewire:lightbox />
+
 </div>

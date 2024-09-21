@@ -87,36 +87,18 @@ new #[Layout('layouts.app')] class extends Component {
 
             <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">{{ __('Photos') }}</h2>
 
+            <x-check-box :model="'is_archived'" :checked="$is_archived" :action="'archived()'">
+                @lang('Archived')
+            </x-check-box>
 
-            <div>
-                <label wire:click="archived()" class="relative inline-flex items-center cursor-pointer">
-                    <input wire:model="is_archived" type="checkbox" @if ($is_archived) checked @endif
-                        class="sr-only peer" value="1">
-                    <div
-                        class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                    </div>
-                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Archived')
-                    </span>
-                </label>
-            </div>
-
-            <div>
-                <label wire:click="favorite()" class="relative inline-flex items-center cursor-pointer">
-                    <input wire:model="is_favorite" type="checkbox" @if ($is_favorite) checked @endif
-                        class="sr-only peer" value="1">
-                    <div
-                        class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                    </div>
-                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">@lang('Favorites')
-                    </span>
-                </label>
-            </div>
+            <x-check-box :model="'is_favorite'" :checked="$is_favorite" :action="'favorite()'">
+                @lang('Favorite')
+            </x-check-box>
 
             <livewire:uploads />
 
-
-
         </div>
+
     </x-panel>
 
 

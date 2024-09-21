@@ -21,6 +21,8 @@ new class extends Component {
     public $tag;
     public $label;
 
+    public $showInfo = false;
+
     protected $listeners = [
         'lightbox' => 'lightbox',
     ];
@@ -92,6 +94,11 @@ new class extends Component {
     {
         $this->image->rotateLeft();
     }
+
+    public function info(): void
+    {
+        $this->showInfo = !$this->showInfo;
+    }
 };
 
 ?>
@@ -122,21 +129,46 @@ new class extends Component {
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                     allowfullscreen></iframe>
                             @else
-                                <div class=" overflow-hidden">
+                                @if ($this->showInfo)
+                                    <div class=" overflow-scroll bg-white p-5 rounded-md h-1/2 ">
+                                        @if (is_array($image->meta))
+                                            @foreach ($image->meta as $key => $meta)
+                                                <div class="text-left">
+                                                    <span class="font-bold">{{ $key }}:</span>
 
-                                    @if ($this->type == 'private')
-                                        <img :style="{ transform: 'rotate(' + rotation + 'deg)' }"
-                                            class=" object-cover rounded-md"
-                                            src="{{ route('get.image', ['photo' => $curentImage]) }}" alt="">
-                                    @elseif ($this->type == 'blog')
-                                        <img class=" object-cover rounded-md"
-                                            src="{{ route('get.blog', ['photo' => $curentImage]) }}" alt="">
-                                    @else
-                                        <img class=" object-cover rounded-md"
-                                            src="{{ route('get.public', ['photo' => $curentImage]) }}" alt="">
-                                    @endif
+                                                    @if (is_array($meta))
+                                                        @foreach ($meta as $key => $value)
+                                                            <div>{{ $key }}: {{ $value }}</div>
+                                                        @endforeach
+                                                    @else
+                                                        <span>{{ $meta }}</span>
+                                                    @endif
 
-                                </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                @else
+                                    <div class=" overflow-hidden">
+
+
+                                        @if ($this->type == 'private')
+                                            <img :style="{ transform: 'rotate(' + rotation + 'deg)' }"
+                                                class=" object-cover rounded-md"
+                                                src="{{ route('get.image', ['photo' => $curentImage]) }}"
+                                                alt="">
+                                        @elseif ($this->type == 'blog')
+                                            <img class=" object-cover rounded-md"
+                                                src="{{ route('get.blog', ['photo' => $curentImage]) }}" alt="">
+                                        @else
+                                            <img class=" object-cover rounded-md"
+                                                src="{{ route('get.public', ['photo' => $curentImage]) }}"
+                                                alt="">
+                                        @endif
+
+                                    </div>
+
+                                @endif
                             @endif
                         </div>
                         <div class="flex flex-col gap-2 ">
@@ -145,6 +177,8 @@ new class extends Component {
                                 <x-icons.close />
                                 <span class="hidden md:block"> @lang('Close')</span>
                             </x-primary-button>
+
+
 
                             @if ($this->type == 'private')
 
@@ -179,6 +213,11 @@ new class extends Component {
                                         <x-icons.download class="fill-white " />
                                         <span class="hidden md:block"> {{ __('Download') }}</span>
                                     </x-primary-button>
+
+                                    <x-primary-button wire:click="info">
+                                        <x-icons.info-circle-filled class="fill-white " />
+                                        <span class="hidden md:block"> {{ __('Info') }}</span>
+                                    </x-primary-button>
                                 @endif
 
                                 @if ($this->tag)
@@ -187,6 +226,7 @@ new class extends Component {
                                         <span class="hidden md:block"> {{ __('Set as cover') }}</span>
                                     </x-primary-button>
                                 @endif
+
 
 
 

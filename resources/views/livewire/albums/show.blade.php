@@ -131,7 +131,6 @@ new #[Layout('layouts.app')] class extends Component {
 
     <x-panel>
 
-
         <form wire:submit>
             <input type="text" name="name" id="name" wire:model.live.debounce.800ms="name"
                 class="form-input rounded-md shadow-sm mt-1 block w-full" placeholder=" @lang('Album without a name')" />
@@ -149,15 +148,15 @@ new #[Layout('layouts.app')] class extends Component {
 
                     @if ($photo->is_video)
                         <img class="w-full md:h-44 md:w-44 object-cover object-top rounded-lg shadow-lg"
-                            src="{{ $photo->path }}" alt="{{ $photo->name }}" />
+                            src="{{ $photo->path }}" alt="{{ $photo->label }}" />
                     @else
                         <picture>
 
                             <source srcset="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '600']) }}"
-                                media="(min-width: 640px)">
-                            <img class=" w-full md:h-44 md:w-44 object-cover object-top  rounded-lg shadow-lg"
+                                media="(min-width: 640px)" />
+                            <img class="cursor-pointer w-full md:h-44 md:w-44 object-cover object-top  rounded-lg shadow-lg"
                                 src="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '160']) }}"
-                                alt="{{ $photo->name }}" />
+                                alt="{{ $photo->label }}" title="{{ $photo->label }}" />
                         </picture>
                     @endif
 

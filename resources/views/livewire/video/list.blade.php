@@ -42,7 +42,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <x-panel>
 
-        <div class="flex gap-3 justify-center items-center">
+        <div class="flex gap-3 items-center">
 
             <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Video')</h2>
 

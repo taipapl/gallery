@@ -11,11 +11,8 @@ new #[Layout('layouts.user')] class extends Component {
     use WithPagination;
 
     public $profil;
-
     public $posts;
-
     public $perPage = 50;
-
     public $index = 0;
 
     public function loadMore()
@@ -51,8 +48,7 @@ new #[Layout('layouts.user')] class extends Component {
 <x-container class="max-w-3xl">
 
 
-    <div class="flex flex-col gap-3" x-data="lightbox(), { open: false }">
-
+    <div class="flex flex-col gap-3">
 
         <x-panel>
 
@@ -62,22 +58,17 @@ new #[Layout('layouts.user')] class extends Component {
                     <a href="{{ route('home') }}"><x-icons.back /></a>
                 @endauth
 
-
-
                 @lang('Blog'): {{ $profil->name }}
+
             </div>
 
         </x-panel>
-
-
 
         @if ($posts->count() == 0)
             <x-panel>
                 <div class="text-center text-lg text-black ">@lang('No posts')</div>
             </x-panel>
         @endif
-
-
 
         @foreach ($posts as $post)
             <x-panel>

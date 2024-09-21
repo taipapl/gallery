@@ -171,7 +171,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <x-panel>
 
-        <div class="flex items-center">
+        <div class="flex gap3 flex-col md:flex-row items-left">
 
             <div x-show="uploading">
                 <x-icons.update />
@@ -180,7 +180,7 @@ new #[Layout('layouts.app')] class extends Component {
             <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Album')</h2>
 
             <label
-                class="cursor-pointer flex items-center w-full px-5 py-2 transition-colors duration-200 dark:hover:bg-gray-800 gap-x-2 hover:bg-gray-100 focus:outline-none">
+                class="cursor-pointer flex items-center px-5 py-2 transition-colors duration-200 dark:hover:bg-gray-800 gap-x-2 hover:bg-gray-100 focus:outline-none">
                 <span>@lang('Add photos') {{ $error }}</span>
                 <input class="hidden" type="file" id="photos" wire:model="photos"
                     accept="image/png, image/gif, image/jpeg" multiple>
@@ -214,7 +214,7 @@ new #[Layout('layouts.app')] class extends Component {
                         @if ($photo->is_video) src="{{ $photo->path }}"
                         @else
                             src="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '160']) }}" @endif
-                        class="object-cover shadow-md rounded-md h-40 w-40 ">
+                        class="cursor-pointer object-cover shadow-md rounded-md h-40 w-40 ">
 
 
                     @if (in_array($photo->id, $photoIds))
