@@ -25,6 +25,7 @@ class Photo extends Model
         'is_archived',
         'is_favorite',
         'label',
+        'position',
     ];
 
     protected $casts = [
@@ -41,7 +42,7 @@ class Photo extends Model
     protected function videoImage(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $this->meta['video_image'] ?? null,
+            get: fn($value) => $this->meta['video_image'] ?? null,
         );
     }
 

@@ -7,6 +7,7 @@ use App\Models\Tag;
 use App\Models\Photo;
 use Livewire\WithPagination;
 use Illuminate\View\View;
+use App\Models\pivot\PhotoTag;
 
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination;
@@ -77,7 +78,17 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $view->photos = $this->tag->photos()->paginate($this->perPage);
+        $view->photos = $this->tag
+            ->photos()
+            ->orderBy('position')
+            ->paginate($this->perPage);
+
+        foreach ($view->photos as $key => $photo) {
+            $key = $key + 1;
+            $photo->update([
+                'position' => $key,
+            ]);
+        }
     }
 
     public function setAsCover($uuid)
@@ -92,6 +103,33 @@ new #[Layout('layouts.app')] class extends Component {
     public function clickLightbox($uuid, $type, $tag)
     {
         $this->dispatch('lightbox', $uuid, $type, $tag);
+    }
+
+    public function sortItem($item, $newPosition)
+    {
+        $photo = $this->tag->photos()->where('photos.uuid', $item)->firstOrFail();
+        $currentPosition = $photo->position;
+        $newPosition = $newPosition + 1;
+
+        if ($currentPosition == $newPosition) {
+            return;
+        }
+
+        $photo->update([
+            'position' => -1,
+        ]);
+
+        $photosWhichNeedToByShifted = $this->tag->photos()->whereBetween('position', [min($currentPosition, $newPosition), max($currentPosition, $newPosition)]);
+
+        if ($currentPosition < $newPosition) {
+            $photosWhichNeedToByShifted->decrement('position');
+        } else {
+            $photosWhichNeedToByShifted->increment('position');
+        }
+
+        $photo->update([
+            'position' => $newPosition,
+        ]);
     }
 };
 
@@ -141,9 +179,11 @@ new #[Layout('layouts.app')] class extends Component {
         @endif
 
 
-        <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 gap-4 mt-3">
+        <div x-sort="$wire.sortItem($item, $position)"
+            class=" grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 gap-4 mt-3">
             @foreach ($photos ?? [] as $key => $photo)
-                <div wire:click="clickLightbox('{{ $photo->uuid }}', 'private', {{ $this->tag }})"
+                <div x-sort:item="'{{ $photo->uuid }}'"
+                    wire:click="clickLightbox('{{ $photo->uuid }}', 'private', {{ $this->tag }})"
                     class="w-full relative block md:w-auto" @if ($loop->last) id="last_record" @endif>
 
                     @if ($photo->is_video)
