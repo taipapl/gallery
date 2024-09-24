@@ -32,7 +32,7 @@ class Tag extends Model
 
     public function photos(): BelongsToMany
     {
-        return $this->belongsToMany(Photo::class, 'photos_tags', 'tag_id', 'photo_id')->withPivot('uuid');
+        return $this->belongsToMany(Photo::class, 'photos_tags', 'tag_id', 'photo_id')->withPivot(['uuid', 'position']);
     }
 
     public function user(): BelongsTo

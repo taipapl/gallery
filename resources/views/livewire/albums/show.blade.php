@@ -85,7 +85,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         foreach ($view->photos as $key => $photo) {
             $key = $key + 1;
-            $photo->update([
+            $photo->pivot->update([
                 'position' => $key,
             ]);
         }
@@ -108,26 +108,26 @@ new #[Layout('layouts.app')] class extends Component {
     public function sortItem($item, $newPosition)
     {
         $photo = $this->tag->photos()->where('photos.uuid', $item)->firstOrFail();
-        $currentPosition = $photo->position;
+        $currentPosition = $photo->pivot->position;
         $newPosition = $newPosition + 1;
 
         if ($currentPosition == $newPosition) {
             return;
         }
 
-        $photo->update([
+        $photo->pivot->update([
             'position' => -1,
         ]);
 
-        $photosWhichNeedToByShifted = $this->tag->photos()->whereBetween('position', [min($currentPosition, $newPosition), max($currentPosition, $newPosition)]);
+        $photosWhichNeedToByShifted = PhotoTag::where('tag_id', $this->tag->id)->whereBetween('position', [min($currentPosition, $newPosition), max($currentPosition, $newPosition)]);
 
         if ($currentPosition < $newPosition) {
-            $photosWhichNeedToByShifted->decrement('position');
+            $photosWhichNeedToByShifted->where('position', '>', $currentPosition)->where('position', '<=', $newPosition)->decrement('position');
         } else {
-            $photosWhichNeedToByShifted->increment('position');
+            $photosWhichNeedToByShifted->where('position', '>=', $newPosition)->where('position', '<', $currentPosition)->increment('position');
         }
 
-        $photo->update([
+        $photo->pivot->update([
             'position' => $newPosition,
         ]);
     }

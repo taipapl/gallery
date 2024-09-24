@@ -30,9 +30,10 @@ Michał Myśliński
 - show archive images
 - cache images
 - public gallery to blog
+- sort images in album
+
 
 ## TODO
-- Add comments to blog
 - add autocomplete email in share album
 - add date archive images page
 - add search images
@@ -41,9 +42,12 @@ Michał Myśliński
 - add markdown documentation
 - add mail subscription
 - add modal to confirm
+- fix delete account modal
 - add download option for public images
 - try picture source for images
 - find duplicate images
+- Add comments to blog
+
 
 
 ## License

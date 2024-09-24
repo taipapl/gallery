@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('photos', function (Blueprint $table) {
+        Schema::table('photos_tags', function (Blueprint $table) {
             $table->unsignedInteger('position')->default(0);
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('photos', function (Blueprint $table) {
+        Schema::table('photos_tags', function (Blueprint $table) {
             $table->dropColumn('position');
         });
     }

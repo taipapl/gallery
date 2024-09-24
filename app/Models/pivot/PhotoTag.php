@@ -15,6 +15,7 @@ class PhotoTag extends Model
         'uuid',
         'user_id',
         'photo_id',
-        'tag_id'
+        'tag_id',
+        'position',
     ];
 }
