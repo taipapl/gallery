@@ -95,6 +95,7 @@ new #[Layout('layouts.app')] class extends Component {
                 @lang('Favorite')
             </x-check-box>
 
+
             <livewire:uploads />
 
         </div>
