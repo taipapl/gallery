@@ -94,6 +94,10 @@ Volt::route('blog', 'blog.blog')
     ->middleware(['auth', 'verified'])
     ->name('blog.list');
 
+Volt::route('blog2', 'blog.blog2')
+    ->middleware(['auth', 'verified'])
+    ->name('blog.list2');
+
 Volt::route('blog/create', 'blog.create')
     ->middleware(['auth', 'verified'])
     ->name('blog.create');

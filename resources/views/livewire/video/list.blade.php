@@ -61,11 +61,11 @@ new #[Layout('layouts.app')] class extends Component {
             <div class="text-center text-lg text-black ">@lang('No videos')</div>
         @endif
 
-        <div class="flex gap-2 flex-wrap ">
+        <div class="grid gap-3 grid-cols-1 md:grid-cols-8">
             @foreach ($videos ?? [] as $key => $video)
                 <div class="w-full relative block md:w-auto" @if ($loop->last) id="last_record" @endif>
-                    <div wire:click="clickLightbox('{{ $video->uuid }}', 'private')" class="h-40 w-40">
-                        <img class="w-full md:h-44 md:w-44 object-cover object-top rounded-lg shadow-lg"
+                    <div wire:click="clickLightbox('{{ $video->uuid }}', 'private')">
+                        <img class="w-full md:h-44 md:w-44 object-cover cursor-pointer object-top rounded-lg shadow-lg"
                             src="{{ $video->path }}" alt="{{ $video->name }}" />
                     </div>
                 </div>

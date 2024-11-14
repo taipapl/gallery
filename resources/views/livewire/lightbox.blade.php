@@ -95,6 +95,11 @@ new class extends Component {
         $this->image->rotateLeft();
     }
 
+    public function publish(): void
+    {
+        $this->image->publish();
+    }
+
     public function info(): void
     {
         $this->showInfo = !$this->showInfo;
@@ -174,7 +179,7 @@ new class extends Component {
                         <div class="flex flex-col gap-2 ">
 
                             <x-primary-button wire:click="close" title="@lang('Close')">
-                                <x-icons.close />
+                                <x-icons.close class="fill-white " />
                                 <span class="hidden md:block"> @lang('Close')</span>
                             </x-primary-button>
 
@@ -201,6 +206,12 @@ new class extends Component {
 
                                 </x-primary-button>
 
+                                <x-primary-button wire:click="publish">
+                                    <x-icons.favorite class="fill-white " />
+                                    <span class="hidden md:block">
+                                        {{ $image->is_blog ? __('Unpublish') : __('Publish') }}</span>
+                                </x-primary-button>
+
                                 @if (!$image->is_video)
                                     <x-primary-button @click="rotation += 90" wire:click="rotate">
 
@@ -222,7 +233,7 @@ new class extends Component {
 
                                 @if ($this->tag)
                                     <x-primary-button wire:click="clickSetAsCover('{{ $image->uuid }}')">
-
+                                        <x-icons.cover class="fill-white " />
                                         <span class="hidden md:block"> {{ __('Set as cover') }}</span>
                                     </x-primary-button>
                                 @endif

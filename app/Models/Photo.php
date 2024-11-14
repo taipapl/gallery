@@ -58,6 +58,12 @@ class Photo extends Model
         $this->save();
     }
 
+    public function publish(): void
+    {
+        $this->is_blog = $this->is_blog ? false : true;
+        $this->save();
+    }
+
     public function rotateLeft(): void
     {
         $img = Image::make(storage_path('app/photos/' . $this->user_id . '/' . $this->path));

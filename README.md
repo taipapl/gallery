@@ -47,6 +47,7 @@ Michał Myśliński
 - try picture source for images
 - find duplicate images
 - Add comments to blog
+- add new blob without blog and images blog
 
 
 
