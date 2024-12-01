@@ -90,11 +90,11 @@ Volt::route('emails', 'emails.list')
     ->middleware(['auth', 'verified'])
     ->name('emails.list');
 
-Volt::route('blog', 'blog.blog')
+Volt::route('blog', 'blog.blog2')
     ->middleware(['auth', 'verified'])
     ->name('blog.list');
 
-Volt::route('blog2', 'blog.blog2')
+Volt::route('blog2', 'blog.blog')
     ->middleware(['auth', 'verified'])
     ->name('blog.list2');
 

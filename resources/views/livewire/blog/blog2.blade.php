@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use Illuminate\View\View;
 use App\Models\Post;
 use Livewire\WithFileUploads;
+use App\Models\Photo;
 
 new #[Layout('layouts.app')] class extends Component {
     use WithPagination;
@@ -32,10 +33,9 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $view->posts = Auth::user()
-            ->posts()
-            ->with('photos')
-            ->orderBy('created_at', 'desc')
+        $view->posts = Photo::where('user_id', auth()->id())
+            ->where('is_blog', 1)
+            ->orderBy('photo_date', 'desc')
             ->paginate($this->perPage);
     }
 
@@ -53,82 +53,41 @@ new #[Layout('layouts.app')] class extends Component {
 
             <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">@lang('Blog')</h2>
 
-            <x-sub-nav-link href="{{ route('blog.create') }}">
-                @lang('Create post')
-            </x-sub-nav-link>
-
         </div>
 
     </x-panel>
 
     @if ($posts->count() == 0)
         <x-panel>
-            @lang('No posts')
+            @lang('No posts2')
         </x-panel>
     @endif
 
-    @foreach ($posts as $post)
+    @foreach ($posts as $photo)
         <x-panel>
 
             <div class="flex flex-col gap-3">
 
-                @if ($post->active)
-                    <span class="text-green-500">@lang('Active')</span>
-                @else
-                    <span class="text-red-500">@lang('No Active')</span>
-                @endif
 
-                @if (!$post->tag_id)
-                    <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
-                    <div class="text-sm">{{ $post->created_at->diffForHumans() }}</div>
-                @else
-                    <h2 class="text-xl font-semibold">{{ $post->gallery->name }}</h2>
-                    <span class="text-sm">{{ $post->gallery->created_at->diffForHumans() }}</span>
-
-                    @if ($post->gallery->cover)
-                        <a href="{{ route('public.album', $post->gallery->public_url) }}">
-                            <img src="{{ route('get.cover', ['photo' => $post->gallery->cover]) }}"
-                                alt="{{ $post->gallery->name }}"
-                                class=" object-cover mx-auto w-full rounded-lg shadow-lg">
-                        </a>
-                    @endif
-                @endif
+                <h2 class="text-xl font-semibold">{{ $photo->label }}</h2>
+                <span class="text-sm">{{ $photo->created_at->diffForHumans() }}</span>
 
 
+                <div wire:click="clickLightbox('{{ $photo->uuid }}', 'private')" class="cursor-pointer ">
+                    <div class="w-full  md:w-auto relative " @if ($loop->last) id="last_record" @endif>
 
-                @if ($post->photos->first())
-                    <img wire:click="clickLightbox('{{ $post->photos->first()->uuid }}', 'private')"
-                        src="{{ route('get.image', ['photo' => $post->photos->first()->uuid]) }}"
-                        alt="{{ $post->photos->first()->name }}"
-                        class="cursor-pointer object-cover mx-auto w-full rounded-lg shadow-lg">
-                @endif
-
-
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    @foreach ($post->photos ?? [] as $key => $photo)
-                        @if ($post->photos[$key] != $post->photos->first())
-                            <img wire:click="clickLightbox('{{ $photo->uuid }}', 'private')"
-                                class="h-40
-                                w-40 object-cover rounded-lg shadow-lg cursor-pointer"
-                                @if ($photo->is_video) src="{{ $photo->path }}"
-
-                                @else
-
-                            src="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '160']) }}" @endif
-                                alt="{{ $photo->name }}" />
+                        <img loading="lazy"
+                            @if ($photo->is_video) src="{{ $photo->path }}"
+                        @else
+                            src="{{ route('get.image', ['photo' => $photo->uuid, 'size' => '600']) }}" @endif
+                            class="object-cover shadow-md rounded-md w-full ">
+                        @if (now()->diffInDays(Carbon\Carbon::parse($photo->created_at)) < 3)
+                            <x-icons.new class="fill-blue-500 absolute top-1 left-1" />
                         @endif
-                    @endforeach
+                    </div>
                 </div>
 
-                <div>{{ $post->post }}</div>
 
-                <div>
-
-                    <x-secondary-link href="{{ route('blog.edit', $post->uuid) }}">
-                        @lang('Edit post')
-                    </x-secondary-link>
-
-                </div>
 
             </div>
 

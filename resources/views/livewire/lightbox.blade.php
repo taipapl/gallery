@@ -20,8 +20,11 @@ new class extends Component {
     public $type;
     public $tag;
     public $label;
+    public $photo_date;
 
     public $showInfo = false;
+    public $showDate = false;
+    public $showImage = true;
 
     protected $listeners = [
         'lightbox' => 'lightbox',
@@ -49,12 +52,17 @@ new class extends Component {
         $this->show = true;
         $this->type = $type;
         $this->tag = $tag;
+        $this->showInfo = false;
+        $this->showDate = false;
+        $this->showImage = true;
 
         if ($type) {
             switch ($type) {
                 case 'private':
                     $this->image = Photo::where('uuid', $image)->firstOrFail();
                     $this->label = $this->image->label;
+
+                    $this->photo_date = $this->image->photo_date->format('Y-m-d');
                     break;
 
                 case 'public':
@@ -102,7 +110,28 @@ new class extends Component {
 
     public function info(): void
     {
-        $this->showInfo = !$this->showInfo;
+        if ($this->showInfo) {
+            $this->showDate = false;
+            $this->showImage = true;
+            $this->showInfo = false;
+        } else {
+            $this->showDate = false;
+            $this->showImage = false;
+            $this->showInfo = true;
+        }
+    }
+
+    public function clickShowDate(): void
+    {
+        if ($this->showDate) {
+            $this->showDate = false;
+            $this->showImage = true;
+            $this->showInfo = false;
+        } else {
+            $this->showDate = true;
+            $this->showImage = false;
+            $this->showInfo = false;
+        }
     }
 };
 
@@ -153,7 +182,20 @@ new class extends Component {
                                             @endforeach
                                         @endif
                                     </div>
-                                @else
+                                @endif
+
+                                @if ($showDate)
+                                    <div class=" overflow-scroll bg-white p-5 rounded-md h-1/2 ">
+                                        <form wire:submit class="mb-5">
+                                            <input type="date" name="photo_date" id="photo_date"
+                                                wire:model.live.debounce.800ms="photo_date"
+                                                class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                                placeholder="@lang('Date')" />
+                                        </form>
+                                    </div>
+                                @endif
+
+                                @if ($showImage)
                                     <div class=" overflow-hidden">
 
 
@@ -207,7 +249,8 @@ new class extends Component {
                                 </x-primary-button>
 
                                 <x-primary-button wire:click="publish">
-                                    <x-icons.favorite class="fill-white " />
+
+                                    <x-icons.blog class="fill-white " class="fill-white " />
                                     <span class="hidden md:block">
                                         {{ $image->is_blog ? __('Unpublish') : __('Publish') }}</span>
                                 </x-primary-button>
@@ -238,8 +281,10 @@ new class extends Component {
                                     </x-primary-button>
                                 @endif
 
-
-
+                                <x-primary-button wire:click="clickShowDate('{{ $image->uuid }}')">
+                                    <x-icons.cover class="fill-white " />
+                                    <span class="hidden md:block"> {{ __('Set date') }}</span>
+                                </x-primary-button>
 
                             @endif
 
